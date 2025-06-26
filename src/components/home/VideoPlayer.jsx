@@ -402,9 +402,9 @@ const VideoPlayer = ({
   return (
     <div className="relative w-full max-w-7xl mx-auto rounded-lg overflow-hidden py-10 sm:py-14 md:py-20 px-4 sm:px-6 lg:px-8">
       <h2 className="text-center text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium  font-poppins mb-10 sm:mb-8 lg:mb-8 leading-tight text-[#6e2d79]">HHWE</h2>
-      <div className="hidden lg:block absolute top-19 left-1/2 -translate-x-1/2 sm:top-20 sm:left-1/2 md:top-70 md:left-100 lg:top-180 lg:left-1/2 z-[999] pointer-events-none">
+      {/* <div className="hidden lg:block absolute top-19 left-1/2 -translate-x-1/2 sm:top-20 sm:left-1/2 md:top-70 md:left-100 lg:top-180 lg:left-1/2 z-[999] pointer-events-none">
         <img src="/2.2.svg" alt="Leaf" />
-      </div>
+      </div> */}
 
       <div
         ref={containerRef}

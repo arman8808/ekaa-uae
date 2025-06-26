@@ -252,7 +252,7 @@ const Header = () => {
             )}
           </div>
           <Link
-            to="/contact-us"
+            to="/hhwe"
             className="text-lg font-medium hover:text-[#6E2D79] transition-colors"
           >
             HHWE Events

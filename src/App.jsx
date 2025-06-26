@@ -55,6 +55,7 @@ function App() {
         <Route path="/tasso" element={<Tasso />} />
         <Route path="/ich" element={<ICH />} />
         <Route path="/ich/levels" element={<ICHLevels />} />
+        <Route path="*" element={<PrivacyPolicy />} />
         {/* Dynamic route for all levels */}
         <Route path="/level/:levelNumber" element={<DynamicLevelPage />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />

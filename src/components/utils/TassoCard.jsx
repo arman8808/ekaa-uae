@@ -13,13 +13,13 @@ import { useNavigate } from "react-router-dom";
 const courseData = [
   {
     id: 1,
-    title: "Module 1 | 5 days, Course Fee AED 5614 (all incl)",
+    title: "Module 1 ",
     subtitle: "Level 1: Decode Your Mind",
     tag: "This Level Course",
     points: [
       "Basic Skills, Intake and Induction, Reliving and Regression, Personification, and Aura-Exploration, Bridges and Macrostructure",
     ],
-    // duration: "2 Day AED 1872",
+    duration: "5 days,Fee AED 5614 (all incl)",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc: "https://d2nxi4iq5glqsu.cloudfront.net/4-Decode+your+Mind.mp4",
@@ -29,14 +29,14 @@ const courseData = [
   },
   {
     id: 2,
-    title: "Module 2 | 5 days, Course Fee AED 5614 (all incl)",
+    title: "Module 2 ",
     subtitle: "Level 2: Decode Your Behaviour",
     tag: "This Level explains",
     points: [
       `Accident Trauma Release, Childhood Trauma, Hangovers and Postulates,
 Inner Child Work, Birth Trauma, Pre-Natal Trauma`,
     ],
-    duration: "5 Days AED 4684",
+    duration: "5 Days, AED 5614 (all incl)",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
@@ -47,14 +47,14 @@ Inner Child Work, Birth Trauma, Pre-Natal Trauma`,
   },
   {
     id: 3,
-    title: "Module 3 | 5 days, Course Fee AED 5614 (all incl)",
+    title: "Module 3",
     subtitle: "Level 3: Decode Your Relationships",
     tag: "This Level covers",
     points: [
       `Life Plan and Life Choices, Releasing Attachments from Living Persons and
 Ancestors`,
     ],
-    duration: "5 Day AED 468",
+    duration: "5 Day, AED 5614 (all incl)",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
@@ -65,14 +65,14 @@ Ancestors`,
   },
   {
     id: 4,
-    title: "Module 4 | 5 days, Course Fee AED 5614 (all incl)",
+    title: "Module 4 ",
     subtitle: "Level 4: Decode Your Blue Print",
     tag: "This Level covers",
     points: [
       `Traumatic and Hangover Lifetimes; Painful, Confused, Unnoticed,
 Overwhelming Deaths; Positive and Shy Lifetime`,
     ],
-    duration: "6 Day AED 5614",
+    duration: "5 Day, AED 5614 (all incl)",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
@@ -83,14 +83,14 @@ Overwhelming Deaths; Positive and Shy Lifetime`,
   },
   {
     id: 5,
-    title: "Module 5 | 5 days, Course Fee AED 5614 (all incl)",
+    title: "Module 5 ",
     subtitle: "Level 4: Decode Your Blue Print",
     tag: "This Level covers",
     points: [
       `Complicated and Karmic Lifetimes, Higher Self Interventions, Resolving
 Patterns and Integrative Sessions`,
     ],
-    duration: "8 Day AED 8133",
+    duration: "5 Day, AED 5614 (all incl)",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
@@ -101,14 +101,14 @@ Patterns and Integrative Sessions`,
   },
   {
     id: 6,
-    title: "Module 6 | 5 days, Course Fee AED 5614 (all incl)",
+    title: "Module 6",
     subtitle: "Level 4: Decode Your Blue Print",
     tag: "This Level covers",
     points: [
       `Great Integrations, Core Issue Exploration and Transformation, Homing
 Sessions.`,
     ],
-    duration: "6 Day AED 8111",
+    duration: "5 Day AED 5614 (all incl)",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
@@ -368,12 +368,12 @@ const Card = () => {
                 </ul>
 
                 <div className="flex flex-col items-start gap-3 sm:gap-4 pt-3 sm:pt-4">
-                  {/* <div className="flex flex-wrap gap-4 sm:gap-6 text-[#6E2D79]">
+                  <div className="flex flex-wrap gap-4 sm:gap-6 text-[#6E2D79]">
                     <div className="flex text-base sm:text-[17px] md:text-[18px] items-center gap-2">
                       <Clock size={16} />
                       <span>Duration: {course.duration}</span>
                     </div>
-                  </div> */}
+                  </div>
                   <button
                     className="bg-[#6E2D79] hover:bg-[#6E2D79] text-base sm:text-lg md:text-[22px] text-white px-6 py-2 sm:px-8 sm:py-3 rounded-full cursor-pointer font-medium transition-colors shadow-md hover:shadow-lg"
                     onClick={() => handleEnrollNow(course.id)}
