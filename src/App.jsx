@@ -40,6 +40,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import FamilyConstellation from "./pages/FamilyConstellation";
 import ICH from "./pages/ICH";
 import ICHLevels from "./pages/ICH.Levels";
+import Tasso from "./pages/Tasso";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/decode" element={<DecodePage />} />
         <Route path="/family-constellation" element={<FamilyConstellation />} />
+        <Route path="/tasso" element={<Tasso />} />
         <Route path="/ich" element={<ICH />} />
         <Route path="/ich/levels" element={<ICHLevels />} />
         {/* Dynamic route for all levels */}

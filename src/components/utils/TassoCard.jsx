@@ -13,13 +13,13 @@ import { useNavigate } from "react-router-dom";
 const courseData = [
   {
     id: 1,
-    title: "Level 1 | Basic Integrated Hypnosis Training",
+    title: "Module 1 | 5 days, Course Fee AED 5614 (all incl)",
     subtitle: "Level 1: Decode Your Mind",
     tag: "This Level Course",
     points: [
-      "foundational model of self-perception and the structure of the subconscious mind, establishing grounds for effective personal transformation through structured induction techniques.",
+      "Basic Skills, Intake and Induction, Reliving and Regression, Personification, and Aura-Exploration, Bridges and Macrostructure",
     ],
-    duration: "2 Day AED 1872",
+    // duration: "2 Day AED 1872",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc: "https://d2nxi4iq5glqsu.cloudfront.net/4-Decode+your+Mind.mp4",
@@ -29,13 +29,12 @@ const courseData = [
   },
   {
     id: 2,
-    title: "Level 2 | Advanced Module for Behavioral Resolutions",
+    title: "Module 2 | 5 days, Course Fee AED 5614 (all incl)",
     subtitle: "Level 2: Decode Your Behaviour",
     tag: "This Level explains",
     points: [
-      `Explores the dynamics of thoughts, emotions, and bodily systems, integrating
-Ericksonian hypnosis and Emotional Freedom Techniques to address
-behavioural challenges`,
+      `Accident Trauma Release, Childhood Trauma, Hangovers and Postulates,
+Inner Child Work, Birth Trauma, Pre-Natal Trauma`,
     ],
     duration: "5 Days AED 4684",
     skill: "All levels",
@@ -48,13 +47,12 @@ behavioural challenges`,
   },
   {
     id: 3,
-    title: "Level 3 | Advanced Modalities for Health Resolutions",
+    title: "Module 3 | 5 days, Course Fee AED 5614 (all incl)",
     subtitle: "Level 3: Decode Your Relationships",
     tag: "This Level covers",
     points: [
-      `Focuses on relationship paradigms and human behavioural responses in
-emotional, physical, and personal domains, enabling therapists to facilitate
-deeper healing interventions`,
+      `Life Plan and Life Choices, Releasing Attachments from Living Persons and
+Ancestors`,
     ],
     duration: "5 Day AED 468",
     skill: "All levels",
@@ -67,12 +65,12 @@ deeper healing interventions`,
   },
   {
     id: 4,
-    title: "Level 4 | Metaphysical Hypnosis Training",
+    title: "Module 4 | 5 days, Course Fee AED 5614 (all incl)",
     subtitle: "Level 4: Decode Your Blue Print",
     tag: "This Level covers",
     points: [
-      `Incorporates breathwork, chakra awareness, and regression basics to release
-cellular memory and support spiritual transformation.`,
+      `Traumatic and Hangover Lifetimes; Painful, Confused, Unnoticed,
+Overwhelming Deaths; Positive and Shy Lifetime`,
     ],
     duration: "6 Day AED 5614",
     skill: "All levels",
@@ -85,13 +83,12 @@ cellular memory and support spiritual transformation.`,
   },
   {
     id: 5,
-    title: "Level 5 | Hypnosis Training through Integrated Healing",
+    title: "Module 5 | 5 days, Course Fee AED 5614 (all incl)",
     subtitle: "Level 4: Decode Your Blue Print",
     tag: "This Level covers",
     points: [
-      `Synthesizes all prior levels into a cohesive healing framework, emphasizing
-an integrated clinical approach to hypnosis and the higher purpose of holistic
-therapeutic intervention`,
+      `Complicated and Karmic Lifetimes, Higher Self Interventions, Resolving
+Patterns and Integrative Sessions`,
     ],
     duration: "8 Day AED 8133",
     skill: "All levels",
@@ -104,14 +101,12 @@ therapeutic intervention`,
   },
   {
     id: 6,
-    title: "Level 6 | Advanced Module in Inner Child Healing",
+    title: "Module 6 | 5 days, Course Fee AED 5614 (all incl)",
     subtitle: "Level 4: Decode Your Blue Print",
     tag: "This Level covers",
     points: [
-      `It enables practitioners to diagnose, understand, and heal inner child-related
-patterns and dissociations using advanced techniques, including chakra
-diagnostics. It also equips one to resolve core emotional imprints and foster
-psychological wholesomeness in clients.`,
+      `Great Integrations, Core Issue Exploration and Transformation, Homing
+Sessions.`,
     ],
     duration: "6 Day AED 8111",
     skill: "All levels",
@@ -373,12 +368,12 @@ const Card = () => {
                 </ul>
 
                 <div className="flex flex-col items-start gap-3 sm:gap-4 pt-3 sm:pt-4">
-                  <div className="flex flex-wrap gap-4 sm:gap-6 text-[#6E2D79]">
+                  {/* <div className="flex flex-wrap gap-4 sm:gap-6 text-[#6E2D79]">
                     <div className="flex text-base sm:text-[17px] md:text-[18px] items-center gap-2">
                       <Clock size={16} />
                       <span>Duration: {course.duration}</span>
                     </div>
-                  </div>
+                  </div> */}
                   <button
                     className="bg-[#6E2D79] hover:bg-[#6E2D79] text-base sm:text-lg md:text-[22px] text-white px-6 py-2 sm:px-8 sm:py-3 rounded-full cursor-pointer font-medium transition-colors shadow-md hover:shadow-lg"
                     onClick={() => handleEnrollNow(course.id)}

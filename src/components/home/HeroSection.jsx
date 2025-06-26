@@ -39,7 +39,7 @@ const HeroSection = () => {
           </a>
 
           {/* Constellation Button */}
-          <a href="/family-constellation">
+          <a href="#">
             {" "}
             <button className="border border-[#6E2D79] w-full sm:w-[200px] h-[57px] text-[#6E2D79] px-[14px] py-[12px] rounded-full text-[14px] sm:text-[14px] md:text-[22px] font-medium hover:bg-purple-100 transition cursor-pointer flex justify-center items-center">
               <div>Workshops</div>
