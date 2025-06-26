@@ -4,53 +4,23 @@ import FamilySessionForm from "./FamilySessionForm";
 import { motion, AnimatePresence } from "framer-motion";
 const UpcomingSessions = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedWorkshop, setSelectedWorkshop] = useState("");
-
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
   const sessions = [
     {
       id: 1,
-      workshop: "Decode Foundation",
-      city: "Mumbai",
-      date: "June 15, 2023",
-      time: "9:00 AM - 5:00 PM",
-      capacity: "25 Seats",
-      price: "₹ 4500",
-      status: "Open",
-    },
-    {
-      id: 2,
-      workshop: "Healing Roots",
-      city: "Delhi",
-      date: "June 22, 2023",
-      time: "10:00 AM - 6:00 PM",
-      capacity: "20 Seats",
-      price: "₹ 5000",
-      status: "Open",
-    },
-    {
-      id: 3,
-      workshop: "Ancestral Connections",
-      city: "Bangalore",
-      date: "July 5, 2023",
-      time: "9:30 AM - 5:30 PM",
-      capacity: "18 Seats",
-      price: "₹ 4800",
-      status: "Open",
-    },
-    {
-      id: 4,
-      workshop: "Family Harmony",
-      city: "Chennai",
-      date: "July 15, 2023",
-      time: "9:00 AM - 5:00 PM",
-      capacity: "22 Seats",
-      price: "₹ 4200",
+      Venue: "Decode Foundation",
+      date: "June 15, 2025",
+      time: "9:00  - 17:00 GMT-7",
+      capacity: "8 Seats",
+      price: "$ 375",
       status: "Open",
     },
   ];
 
-  const handleEnroll = (workshop) => {
-    setSelectedWorkshop(workshop);
+  const handleEnroll = (session) => {
+    setSelectedWorkshop(session);
+     setSelectedSession(session);
     setShowModal(true);
   };
 
@@ -58,7 +28,7 @@ const UpcomingSessions = () => {
     <div className="py-16 px-4 md:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-[1.5rem] font-normal text-center text-[#6E2D79] mb-12">
-          Upcoming Sessions
+          Programs Details
         </h2>
 
         <div className="overflow-x-auto">
@@ -71,13 +41,7 @@ const UpcomingSessions = () => {
                       scope="col"
                       className="px-6 py-4 text-left text-base font-semibold text-white uppercase tracking-wider rounded-tl-2xl"
                     >
-                      Workshop
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 text-left text-base font-semibold text-white uppercase tracking-wider"
-                    >
-                      City
+                      Venue
                     </th>
                     <th
                       scope="col"
@@ -103,6 +67,7 @@ const UpcomingSessions = () => {
                     >
                       Price
                     </th>
+
                     <th
                       scope="col"
                       className="px-6 py-4 text-left text-base font-semibold text-white uppercase tracking-wider"
@@ -120,11 +85,9 @@ const UpcomingSessions = () => {
                       className="hover:bg-purple-50 transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-base font-medium text-[#6E2D79]">
-                        {session.workshop}
+                        {session.Venue}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-base text-[#6E2D79]">
-                        {session.city}
-                      </td>
+
                       <td className="px-6 py-4 whitespace-nowrap text-base text-[#6E2D79]">
                         {session.date}
                       </td>
@@ -150,7 +113,7 @@ const UpcomingSessions = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-base">
                         <button
-                          onClick={() => handleEnroll(session.workshop)}
+                          onClick={() => handleEnroll(session)}
                           className="px-4 py-2 bg-[#6E2D79] text-white rounded-lg hover:bg-[#8a3c97] transition-colors shadow-sm text-base"
                         >
                           Enroll Now
@@ -181,7 +144,11 @@ const UpcomingSessions = () => {
             transition={{ type: "spring", damping: 25 }}
             className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
           >
-            <FamilySessionForm />
+            <FamilySessionForm
+              onClose={() => setShowModal(false)}
+              selectedSession={selectedSession}
+              availableSessions={[selectedSession]}
+            />
           </motion.div>
         </motion.div>
       )}

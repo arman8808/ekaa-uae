@@ -25,7 +25,7 @@ function HomePage() {
         </div> */}
         {/* <HowEkaaHelps /> */}
         <div className="relative">
-        <PersonalGuidanceBanner />
+        {/* <PersonalGuidanceBanner /> */}
         <div className="hidden lg:flex relative z-10 mt-[-60px] mb-[-30px] justify-center pointer-events-none">
           <img src="/2.2.svg" alt="Leaf" />
         </div>
@@ -42,7 +42,7 @@ function HomePage() {
       </div>
 
       
-      <TrainingPrograms/>
+      {/* <TrainingPrograms/> */}
 
 
       <Testimonials />

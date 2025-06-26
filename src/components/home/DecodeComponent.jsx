@@ -555,49 +555,159 @@ export default function DecodeComponent() {
   return (
     <motion.section
       ref={sectionRef}
-      className="relative w-full flex flex-col lg:flex-row overflow-hidden lg:min-h-[521px]"
+      className="relative w-full overflow-hidden p-4"
       variants={containerVariants}
       initial="hidden"
       animate={controls}
     >
-      {/* Right Content Section */}
-      <motion.div
-        className="relative w-full lg:w-1/2 bg-[#6E2D79] flex flex-col items-center justify-center p-10 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center order-1 lg:order-2 h-auto min-h-[450px] sm:min-h-[450px] md:h-[521px]"
-        variants={containerVariants}
-      >
-        <motion.h2
-          className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-10 sm:mb-8 lg:mb-8 leading-tight"
-          variants={fadeUp}
+      {/* Grid Container */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 xl:gap-8">
+        {/* DECODE Section */}
+        <motion.div
+          className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
+          variants={containerVariants}
         >
-          DECODE
-        </motion.h2>
+          <motion.h2
+            className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
+            variants={fadeUp}
+          >
+            DECODE
+          </motion.h2>
 
-        <motion.p
-          className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-10 sm:mb-8 lg:mb-8 leading-relaxed"
-          variants={fadeUp}
-        >
-          Take charge of the unconscious programs playing out as fate in your
-          sub-conscious mind.
-        </motion.p>
+          <motion.p
+            className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-6 sm:mb-8 lg:mb-8 leading-relaxed"
+            variants={fadeUp}
+          >
+            Take charge of the unconscious programs playing out as fate in your
+            sub-conscious mind.
+          </motion.p>
 
-        <motion.button
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className={`px-10 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-[#6E2D79]
-      ${
-        isHovered
-          ? "bg-gray-50 text-[#6E2D79] shadow-lg transform"
-          : "bg-transparent text-gray-50 hover:bg-white/10"
-      }`}
-          variants={fadeUp}
-          aria-label="Sign up for Decode service"
+          <motion.button
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            variants={fadeUp}
+            aria-label="Sign up for Decode service"
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "#F6F6F6",
+              color: "#6E2D79",
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/decode">Know More</Link>
+          </motion.button>
+        </motion.div>
+
+        {/* ICH Section */}
+        <motion.div
+          className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
+          variants={containerVariants}
         >
-          <Link to="/decode">Know More</Link>
-        </motion.button>
-      </motion.div>
-      <VideoPlayer />
+          <motion.h2
+            className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
+            variants={fadeUp}
+          >
+            ICH
+          </motion.h2>
+
+          <motion.p
+            className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-6 sm:mb-8 lg:mb-8 leading-relaxed"
+            variants={fadeUp}
+          >
+            Take charge of the unconscious programs playing out as fate in your
+            sub-conscious mind.
+          </motion.p>
+
+          <motion.button
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            variants={fadeUp}
+            aria-label="Sign up for ICH service"
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "#F6F6F6",
+              color: "#6E2D79",
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/ich">Know More</Link>
+          </motion.button>
+        </motion.div>
+
+        {/* TASSO Section */}
+        <motion.div
+          className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
+            variants={fadeUp}
+          >
+            TASSO
+          </motion.h2>
+
+          <motion.p
+            className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-6 sm:mb-8 lg:mb-8 leading-relaxed"
+            variants={fadeUp}
+          >
+            Description for TASSO program goes here.
+          </motion.p>
+
+          <motion.button
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            variants={fadeUp}
+            aria-label="Sign up for TASSO service"
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "#F6F6F6",
+              color: "#6E2D79",
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/tasso">Know More</Link>
+          </motion.button>
+        </motion.div>
+
+        {/* INDIVIDUAL Section */}
+        <motion.div
+          className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
+            variants={fadeUp}
+          >
+           Customial INDIVIDUALTraning
+          </motion.h2>
+
+          <motion.p
+            className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-6 sm:mb-8 lg:mb-8 leading-relaxed"
+            variants={fadeUp}
+          >
+            Description for INDIVIDUAL program goes here.
+          </motion.p>
+
+          <motion.button
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            variants={fadeUp}
+            aria-label="Sign up for INDIVIDUAL service"
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "#F6F6F6",
+              color: "#6E2D79",
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/individual">Know More</Link>
+          </motion.button>
+        </motion.div>
+      </div>
     </motion.section>
   );
 }
