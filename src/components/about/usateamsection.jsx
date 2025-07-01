@@ -2,44 +2,151 @@ import React from "react";
 
 function Usateamsection() {
   return (
-    <div className="bg-white px-4 sm:px-6 lg:px-12 py-22">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-10 mt-12">
-        {/* Left: Image */}
-        <img
-          src="/about/Dr Manoj Kumar Bhardwaj.png"
-          alt="Priya KP"
-          className="w-full max-w-[431px] h-auto md:h-[428px] object-cover shadow-lg"
-        />
+    <div className="bg-white px-4 sm:px-6 lg:px-12 pt-4 pb-2">
+      <div className="max-w-6xl mx-auto my-10 bg-white rounded-xl shadow-md overflow-hidden border border-[#f0f0f0]">
+        <div className="flex flex-col md:flex-row">
+          {/* Organization Image */}
+          <div className="md:w-2/5 p-6 flex justify-center items-center bg-[#faf9fc]">
+            <div className="bg-gradient-to-br from-[#f5eef9] to-[#e8def1] rounded-xl w-full h-64 flex items-center justify-center">
+              <div className="bg-white rounded-full w-40 h-40 flex items-center justify-center border-4 border-[#e0d4e9]">
+                <span className="text-[#A35F93] text-4xl font-bold">M</span>
+              </div>
+            </div>
+          </div>
 
-        {/* Right: Text */}
-        <div className="flex-1 text-[#5E3D8A]">
-          <h2 className="text-xl sm:text-2xl leading-[24px] font-medium text-[#6E2D79] font-poppins mb-2">
-            Dr Manoj Kumar Bhardwaj, M.D.
-          </h2>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium">
-            Dr. Manoj Kumar Bhardwaj is a board-certified physician in Family
-            Medicine (Baylor College of Medicine), Internal Medicine (Houston
-            Methodist Hospital), and Lifestyle Medicine (ABLM), based in
-            Houston, Texas. Alongside his conventional medical background, he is
-            a certified Clinical Integrated Hypnotherapist specializing in
-            Transpersonal Regression Therapy.
-          </p>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium mt-2">
-            Driven by a deep interest in Mind-Body Medicine, Dr. Bhardwaj blends
-            scientific knowledge with holistic healing practices. His approach
-            focuses on guiding patients beyond pain and illness toward deeper
-            understanding, emotional freedom, and personal transformation. By
-            integrating diverse modalities, he helps clients align their
-            physical, mental, and emotional well-being.
-          </p>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium mt-2">
-            Outside his medical and therapeutic work, he enjoys skiing,
-            swimming, and spending time with his wife and three children. His
-            mission is to support others in unlocking their potential, healing
-            from within, and living consciously. With compassion and clarity,
-            Dr. Bhardwaj bridges the gap between modern medicine and spiritual
-            healing.
-          </p>
+          {/* Organization Details */}
+          <div className="md:w-3/5 p-6">
+            <div className="mb-4 pb-4 border-b border-[#e8e0f0]">
+              <h1 className="text-3xl font-bold text-[#A35F93]">
+                Mograa Awakenings
+              </h1>
+              <p className="text-[#A35F93] opacity-80 italic mt-1">
+                By Dr. Rupinder Singh Sodhi and Mitali
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <p className="text-[#555] leading-relaxed">
+                Mograa Awakenings is a holistic wellness center integrating
+                traditional healing with modern science. Founded in 2018, we
+                specialize in personalized wellness journeys combining
+                meditation, yoga, and nutrition. Our approach addresses
+                mind-body harmony through Ayurvedic principles and contemporary
+                research.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center">
+                <div className="bg-[#f5f0f9] p-2 rounded-lg mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-[#A35F93]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-[#777]">Website</p>
+                  <a
+                    href="https://mograa-awakenings.com"
+                    className="text-[#A35F93] font-medium hover:underline"
+                  >
+                    mograa-awakenings.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="bg-[#f5f0f9] p-2 rounded-lg mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-[#A35F93]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-[#777]">Email</p>
+                  <p className="text-[#A35F93] font-medium">
+                    contact@mograa.com
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="bg-[#f5f0f9] p-2 rounded-lg mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-[#A35F93]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-[#777]">Phone</p>
+                  <p className="text-[#A35F93] font-medium">
+                    +1 (555) 123-4567
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="bg-[#f5f0f9] p-2 rounded-lg mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-[#A35F93]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-[#777]">Location</p>
+                  <p className="text-[#A35F93] font-medium">
+                    Serenity Valley, CA
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       {/* Horizontal Line */}
@@ -54,106 +161,7 @@ function Usateamsection() {
         <div className="w-2 h-2 bg-[#B879D3] rounded-full absolute top-1/2 -translate-y-1/2 right-0"></div>
       </div>
 
-      {/* Top Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-12">
-        {/* Left: Text */}
-        <div className="flex-1 text-[#5E3D8A] order-2 md:order-1">
-          <h2 className="text-xl sm:text-2xl leading-[24px] font-medium text-[#6E2D79] font-poppins mb-2">
-            Dr. Sonia Gupte’s, M.D.
-          </h2>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium">
-            Dr. Sonia Gupte is the Founder of Enso-nia (California), a
-            Board-Certified Clinical Hypnotherapist, Senior EKAA Trainer, and
-            the international best-selling author of WITHIN. Based in the United
-            States, she is on a bold mission to revolutionize the medical field
-            by integrating clinical hypnotherapy with mainstream medicine,
-            promoting a mind-body approach to healing.
-          </p>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium mt-2">
-            With over 15 years of experience as a Family Medicine Physician, Dr.
-            Gupte chose to leave conventional practice to fully dedicate herself
-            to clinical hypnotherapy. For more than a decade, she has helped
-            thousands across the globe discover healing by accessing their own
-            inner resources.
-          </p>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium mt-2">
-            Passionate about education and advocacy, she actively trains medical
-            professionals and fosters global awareness about hypnotherapy
-            through workshops and research. Her work bridges the gap between
-            science and alternative healing, offering a transformative, holistic
-            path to wellness.
-          </p>
-        </div>
-
-        {/* Right: Image */}
-        <img
-          src="/about/Dr. Sonia Gupte’s.png"
-          alt="Abhishek Kapadia"
-          className="w-full max-w-[431px] h-auto md:h-[428px] object-cover shadow-lg order-1 md:order-2"
-        />
-      </div>
-
-      {/* Horizontal Line */}
-      <div className="relative w-full my-8">
-        {/* Horizontal Line */}
-        <div className="w-full h-[1px] bg-[#B879D3]"></div>
-
-        {/* Left Circle */}
-        <div className="w-2 h-2 bg-[#B879D3] rounded-full absolute top-1/2 -translate-y-1/2 left-0"></div>
-
-        {/* Right Circle */}
-        <div className="w-2 h-2 bg-[#B879D3] rounded-full absolute top-1/2 -translate-y-1/2 right-0"></div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-10 mt-12">
-        {/* Left: Image */}
-        <img
-          src="/about/Dr. Jyoti Behl Bhardwaj.png"
-          alt="Priya KP"
-          className="w-full max-w-[431px] h-auto md:h-[428px] object-cover shadow-lg"
-        />
-
-        {/* Right: Text */}
-        <div className="flex-1 text-[#5E3D8A]">
-          <h2 className="text-xl sm:text-2xl leading-[24px] font-medium text-[#6E2D79] font-poppins mb-2">
-            Dr. Jyoti Behl Bhardwaj, M.D.
-          </h2>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium">
-            Dr. Jyoti Behl Bhardwaj is a board-certified physician in Family
-            Medicine (UT) and Lifestyle Medicine (ABLM), who brings a rare and
-            powerful blend of modern medical science and intuitive healing into
-            her practice. As a Reiki Master and medical intuitive, she
-            skillfully bridges the gap between physical health and energetic
-            alignment, guiding her patients toward deep, lasting well-being.
-          </p>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium mt-2">
-            Her approach emphasizes the integration of mind, body, and spirit,
-            fostering healing that goes beyond symptom management to address
-            root causes. Outside of her professional life, Dr. Bhardwaj finds
-            balance and inspiration through hiking in nature, reading widely,
-            nurturing family relationships, and expressing herself through the
-            joy of dance.
-          </p>
-          <p className="text-base sm:text-lg leading-[30px] text-[#A35F93] font-medium mt-2">
-            She holds a heartfelt belief in the innate healing potential of
-            every individual and sees health as a journey of self-discovery and
-            connection. Her work reflects a deep respect for the
-            interconnectedness of all human experiences and a commitment to
-            compassionate, holistic care.
-          </p>
-        </div>
-      </div>
-      <div className="relative w-full my-8">
-        {/* Horizontal Line */}
-        <div className="w-full h-[1px] bg-[#B879D3]"></div>
-
-        {/* Left Circle */}
-        <div className="w-2 h-2 bg-[#B879D3] rounded-full absolute top-1/2 -translate-y-1/2 left-0"></div>
-
-        {/* Right Circle */}
-        <div className="w-2 h-2 bg-[#B879D3] rounded-full absolute top-1/2 -translate-y-1/2 right-0"></div>
-      </div>
+   
     </div>
   );
 }

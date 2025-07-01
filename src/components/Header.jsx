@@ -171,21 +171,21 @@ const Header = () => {
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
                   onClick={() => setIsTrainingOpen(false)}
                 >
-                  Decode
+                  DECODE
                 </Link>
                 <Link
                   to="/ich"
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
                   onClick={() => setIsTrainingOpen(false)}
                 >
-                  ICH
+                  Individual Customised Training
                 </Link>
                 <Link
                   to="/tasso"
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
                   onClick={() => setIsTrainingOpen(false)}
                 >
-                  Tasso
+                  Transpersonal Regression
                 </Link>
                 <Link
                   to="/individual"
@@ -229,7 +229,7 @@ const Header = () => {
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
                   onClick={() => setIsWorkshopOpen(false)}
                 >
-                Family Constellation
+                  Family Constellation
                 </Link>{" "}
                 <Link
                   to="/Hidden-Colours"
@@ -252,7 +252,7 @@ const Header = () => {
             to="/hhme"
             className="text-lg font-medium hover:text-[#6E2D79] transition-colors"
           >
-            HHME Events
+            HHME 2025
           </Link>{" "}
           <Link
             to="/Our-Trainers"

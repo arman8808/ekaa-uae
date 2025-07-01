@@ -35,7 +35,7 @@ function AboutPage() {
       <div className="relative bg-gradient-to-br from-purple-200/20 to-pink-200/20 p-10">
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
           <h1 className="text-center text-[18px]  sm:text-[20px] md:text-[24px] font-semibold pb-2 text-[#6E2D79] font-[Poppins] mb-2">
-            Meet Our USA Team
+            Meet Our UAE Team
           </h1>
 
           <Usateamsection />
