@@ -53,12 +53,12 @@ const Footer = () => {
         />
         {/* Email */}
         <motion.a
-          href="mailto:info@ekaatherapy.com"
+          href="mailto:contact@ekaauae.com"
           className="flex items-center gap-2 text-sm sm:text-base font-poppins"
           variants={itemVariants}
         >
           <MdEmail size={20} className="text-white" />
-          <span className="text-[16px]">contact@ekaausa.com</span>
+          <span className="text-[16px]">Contact@ekaauae.com</span>
         </motion.a>
         <motion.span className="flex items-center gap-2">
           <img src="/footer/googletrust.svg" alt="footer" loading="lazy" />
