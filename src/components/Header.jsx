@@ -122,7 +122,7 @@ const Header = () => {
             onClick={() => negivate("/privacy-policy")}
             className="inline-flex items-center justify-center gap-[10px] px-[14px] py-[10px] border border-[#6E2D79] rounded-full text-[#6E2D79] text-lg font-medium font-[Poppins] bg-white transition"
           >
-           Practitioner
+            Practitioner
           </button>
         </div>
 
@@ -224,6 +224,13 @@ const Header = () => {
 
             {isWorkshopOpen && (
               <div className="mt-2 pl-4 space-y-3 animate-fadeIn">
+                <Link
+                  to="/family-constellation"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                Family Constellation
+                </Link>{" "}
                 <Link
                   to="/Hidden-Colours"
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
