@@ -8,7 +8,6 @@ import TrainingPrograms from '../components/home/TrainingPrograms'
 import HowEkaaHelps from '../components/home/HowEkaaHelps'
 import VideoPlayer from '../components/home/VideoPlayer'
 import DecodeComponent from '../components/home/DecodeComponent'
-import PersonalGuidanceBanner from '../components/home/PersonalGuidanceBanner'
 import Testimonials from '../components/home/Testimonials'
 
 function HomePage() {
