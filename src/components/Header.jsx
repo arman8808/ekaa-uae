@@ -223,7 +223,7 @@ const Header = () => {
             </button>
 
             {isWorkshopOpen && (
-              <div className="mt-2 pl-4 space-y-3 animate-fadeIn">
+             <div className="mt-2 pl-4 space-y-3 animate-fadeIn max-h-[300px] overflow-y-auto">
                 <Link
                   to="/family-constellation"
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
@@ -244,6 +244,83 @@ const Header = () => {
                   onClick={() => setIsWorkshopOpen(false)}
                 >
                   The Quest
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Decode Your Mind
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Decode Your Behaviour
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Decode Your Relationships
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Decode Your Life Plan
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Tamas – Understanding the 12 Laws of Karma
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Insomnia
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Fractals
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Koshas
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Elemental Currents
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  The Labyrinth
+                </Link>{" "}
+                <Link
+                  to="/Quest"
+                  className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
+                  onClick={() => setIsWorkshopOpen(false)}
+                >
+                  Circle Of Life
                 </Link>
               </div>
             )}

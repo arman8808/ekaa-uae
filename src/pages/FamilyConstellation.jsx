@@ -8,7 +8,7 @@ import UpcomingSessions from "../components/utils/UpcomingSessions";
 import HeroSection from "../components/utils/HeroSection";
 function FamilyConstellation() {
   return (
-    <div>
+   <div>
       {" "}
       <Header />
       <HeroSection
@@ -20,6 +20,10 @@ function FamilyConstellation() {
           </div>
         }
         contentPosition="above"
+        videoUrl={`${
+          import.meta.env.VITE_API_Cloud_Front_URL
+        }FC/FC.mp4`}
+        thumbnailUrl="/Fc/FC_image.png"
       />
       <div
         className="py-16 px-4 md:px-8"
