@@ -348,7 +348,7 @@ export default function DecodeComponent() {
             className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
             variants={fadeUp}
           >
-            ICH
+          individual Customized Training
           </motion.h2>
 
           <motion.p
@@ -385,7 +385,7 @@ export default function DecodeComponent() {
             className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
             variants={fadeUp}
           >
-            TASSO
+            Transpersonal Regression
           </motion.h2>
 
           <motion.p
