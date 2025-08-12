@@ -81,8 +81,8 @@ const Header = () => {
         {/* Right Controls */}
         <div className="flex items-center space-x-2 md:space-x-4 lg:space-x-6">
           <button
-            onClick={() => negivate("/privacy-policy")}
-            className="hidden md:inline-flex items-center justify-center gap-[10px] px-[14px] py-[10px] lg:py-[12px] border border-[#6E2D79] rounded-full text-[#6E2D79] text-base lg:text-[18px] leading-tight lg:leading-[33px] font-medium font-[Poppins] bg-white transition whitespace-nowrap"
+            onClick={() => negivate("/practitioner")}
+            className="cursor-pointer hidden md:inline-flex items-center justify-center gap-[10px] px-[14px] py-[10px] lg:py-[12px] border border-[#6E2D79] rounded-full text-[#6E2D79] text-base lg:text-[18px] leading-tight lg:leading-[33px] font-medium font-[Poppins] bg-white transition whitespace-nowrap"
           >
             Practitioner
           </button>
@@ -119,7 +119,7 @@ const Header = () => {
 
         <div className="px-6 py-2">
           <button
-            onClick={() => negivate("/privacy-policy")}
+            onClick={() => negivate("/practitioner")}
             className="inline-flex items-center justify-center gap-[10px] px-[14px] py-[10px] border border-[#6E2D79] rounded-full text-[#6E2D79] text-lg font-medium font-[Poppins] bg-white transition"
           >
             Practitioner
