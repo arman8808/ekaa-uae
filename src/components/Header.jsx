@@ -84,7 +84,7 @@ const Header = () => {
             onClick={() => negivate("/practitioner")}
             className="cursor-pointer hidden md:inline-flex items-center justify-center gap-[10px] px-[14px] py-[10px] lg:py-[12px] border border-[#6E2D79] rounded-full text-[#6E2D79] text-base lg:text-[18px] leading-tight lg:leading-[33px] font-medium font-[Poppins] bg-white transition whitespace-nowrap"
           >
-            Practitioner
+            Schedule
           </button>
 
           {/* <IoCallOutline className="text-[#6E2D79] hover:text-purple-900 transition w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" /> */}
@@ -122,7 +122,7 @@ const Header = () => {
             onClick={() => negivate("/practitioner")}
             className="inline-flex items-center justify-center gap-[10px] px-[14px] py-[10px] border border-[#6E2D79] rounded-full text-[#6E2D79] text-lg font-medium font-[Poppins] bg-white transition"
           >
-            Practitioner
+            Schedule
           </button>
         </div>
 
@@ -178,7 +178,7 @@ const Header = () => {
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
                   onClick={() => setIsTrainingOpen(false)}
                 >
-                  Individual Customised Training
+                  AWAKEN THE LIMITLESS HUMAN
                 </Link>
                 <Link
                   to="/tasso"
@@ -231,7 +231,7 @@ const Header = () => {
                 >
                   Specialized Workshop
                 </Link>
-                <Link
+                {/* <Link
                   to="/Quest"
                   className="block text-lg font-medium hover:text-[#6E2D79] transition-colors"
                   onClick={() => setIsWorkshopOpen(false)}
@@ -244,7 +244,7 @@ const Header = () => {
                   onClick={() => setIsWorkshopOpen(false)}
                 >
                   Mind Training
-                </Link>{" "}
+                </Link>{" "} */}
               </div>
             )}
           </div>

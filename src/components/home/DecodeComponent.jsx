@@ -302,6 +302,43 @@ export default function DecodeComponent() {
     >
       {/* Grid Container */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 xl:gap-8">
+        {/* ICH Section */}
+        <motion.div
+          className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
+          variants={containerVariants}
+        >
+          <motion.h2
+            className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
+            variants={fadeUp}
+          >
+            AWAKEN THE LIMITLESS HUMAN
+          </motion.h2>
+
+          <motion.p
+            className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-6 sm:mb-8 lg:mb-8 leading-relaxed"
+            variants={fadeUp}
+          >
+            Take charge of the unconscious programs playing out as fate in your
+            sub-conscious mind.
+          </motion.p>
+
+          <motion.button
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            variants={fadeUp}
+            aria-label="Sign up for ICH service"
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "#F6F6F6",
+              color: "#6E2D79",
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/ich">Know More</Link>
+          </motion.button>
+        </motion.div>
+
         {/* DECODE Section */}
         <motion.div
           className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
@@ -336,43 +373,6 @@ export default function DecodeComponent() {
             whileTap={{ scale: 0.95 }}
           >
             <Link to="/decode">Know More</Link>
-          </motion.button>
-        </motion.div>
-
-        {/* ICH Section */}
-        <motion.div
-          className="bg-[#6E2D79] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 text-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px]"
-          variants={containerVariants}
-        >
-          <motion.h2
-            className="text-[32px] sm:text-[36px] md:text-[42px] lg:text-[64px] xl:text-[64px] font-medium text-gray-50 font-poppins mb-6 sm:mb-8 lg:mb-8 leading-tight"
-            variants={fadeUp}
-          >
-          individual Customized Training
-          </motion.h2>
-
-          <motion.p
-            className="text-[16px] sm:text-[16px] md:text-[18px] lg:text-[18px] text-[#F6F6F6] font-poppins max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mb-6 sm:mb-8 lg:mb-8 leading-relaxed"
-            variants={fadeUp}
-          >
-            Take charge of the unconscious programs playing out as fate in your
-            sub-conscious mind.
-          </motion.p>
-
-          <motion.button
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
-            variants={fadeUp}
-            aria-label="Sign up for ICH service"
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: "#F6F6F6",
-              color: "#6E2D79",
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link to="/ich">Know More</Link>
           </motion.button>
         </motion.div>
 

@@ -14,7 +14,7 @@ function ICH() {
         content={
           <div className="text-center">
             <h1 className="max-w-[90%] md:max-w-[1331px] text-white font-[Poppins] text-[30px] sm:text-[35px] md:text-[60px] lg:text-[65px] font-semibold leading-[44px] sm:leading-[60px] md:leading-[72px] mb-2 sm:mb-4 -mt-8 sm:-mt-12">
-              Integrated Clinical Hypnotherapy
+              AWAKEN THE LIMITLESS HUMAN
             </h1>
           </div>
         }
