@@ -37,7 +37,10 @@ function AboutPage() {
           <h1 className="text-center text-[18px]  sm:text-[20px] md:text-[24px] font-semibold pb-2 text-[#6E2D79] font-[Poppins] mb-2">
             Meet Our UAE Team
           </h1>
-
+          <p className="text-lg text-center text-[#777] max-w-3xl mx-auto">
+            Connecting you with trusted holistic health practitioners across the
+            UAE.
+          </p>
           <Usateamsection />
         </div>
       </div>
