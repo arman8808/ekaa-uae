@@ -42,6 +42,7 @@ import ICH from "./pages/ICH";
 import ICHLevels from "./pages/ICH.Levels";
 import Tasso from "./pages/Tasso";
 import Practitioner from "./pages/Practitioner";
+import HHME from "./pages/HHME";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
         <Route path="/family-constellation" element={<FamilyConstellation />} />
         <Route path="/tasso" element={<Tasso />} />
         <Route path="/practitioner" element={<Practitioner />} />
+        <Route path="/hhme" element={<HHME />} />
         <Route path="/ich" element={<ICH />} />
         <Route path="/ich/levels" element={<ICHLevels />} />
         <Route path="*" element={<PrivacyPolicy />} />
