@@ -33,7 +33,7 @@ const HeroSection = () => {
         >
           {/* Trainings Button */}
           <a href="#trainings-section">
-            <button className="bg-[#6E2D79] w-full sm:w-[200px] h-[57px] text-white px-[14px] py-[12px] rounded-full text-[14px] sm:text-[14px] md:text-[22px] font-medium cursor-pointer flex justify-center items-center">
+            <button className="gold-border-btn  bg-[#6E2D79] w-full sm:w-[200px] h-[57px] text-[#FFD700] px-[14px] py-[12px] rounded-full text-[14px] sm:text-[14px] md:text-[22px] font-medium cursor-pointer flex justify-center items-center">
               <div>Trainings</div>
             </button>
           </a>

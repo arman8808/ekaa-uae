@@ -8,7 +8,7 @@ function Practitioner() {
   const events = [
     {
       id: 1,
-      name: "L1 Prana Dubai",
+      name: "Level 1 | Basic Integrated Hypnosis Training",
       seats: 10,
       date: "23 Aug-24 Aug",
       location: "Dubai",
@@ -24,7 +24,7 @@ function Practitioner() {
     },
     {
       id: 2,
-      name: "L1 Lyfe Sinply",
+      name: "Level 1 | Basic Integrated Hypnosis Training",
       seats: 10,
       date: "30 Aug-31 Aug",
       location: "Dubai",
@@ -290,7 +290,7 @@ function Practitioner() {
                               window.location.href = event.link;
                             }
                           }}
-                          className="px-3 py-2 bg-[#6E2D79] text-white text-xs rounded-md hover:bg-[#5a2465] transition-colors cursor-pointer"
+                          className="gold-border-btn relative px-3 py-2 bg-[#6E2D79] text-white text-xs hover:bg-[#5a2465] transition-all cursor-pointer rounded-full"
                         >
                           Enroll Now
                         </motion.button>

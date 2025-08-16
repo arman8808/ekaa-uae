@@ -325,7 +325,7 @@ export default function DecodeComponent() {
           <motion.button
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            className="gold-border-btn px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
             variants={fadeUp}
             aria-label="Sign up for ICH service"
             whileHover={{
@@ -362,7 +362,7 @@ export default function DecodeComponent() {
           <motion.button
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            className="gold-border-btn px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
             variants={fadeUp}
             aria-label="Sign up for Decode service"
             whileHover={{
@@ -398,7 +398,7 @@ export default function DecodeComponent() {
           <motion.button
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            className="gold-border-btn px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
             variants={fadeUp}
             aria-label="Sign up for TASSO service"
             whileHover={{
@@ -434,7 +434,7 @@ export default function DecodeComponent() {
           <motion.button
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
+            className="gold-border-btn px-8 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 border-2 border-gray-50 rounded-full text-base sm:text-base lg:text-[22px] font-medium font-poppins transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 bg-transparent text-gray-50 hover:bg-white/10"
             variants={fadeUp}
             aria-label="Sign up for INDIVIDUAL service"
             whileHover={{
