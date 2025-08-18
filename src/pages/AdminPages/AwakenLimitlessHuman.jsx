@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Eye, Download, RefreshCw, AlertCircle, Search, Filter, X, ZoomIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { registrationService } from '../../services/registrationService';
 import AdminLayout from '../../components/layout/AdminLayout';
+import { adminUtils } from '../../utils/adminUtils';
 
 const AwakenLimitlessHuman = () => {
-  const [registrations, setRegistrations] = useState([]);
+  const navigate = useNavigate();
+  const [registrations, setRegistrations] = useState([]); // Ensure it's always an array
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,13 +23,26 @@ const AwakenLimitlessHuman = () => {
   // Base URL for images - adjust this according to your server setup
   const BASE_IMAGE_URL = 'https://ekaausa.com/';
 
-  // Fetch registration data on component mount
+  // Check authentication on component mount
   useEffect(() => {
+    // Check if admin token exists
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+    
+    // If token exists, fetch registrations
     fetchRegistrations();
-  }, []);
+  }, [navigate]);
 
   // Fetch registration data
   const fetchRegistrations = async (page = 1) => {
+    // Double-check authentication before making API calls
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     
@@ -41,15 +57,21 @@ const AwakenLimitlessHuman = () => {
       const response = await registrationService.getAwakenLimitlessHumanRegistrations(pagination, filters);
       
       if (response.success) {
-        setRegistrations(response.data.registrations || response.data);
-        setTotalPages(response.data.totalPages || Math.ceil((response.data.total || response.data.length) / itemsPerPage));
-        setTotalRegistrations(response.data.total || response.data.length);
+        // Handle the actual API response structure - data is nested
+        const registrationsData = Array.isArray(response.data?.data) ? response.data.data : [];
+        const paginationData = response.data?.pagination || {};
+        
+        setRegistrations(registrationsData);
+        setTotalPages(paginationData.totalPages || 1);
+        setTotalRegistrations(paginationData.totalRegistrations || registrationsData.length);
       } else {
         throw new Error(response.error || 'Failed to fetch registrations');
       }
     } catch (err) {
       console.error('Error fetching registrations:', err);
       setError(`Error: ${err.message}`);
+      // Ensure registrations is always an array even on error
+      setRegistrations([]);
     } finally {
       setLoading(false);
     }
@@ -57,6 +79,12 @@ const AwakenLimitlessHuman = () => {
 
   // Handle search
   const handleSearch = (e) => {
+    // Check authentication before search
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+
     const value = e.target.value;
     setSearchTerm(value);
     setCurrentPage(1);
@@ -71,18 +99,30 @@ const AwakenLimitlessHuman = () => {
 
   // Handle page change
   const handlePageChange = (page) => {
+    // Check authentication before page change
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+
     setCurrentPage(page);
     fetchRegistrations(page);
   };
 
-  // Filter registrations based on search term
-  const filteredRegistrations = registrations.filter(reg =>
-    reg.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    reg.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    reg.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    reg.levelName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    reg.city?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter registrations based on search term - with better type checking
+  const filteredRegistrations = useMemo(() => {
+    if (!Array.isArray(registrations)) {
+      return [];
+    }
+    
+    return registrations.filter(reg =>
+      reg.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reg.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reg.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reg.levelName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reg.city?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [registrations, searchTerm]);
 
   // Format date
   const formatDate = (dateString) => {
@@ -96,12 +136,24 @@ const AwakenLimitlessHuman = () => {
 
   // View registration details
   const viewDetails = (registration) => {
+    // Check authentication before viewing details
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+
     setSelectedRegistration(registration);
     setShowModal(true);
   };
 
   // View image in full screen
   const viewImage = (imagePath, title) => {
+    // Check authentication before viewing images
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+
     setSelectedImage({ path: imagePath, title });
     setShowImageModal(true);
   };
@@ -116,23 +168,72 @@ const AwakenLimitlessHuman = () => {
 
   // Export to CSV
   const exportToCSV = () => {
-    if (registrations.length === 0) return;
+    // Check authentication before export
+    if (!adminUtils.isLoggedIn()) {
+      navigate('/admin/login');
+      return;
+    }
+
+    // Use filteredRegistrations which is guaranteed to be an array
+    if (!Array.isArray(filteredRegistrations) || filteredRegistrations.length === 0) {
+      console.warn('No registrations to export');
+      return;
+    }
     
-    const headers = Object.keys(registrations[0] || {}).join(',');
-    const csvContent = registrations.map(row => 
-      Object.values(row).map(value => 
-        typeof value === 'string' && value.includes(',') ? `"${value}"` : value
-      ).join(',')
-    ).join('\n');
-    
-    const blob = new Blob([headers + '\n' + csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'awakenLimitlessHuman-registrations.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    try {
+      const headers = Object.keys(filteredRegistrations[0] || {}).join(',');
+      const csvContent = filteredRegistrations.map(row => 
+        Object.values(row).map(value => 
+          typeof value === 'string' && value.includes(',') ? `"${value}"` : value
+        ).join(',')
+      ).join('\n');
+      
+      const blob = new Blob([headers + '\n' + csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'awakenLimitlessHuman-registrations.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+      alert('Failed to export CSV. Please try again.');
+    }
   };
+
+  // If not authenticated, don't render anything (will redirect)
+  if (!adminUtils.isLoggedIn()) {
+    console.log('Not authenticated, returning null');
+    return null;
+  }
+
+  // Debug logging
+  console.log('Component render state:', {
+    registrations,
+    registrationsType: typeof registrations,
+    isArray: Array.isArray(registrations),
+    length: registrations?.length,
+    loading,
+    error,
+    totalRegistrations,
+    filteredRegistrations: filteredRegistrations?.length
+  });
+
+  // Safety check: ensure registrations is always an array
+  if (!Array.isArray(registrations)) {
+    console.error('Registrations is not an array, resetting to empty array');
+    setRegistrations([]);
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-64">
+          <div className="text-center">
+            <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
+            <p className="text-red-600">Data format error. Please refresh the page.</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   if (loading && registrations.length === 0) {
     return (
@@ -189,14 +290,14 @@ const AwakenLimitlessHuman = () => {
                 <span>Refresh</span>
               </button>
               
-              <button
+              {/* <button
                 onClick={exportToCSV}
                 disabled={registrations.length === 0}
                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
               >
                 <Download className="w-4 h-4" />
                 <span>Export CSV</span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -400,79 +501,7 @@ const AwakenLimitlessHuman = () => {
                     </div>
                   </div>
                   
-                  {/* ID Photos Section */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-[#5C2166] border-b pb-2">ID Photos</h3>
-                    <div className="space-y-4">
-                      {/* ID Photo Front */}
-                      {selectedRegistration.idPhotofront && (
-                        <div className="space-y-2">
-                          <p className="font-medium text-sm">ID Photo (Front):</p>
-                          <div className="relative group">
-                            <img
-                              src={getImageUrl(selectedRegistration.idPhotofront)}
-                              alt="ID Photo Front"
-                              className="w-full h-48 object-cover rounded-lg border-2 border-gray-200 cursor-pointer hover:border-[#6E2D79] transition-colors"
-                              onClick={() => viewImage(selectedRegistration.idPhotofront, 'ID Photo (Front)')}
-                              onError={(e) => {
-                                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5YTNhZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zNWVtIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all rounded-lg">
-                              <ZoomIn className="w-8 h-8 text-white" />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* ID Photo Back */}
-                      {selectedRegistration.idphotoback && (
-                        <div className="space-y-2">
-                          <p className="font-medium text-sm">ID Photo (Back):</p>
-                          <div className="relative group">
-                            <img
-                              src={getImageUrl(selectedRegistration.idphotoback)}
-                              alt="ID Photo Back"
-                              className="w-full h-48 object-cover rounded-lg border-2 border-gray-200 cursor-pointer hover:border-[#6E2D79] transition-colors"
-                              onClick={() => viewImage(selectedRegistration.idphotoback, 'ID Photo (Back)')}
-                              onError={(e) => {
-                                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5YTNhZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zNWVtIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all rounded-lg">
-                              <ZoomIn className="w-8 h-8 text-white" />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {selectedRegistration.profileImage && (
-                        <div className="space-y-2">
-                          <p className="font-medium text-sm">Profile Image:</p>
-                          <div className="relative group">
-                            <img
-                              src={getImageUrl(selectedRegistration.profileImage)}
-                              alt="Profile Image"
-                              className="w-full h-48 object-cover rounded-lg border-2 border-gray-200 cursor-pointer hover:border-[#6E2D79] transition-colors"
-                              onClick={() => viewImage(selectedRegistration.profileImage, 'Profile Image')}
-                              onError={(e) => {
-                                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5YTNhZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zNWVtIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all rounded-lg">
-                              <ZoomIn className="w-8 h-8 text-white" />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {!selectedRegistration.idPhotofront && !selectedRegistration.idphotoback && !selectedRegistration.profileImage && (
-                        <div className="text-center py-8 text-gray-500">
-                          <p>No photos available</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                
                 </div>
               </div>
             </div>
