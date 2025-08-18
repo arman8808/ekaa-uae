@@ -27,7 +27,7 @@ const AdminLogin = () => {
         // Store token using adminUtils
         adminUtils.setToken(response.data.token);
         
-        navigate('/admin/dashboard');
+        navigate('/admin/awaken-limitless-human');
       } else {
         setError(response.error || "Login failed. Please try again.");
       }

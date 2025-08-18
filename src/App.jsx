@@ -45,6 +45,7 @@ import Practitioner from "./pages/Practitioner";
 import HHME from "./pages/HHME";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
+import AwakenLimitlessHuman from "./pages/AdminPages/AwakenLimitlessHuman";
 
 function App() {
   return (
@@ -80,7 +81,9 @@ function App() {
         />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminPage />} />
+        <Route path="/admin/awaken-limitless-human" element={<AwakenLimitlessHuman />} />
+        {/* Keep dashboard route for backward compatibility but redirect to new page */}
+        <Route path="/admin/dashboard" element={<AwakenLimitlessHuman />} />
       </Routes>
     </>
   );

@@ -11,7 +11,7 @@ import {
 const navigation = [
   {
     name: "Awaken Limitless Human Dashboard",
-    path: "/admin/dashboard",
+    path: "/admin/awaken-limitless-human",
     icon: <FaTachometerAlt />,
   },
 ];
