@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import TestimonialCarousel from "../components/home/Testimonials";
+import FormPage from "../components/level1/FormPage";
+
 function Practitioner() {
+  const navigate = useNavigate();
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   const events = [
     {
       id: 1,
@@ -17,10 +23,8 @@ function Practitioner() {
       price: "UAD 375",
       currency: "UAD",
       priceValue: 15999,
-      //   facilitator: "Yuvraj Kapadia",
-      //   link: "/family-constellation?id=8&modal=true",
+      level: 1,
       participants: "10 Seats",
-      //   pagelink: "/family-constellation",
     },
     {
       id: 2,
@@ -33,10 +37,8 @@ function Practitioner() {
       price: "UAD 375",
       currency: "UAD",
       priceValue: 15999,
-      //   facilitator: "Yuvraj Kapadia",
-      //   link: "/family-constellation?id=8&modal=true",
+      level: 1,
       participants: "10 Seats",
-      //   pagelink: "/family-constellation",
     },
     {
       id: 3,
@@ -49,10 +51,8 @@ function Practitioner() {
       price: "UAD 375",
       currency: "UAD",
       priceValue: 15999,
-      //   facilitator: "Yuvraj Kapadia",
-      //   link: "/family-constellation?id=8&modal=true",
+      level: 2,
       participants: "10 Seats",
-      //   pagelink: "/family-constellation",
     },
     {
       id: 4,
@@ -65,10 +65,8 @@ function Practitioner() {
       price: "UAD 375",
       currency: "UAD",
       priceValue: 15999,
-      //   facilitator: "Yuvraj Kapadia",
-      //   link: "/family-constellation?id=8&modal=true",
+      level: 2,
       participants: "10 Seats",
-      //   pagelink: "/family-constellation",
     },
     {
       id: 5,
@@ -81,12 +79,21 @@ function Practitioner() {
       price: "UAD 375",
       currency: "UAD",
       priceValue: 15999,
-      //   facilitator: "Yuvraj Kapadia",
-      //   link: "/family-constellation?id=8&modal=true",
+      level: 1,
       participants: "10 Seats",
-      //   pagelink: "/family-constellation",
     },
   ];
+
+  const handleEnrollClick = (event) => {
+    setSelectedEvent(event);
+    setShowRegistrationModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowRegistrationModal(false);
+    setSelectedEvent(null);
+  };
+
   return (
     <div
       className="relative w-full flex flex-col overflow-x-hidden"
@@ -325,24 +332,14 @@ function Practitioner() {
                       )}
                     </td>
                     <td className="px-4 py-4">
-                      {event.noenroll ? (
-                        <span className="text-sm text-[#2D2D2D]">-</span>
-                      ) : (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => {
-                            if (event.link.startsWith("/")) {
-                              handleRegister(event.link);
-                            } else {
-                              window.location.href = event.link;
-                            }
-                          }}
-                          className="gold-border-btn relative px-3 py-2 bg-[#6E2D79] text-white text-xs hover:bg-[#5a2465] transition-all cursor-pointer rounded-full"
-                        >
-                          Enroll Now
-                        </motion.button>
-                      )}
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => handleEnrollClick(event)}
+                        className="gold-border-btn relative px-3 py-2 bg-[#6E2D79] text-white text-xs hover:bg-[#5a2465] transition-all cursor-pointer rounded-full"
+                      >
+                        Enroll Now
+                      </motion.button>
                     </td>
                   </motion.tr>
                 ))}
@@ -353,6 +350,13 @@ function Practitioner() {
       </div>
       <TestimonialCarousel />
       <Footer />
+
+      {showRegistrationModal && selectedEvent && (
+        <FormPage
+          event={selectedEvent}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

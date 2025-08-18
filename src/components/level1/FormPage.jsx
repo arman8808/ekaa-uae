@@ -1,69 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Camera, Upload, AlertCircle, CheckCircle, User } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
+import { registrationService } from "../../services/registrationService";
 
-// API Service Layer - Functional approach with centralized configuration
-const API_CONFIG = {
-  baseURL: import.meta.env.VITE_API_URL,
-  endpoints: {
-    registration: "/registration",
-  },
-};
 
-// HTTP Request utility function
-const httpRequest = async (endpoint, options = {}) => {
-  const url = `${API_CONFIG.baseURL}${endpoint}`;
-
-  const config = {
-    headers: {
-      ...options.headers,
-    },
-    ...options,
-  };
-
-  // Don't set Content-Type for FormData - browser will set it with boundary
-  if (options.body instanceof FormData && config.headers["Content-Type"]) {
-    delete config.headers["Content-Type"];
-  }
-
-  try {
-    const response = await fetch(url, config);
-
-    // Handle non-JSON responses
-    const contentType = response.headers.get("content-type");
-    let data;
-
-    if (contentType && contentType.includes("application/json")) {
-      data = await response.json();
-    } else {
-      data = await response.text();
-    }
-
-    if (!response.ok) {
-      throw new Error(
-        data.message || data || `HTTP error! status: ${response.status}`
-      );
-    }
-
-    return {
-      data,
-      status: response.status,
-      success: true,
-    };
-  } catch (error) {
-    console.error("API Request failed:", error);
-    throw new Error(error.message || "Network request failed");
-  }
-};
-
-// API Service Functions - Functional approach
-const apiService = {
-  submitRegistration: async (formData) => {
-    return httpRequest(API_CONFIG.endpoints.registration, {
-      method: "POST",
-      body: formData, // FormData object
-    });
-  },
-};
 
 // Custom Hook for API calls with proper error handling
 const useApiCall = () => {
@@ -87,22 +26,6 @@ const useApiCall = () => {
   };
 
   return { makeRequest, loading, error, setError };
-};
-
-// City-Venue-Slot mapping configuration
-const cityConfig = {
-  "New York": {
-    venue: "Main Hall",
-    slot: "Morning",
-  },
-  "Los Angeles": {
-    venue: "Conference Center",
-    slot: "Evening",
-  },
-  Chicago: {
-    venue: "Training Room",
-    slot: "Night",
-  },
 };
 
 // Error Alert Component
@@ -135,7 +58,7 @@ const SuccessAlert = ({ message }) => (
 );
 
 // Form Validation with comprehensive rules
-const validateForm = (formData, frontImage, backImage, profileImage) => {
+const validateForm = (formData) => {
   const errors = {};
 
   // Required fields validation
@@ -148,12 +71,10 @@ const validateForm = (formData, frontImage, backImage, profileImage) => {
     "dob",
     "occupation",
     "levelName",
-    // "courseDetailVenue",
-    // "timeslot",
   ];
 
   requiredFields.forEach((field) => {
-    if (!formData[field] || formData[field].trim() === "") {
+    if (!formData[field] || formData[field].toString().trim() === "") {
       errors[field] = `${field
         .replace(/([A-Z])/g, " $1")
         .toLowerCase()} is required`;
@@ -172,40 +93,21 @@ const validateForm = (formData, frontImage, backImage, profileImage) => {
     errors.mobileNo = "Mobile number must be 10 digits";
   }
 
-  // if (
-  //   formData.TelNo &&
-  //   formData.TelNo.trim() !== "" &&
-  //   !phoneRegex.test(formData.TelNo)
-  // ) {
-  //   errors.TelNo = "Telephone number must be 10 digits";
-  // }
-
-  // File validation
-  if (!profileImage) {
-    errors.profileImage = "Profile photo is required";
-  }
-  if (!frontImage) {
-    errors.frontImage = "Front ID photo is required";
-  }
-  // if (!backImage) {
-  //   errors.backImage = "Back ID photo is required";
-  // }
-
   // Terms acceptance
   if (!formData.termsandcondition) {
     errors.termsandcondition = "You must accept the terms and conditions";
+  }
+
+  // City field validation - only check if it's empty
+  if (!formData.city || formData.city.toString().trim() === "") {
+    errors.city = "Please select a program from the options above";
   }
 
   return errors;
 };
 
 // Form Data Builder - Ensures proper API payload structure
-const buildFormDataPayload = (
-  formData,
-  frontImageFile,
-  backImageFile,
-  profileImageFile
-) => {
+const buildFormDataPayload = (formData) => {
   const payload = new FormData();
 
   // Append all form fields with proper data types
@@ -224,149 +126,7 @@ const buildFormDataPayload = (
     payload.append(key, formattedValue);
   });
 
-  // Append files with exact field names matching your API
-  if (profileImageFile) {
-    payload.append("profileImage", profileImageFile, profileImageFile.name);
-  }
-  if (frontImageFile) {
-    payload.append("idPhotofront", frontImageFile, frontImageFile.name);
-  }
-  if (backImageFile) {
-    payload.append("idphotoback", backImageFile, backImageFile.name);
-  }
-
   return payload;
-};
-
-// Profile Image Upload Component - New component for profile photo
-const ProfileImageUpload = ({ image, onUpload, error }) => (
-  <div className="flex flex-col items-center space-y-4">
-    <div className="relative">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => onUpload(e, "profile")}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-        id="upload-profile"
-      />
-      <label
-        htmlFor="upload-profile"
-        className={`flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed rounded-full cursor-pointer transition-colors duration-200 overflow-hidden ${
-          error
-            ? "border-red-300 hover:border-red-400 hover:bg-red-50"
-            : "border-gray-300 hover:border-[#9D4EDD] hover:bg-gray-50"
-        }`}
-      >
-        {image ? (
-          <img
-            src={image}
-            alt="Profile"
-            className="w-full h-full object-cover rounded-full"
-          />
-        ) : (
-          <>
-            <User
-              size={32}
-              className={error ? "text-red-400" : "text-gray-400"}
-            />
-            <Upload
-              size={16}
-              className={error ? "text-red-400 mt-1" : "text-gray-400 mt-1"}
-            />
-          </>
-        )}
-      </label>
-    </div>
-
-    <div className="text-center">
-      <p
-        className={`text-sm font-medium mb-1 ${
-          error ? "text-red-600" : "text-gray-700"
-        }`}
-      >
-        Upload Profile Photo
-      </p>
-      <p className="text-xs text-gray-500">Click to select image</p>
-      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
-    </div>
-  </div>
-);
-
-// Upload Box Component - Extracted for reusability
-const UploadBox = ({ side, image, onUpload, error }) => {
-  // Generate unique ID for accessibility
-  const inputId = `upload-${side}`;
-
-  return (
-    <div className="flex flex-col items-center space-y-4">
-      <div className="relative">
-        <button
-          type="button"
-          className={`flex items-center gap-2 px-6 py-2 border-2 rounded-full font-medium transition-colors duration-200 ${
-            error
-              ? "border-red-500 text-red-500 hover:bg-red-50"
-              : "border-[#9D4EDD] text-[#9D4EDD] hover:bg-[#9D4EDD] hover:text-white"
-          }`}
-        >
-          {side === "front" ? "Front" : "Back"}
-        </button>
-      </div>
-
-      <div className="relative">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => onUpload(e, side)}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-          id={inputId}
-          {...(side === "front" && { required: true })}
-        />
-        <label
-          htmlFor={inputId}
-          className={`flex flex-col items-center justify-center w-32 h-24 border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-200 ${
-            error
-              ? "border-red-300 hover:border-red-400 hover:bg-red-50"
-              : "border-gray-300 hover:border-[#9D4EDD] hover:bg-gray-50"
-          }`}
-        >
-          {image ? (
-            <img
-              src={image}
-              alt={`${side} side of document`}
-              className="w-full h-full object-cover rounded-lg"
-            />
-          ) : (
-            <>
-              <Camera
-                size={24}
-                className={error ? "text-red-400" : "text-gray-400"}
-              />
-              <Upload
-                size={16}
-                className={error ? "text-red-400" : "text-gray-400"}
-              />
-            </>
-          )}
-        </label>
-      </div>
-
-      <div className="text-center">
-        <p
-          className={`text-sm font-medium mb-1 ${
-            error ? "text-red-600" : "text-gray-700"
-          }`}
-        >
-          Click to upload photo
-        </p>
-        {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
-      </div>
-
-      <p className="text-xs text-[#9D4EDD] text-center max-w-40 leading-relaxed">
-        Please write your name legibly on the reverse of your ID
-        {side === "front" ? "*" : ""}
-      </p>
-    </div>
-  );
 };
 
 // Thank You Component - Extracted for better organization
@@ -377,9 +137,8 @@ const ThankYouMessage = () => (
   >
     <div className="mb-6">
       <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
-      {/* <h2 className="text-3xl font-bold text-[#6E2D79] mb-4">THANK YOU</h2> */}
       <p className="text-lg text-gray-600 leading-relaxed">
-        Thank you for Registration. Payment link has ben sent on your registered
+        Thank you for Registration. Payment link has been sent on your registered
         Mail ID
       </p>
     </div>
@@ -414,7 +173,7 @@ const FormInput = ({
         error ? "border-red-500" : "border-gray-300"
       } ${readOnly ? "bg-gray-50 cursor-not-allowed" : ""}`}
     />
-    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    {error && <p className="red-500 text-xs mt-1">{error}</p>}
   </div>
 );
 
@@ -445,6 +204,7 @@ const FormTextarea = ({
     {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
   </div>
 );
+
 const FormCheckbox = ({ label, name, checked, onChange }) => {
   return (
     <div className="form-group">
@@ -519,7 +279,7 @@ const useFormData = (initialData) => {
 };
 
 // Main Form Component
-function FormPage({ onClose = () => {} }) {
+function FormPage({ onClose = () => {}, event }) {
   const { formData, updateField, updateMultipleFields } = useFormData({
     firstName: "",
     middleName: "",
@@ -527,7 +287,7 @@ function FormPage({ onClose = () => {} }) {
     nameAsCertificate: "",
     currentAddress: "",
     permanenetAddress: "",
-    city: "",
+    city: event ? `${event.location} | ${event.name} | ${event.date}` : "",
     venue: "",
     timeslot: "",
     TelNo: "",
@@ -542,37 +302,34 @@ function FormPage({ onClose = () => {} }) {
     communicationPreferences: false,
     termsandcondition: false,
     isSameAddress: false,
-    levelName: localStorage.getItem("level"),
+    levelName: event?.level || "1", // Default to level 1 if not provided
   });
 
-  const [profileImage, setProfileImage] = useState(null);
-  const [profileImageFile, setProfileImageFile] = useState(null);
-  const [frontImage, setFrontImage] = useState(null);
-  const [backImage, setBackImage] = useState(null);
-  const [frontImageFile, setFrontImageFile] = useState(null);
-  const [backImageFile, setBackImageFile] = useState(null);
   const [showThankYou, setShowThankYou] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
   const { makeRequest, loading, error, setError } = useApiCall();
 
+  // Debug: Log the event object
+  console.log("FormPage received event:", event);
+  
+  // Generate city options from the selected event
+  const cityOptions = event ? [
+    {
+      value: `${event.location} | ${event.name} | ${event.date}`,
+      label: `${event.location} | ${event.name} | ${event.date}`,
+    }
+  ] : [];
+  
+  // Debug: Log city options
+  console.log("City options generated:", cityOptions);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
 
+    console.log(`Input change: ${name} = ${newValue} (type: ${type})`);
     updateField(name, newValue);
-
-    // Auto-fill venue and slot when city is selected
-    if (name === "city" && value) {
-      const config = cityConfig[value];
-      if (config) {
-        updateMultipleFields({
-          city: value,
-          courseDetailVenue: config.venue,
-          timeslot: config.slot,
-        });
-      }
-    }
 
     // Auto-fill nameAsCertificate
     if (name === "firstName" || name === "middleName" || name === "lastName") {
@@ -587,6 +344,7 @@ function FormPage({ onClose = () => {} }) {
           .replace(/\s+/g, " "),
       });
     }
+
     if (name === "isSameAddress" && checked) {
       updateMultipleFields({
         isSameAddress: checked,
@@ -596,20 +354,7 @@ function FormPage({ onClose = () => {} }) {
     if (name === "currentAddress" && formData.isSameAddress) {
       updateField("permanenetAddress", value);
     }
-    if (type === "radio") {
-      updateField(name, value);
 
-      // Auto-fill venue and slot when city is selected
-      const config = cityConfig[value];
-      if (config) {
-        updateMultipleFields({
-          city: value,
-          courseDetailVenue: config.venue,
-          timeslot: config.slot,
-        });
-      }
-      return;
-    }
     // Clear field error when user starts typing
     if (formErrors[name]) {
       setFormErrors((prev) => ({
@@ -619,54 +364,24 @@ function FormPage({ onClose = () => {} }) {
     }
   };
 
-  const handleFileUpload = (event, side) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // Validate file type
-    if (!file.type.startsWith("image/")) {
-      setError("Please select a valid image file");
-      return;
-    }
-
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      setError("File size must be less than 5MB");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (side === "profile") {
-        setProfileImage(e.target.result);
-        setProfileImageFile(file);
-      } else if (side === "front") {
-        setFrontImage(e.target.result);
-        setFrontImageFile(file);
-      } else {
-        setBackImage(e.target.result);
-        setBackImageFile(file);
-      }
-    };
-    reader.readAsDataURL(file);
-
-    // Clear file error
-    if (formErrors[`${side}Image`]) {
-      setFormErrors((prev) => ({
-        ...prev,
-        [`${side}Image`]: "",
-      }));
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("=== FORM SUBMISSION STARTED ===");
+    console.log("Form submit triggered");
     setError(null);
 
+    // Log current form data
+    console.log("Current form data:", formData);
+    console.log("Form data keys:", Object.keys(formData));
+    console.log("Form data values:", Object.values(formData));
+
     // Validate form
-    const errors = validateForm(formData, frontImage, backImage, profileImage);
+    const errors = validateForm(formData);
+    console.log("Validation errors:", errors);
+    console.log("Number of validation errors:", Object.keys(errors).length);
+    
     if (Object.keys(errors).length > 0) {
-      console.log("Form validation errors:", errors); // Log validation errors
+      console.log("❌ Form validation failed with errors:", errors);
       setFormErrors(errors);
       setError("Please fix the errors below before submitting");
       const firstErrorField = document.querySelector(".border-red-500");
@@ -676,16 +391,36 @@ function FormPage({ onClose = () => {} }) {
       return;
     }
 
+    console.log("✅ Form validation passed, proceeding with submission...");
+
     try {
       console.log("Preparing form submission...");
 
+      // Ensure all required fields are populated with default values if empty
+      const submissionData = {
+        ...formData,
+        // Set default values for required fields that might be empty
+        nameAsCertificate: formData.nameAsCertificate || `${formData.firstName} ${formData.lastName}`.trim(),
+        currentAddress: formData.currentAddress || "Not provided",
+        permanenetAddress: formData.permanenetAddress || formData.currentAddress || "Not provided",
+        venue: formData.venue || "Not provided",
+        timeslot: formData.timeslot || "Not specified",
+        TelNo: formData.TelNo || formData.mobileNo || "Not provided",
+        courseDetailDate: formData.courseDetailDate || "Not specified",
+        courseDetailTime: formData.courseDetailTime || "Not specified",
+        courseDetailVenue: formData.courseDetailVenue || "Not specified",
+        hearAbout: formData.hearAbout || "Not specified",
+        // Ensure boolean fields are properly set
+        communicationPreferences: formData.communicationPreferences || false,
+        termsandcondition: formData.termsandcondition || false,
+        isSameAddress: formData.isSameAddress || false,
+        levelName: formData.levelName || "1"
+      };
+
+      console.log("Enhanced submission data:", submissionData);
+
       // Build FormData payload
-      const payload = buildFormDataPayload(
-        formData,
-        frontImageFile,
-        backImageFile,
-        profileImageFile
-      );
+      const payload = buildFormDataPayload(submissionData);
 
       // Enhanced payload logging
       console.log("Form Data Payload Contents:");
@@ -693,29 +428,34 @@ function FormPage({ onClose = () => {} }) {
         console.log(`${key}:`, value);
       }
 
-      // Make actual API call
-      console.log(
-        "Making API request to:",
-        API_CONFIG.baseURL + API_CONFIG.endpoints.registration
-      );
+      // Also log the raw submission data for comparison
+      console.log("Raw submission data being sent:", submissionData);
+
+      // Make actual API call using the registration service
+      console.log("Making API request to registration service");
+      console.log("API URL will be:", import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001/api/');
+      
       const response = await makeRequest(() =>
-        apiService.submitRegistration(payload)
+        registrationService.submitRegistration(payload)
       );
 
       console.log("Registration successful - Full response:", response);
-      setShowThankYou(true);
-
-      setTimeout(() => {
-        onClose();
-      }, 5000);
+      
+      if (response.success) {
+        setShowThankYou(true);
+        setTimeout(() => {
+          onClose();
+        }, 5000);
+      } else {
+        setError(response.error || "Registration failed");
+      }
     } catch (err) {
       console.error("Registration failed - Error details:", {
         message: err.message,
         stack: err.stack,
-        response: err.response, // In case the error has a response property
+        response: err.response,
       });
 
-      // Set a more detailed error message
       setError(`Submission failed: ${err.message || "Unknown error"}`);
     }
   };
@@ -725,6 +465,7 @@ function FormPage({ onClose = () => {} }) {
       onClose();
     }
   };
+
   const FormRadioGroup = ({
     label,
     name,
@@ -740,7 +481,7 @@ function FormPage({ onClose = () => {} }) {
         {label} {required && <span className="text-red-500">*</span>}
       </label>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {options.map((option) => (
           <label
             key={option.value}
@@ -760,7 +501,7 @@ function FormPage({ onClose = () => {} }) {
               value={option.value}
               checked={value === option.value}
               onChange={onChange}
-              className="sr-only" // Hide default radio button
+              className="sr-only"
             />
             <div className={`flex items-center h-5`}>
               <div
@@ -802,21 +543,14 @@ function FormPage({ onClose = () => {} }) {
     };
   }, [onClose]);
 
-  // City options for select dropdown
-  const cityOptions = [
-    {
-      value: "New York | Ekaa Centre Auditorium | 17:00 (GMT-4)",
-      label: "New York | Ekaa Centre Auditorium | 17:00 (GMT-4)",
-    },
-    {
-      value: "Los Angeles | Conference Center | 19:00 (GMT-7)",
-      label: "Los Angeles | Conference Center | 19:00 (GMT-7)",
-    },
-    {
-      value: "Chicago | Training Room | 20:00 (GMT-5)",
-      label: "Chicago | Training Room | 20:00 (GMT-5)",
-    },
-  ];
+  // Update city field when event changes
+  useEffect(() => {
+    if (event) {
+      const cityValue = `${event.location} | ${event.name} | ${event.date}`;
+      updateField("city", cityValue);
+      console.log("City field updated to:", cityValue);
+    }
+  }, [event, updateField]);
 
   // How did you hear about us options
   const hearAboutOptions = [
@@ -842,11 +576,11 @@ function FormPage({ onClose = () => {} }) {
         >
           <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center z-10">
             <h2 className="text-2xl font-bold text-[#6E2D79]">
-              Registration Form
+              Registration Form - {event?.name}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+              className="text-gray-500 hover:text-gray-700 text-2xl hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               ×
@@ -859,22 +593,8 @@ function FormPage({ onClose = () => {} }) {
               <ErrorAlert error={error} onClose={() => setError(null)} />
             )}
 
-            {/* Profile Image Section */}
-            <div>
-              <div className="bg-[#F8F1FF] h-[2px] mb-6"></div>
-
-              <div className="flex justify-center">
-                <ProfileImageUpload
-                  image={profileImage}
-                  onUpload={handleFileUpload}
-                  error={formErrors.profileImage}
-                />
-              </div>
-            </div>
-
             {/* Personal Information */}
             <div>
-              {/* <h2 className="text-xl font-semibold text-[#6E2D79] mb-4">Personal Information</h2> */}
               <div className="bg-[#F8F1FF] h-[2px] mb-6"></div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -931,15 +651,6 @@ function FormPage({ onClose = () => {} }) {
                   required
                 />
 
-                {/* <FormInput
-                  label="Telephone Number"
-                  name="TelNo"
-                  type="tel"
-                  value={formData.TelNo}
-                  onChange={handleInputChange}
-                  error={formErrors.TelNo}
-                /> */}
-
                 <FormInput
                   label="Date of Birth"
                   name="dob"
@@ -958,13 +669,6 @@ function FormPage({ onClose = () => {} }) {
                   error={formErrors.occupation}
                   required
                 />
-
-                {/* <FormInput
-                  label="Office"
-                  name="office"
-                  value={formData.office}
-                  onChange={handleInputChange}
-                /> */}
               </div>
             </div>
 
@@ -996,18 +700,8 @@ function FormPage({ onClose = () => {} }) {
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                  {/* <FormSelect
-                    label="City"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    error={formErrors.city}
-                    options={cityOptions}
-                    placeholder="Select City"
-                    required
-                  /> */}
                   <FormRadioGroup
-                    label="City"
+                    label="Selected Program"
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
@@ -1015,61 +709,7 @@ function FormPage({ onClose = () => {} }) {
                     options={cityOptions}
                     required
                   />
-
-                  {/* <FormInput
-                    label="Venue"
-                    name="courseDetailVenue"
-                    value={formData.courseDetailVenue}
-                    onChange={handleInputChange}
-                    error={formErrors.courseDetailVenue}
-                    placeholder="Auto-selected based on city"
-                    readOnly
-                    required
-                  />
-
-                  <FormInput
-                    label="Time Slot"
-                    name="timeslot"
-                    value={formData.timeslot}
-                    onChange={handleInputChange}
-                    error={formErrors.timeslot}
-                    placeholder="Auto-selected based on city"
-                    readOnly
-                    required
-                    className="capitalize"
-                  /> */}
                 </div>
-              </div>
-            </div>
-
-            {/* ID Upload Section */}
-            <div className="w-full max-w-4xl mx-auto p-6 bg-white">
-              <div className="mb-8">
-                <h2 className="text-lg font-medium text-gray-800 mb-2">
-                  Attach a Photo Proof.
-                  <span className="text-red-500">*</span>
-                </h2>
-              </div>
-
-              <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-16">
-                <UploadBox
-                  side="front"
-                  image={frontImage}
-                  onUpload={handleFileUpload}
-                  error={formErrors.frontImage}
-                />
-                <UploadBox
-                  side="back"
-                  image={backImage}
-                  onUpload={handleFileUpload}
-                  error={formErrors.backImage}
-                />
-              </div>
-
-              <div className="mt-8 text-center">
-                <p className="text-sm text-gray-600">
-                  Accepted formats: JPG, PNG, PDF (Max size: 5MB)
-                </p>
               </div>
             </div>
 
@@ -1168,29 +808,183 @@ function FormPage({ onClose = () => {} }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
                 disabled={loading}
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className={`px-6 py-2 bg-[#6E2D79] text-white rounded-md transition-colors flex items-center justify-center min-w-[140px] ${
-                  loading
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-[#5a2465]"
-                }`}
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Submitting...
-                  </>
-                ) : (
-                  "Submit Registration"
-                )}
-              </button>
+              
+                             {/* Test API Button - Remove this after debugging */}
+               <button
+                 type="button"
+                 onClick={() => {
+                   console.log("Test API button clicked");
+                   
+                   // Create test data as JSON object directly with proper types
+                   const testData = {
+                     firstName: "Test",
+                     lastName: "User",
+                     nameAsCertificate: "Test User",
+                     currentAddress: "123 Test Street, Test City",
+                     permanenetAddress: "123 Test Street, Test City",
+                     city: "Test City",
+                     venue: "Test Venue",
+                     timeslot: "Morning",
+                     TelNo: "1234567890",
+                     mobileNo: "1234567890",
+                     email: "test@test.com",
+                     dob: "1990-01-01",
+                     occupation: "Test",
+                     courseDetailDate: "2024-01-01",
+                     courseDetailTime: "09:00",
+                     courseDetailVenue: "Test Venue",
+                     hearAbout: "Google",
+                     communicationPreferences: true,
+                     termsandcondition: true,
+                     isSameAddress: true,
+                     levelName: "1"
+                   };
+                   
+                   console.log("Test data created:", testData);
+                   
+                   // Test the API call directly with JSON data
+                   // We'll bypass the FormData conversion for testing
+                   const testPayload = new FormData();
+                   Object.entries(testData).forEach(([key, value]) => {
+                     testPayload.append(key, value);
+                   });
+                   
+                   console.log("Test payload created:", testPayload);
+                   for (let [key, value] of testPayload.entries()) {
+                     console.log(`${key}:`, value);
+                   }
+                   
+                   // Test the API call directly
+                   registrationService.submitRegistration(testPayload)
+                     .then(response => {
+                       console.log("Test API response:", response);
+                     })
+                     .catch(error => {
+                       console.error("Test API error:", error);
+                     });
+                 }}
+                 className="px-6 py-2 bg-blue-600 text-white rounded-md transition-colors cursor-pointer hover:bg-blue-700"
+               >
+                 Test API Call
+               </button>
+               
+               {/* Direct JSON Test Button - Remove this after debugging */}
+               <button
+                 type="button"
+                 onClick={() => {
+                   console.log("Direct JSON test button clicked");
+                   
+                   // Test direct JSON submission
+                   const directTestData = {
+                     firstName: "Test",
+                     lastName: "User",
+                     nameAsCertificate: "Test User",
+                     currentAddress: "123 Test Street, Test City",
+                     permanenetAddress: "123 Test Street, Test City",
+                     city: "Test City",
+                     venue: "Test Venue",
+                     timeslot: "Morning",
+                     TelNo: "1234567890",
+                     mobileNo: "1234567890",
+                     email: "test@test.com",
+                     dob: "1990-01-01",
+                     occupation: "Test",
+                     courseDetailDate: "2024-01-01",
+                     courseDetailTime: "09:00",
+                     courseDetailVenue: "Test Venue",
+                     hearAbout: "Google",
+                     communicationPreferences: true,
+                     termsandcondition: true,
+                     isSameAddress: true,
+                     levelName: "1"
+                   };
+                   
+                   console.log("Direct JSON test data:", directTestData);
+                   
+                   // Make direct API call using axios
+                   import('../../services/api').then(({ apiClient }) => {
+                     apiClient.post('/awakenLimitlessHuman', directTestData, {
+                       headers: {
+                         'Content-Type': 'application/json',
+                       }
+                     })
+                     .then(response => {
+                       console.log("Direct JSON API response:", response);
+                     })
+                     .catch(error => {
+                       console.error("Direct JSON API error:", error);
+                     });
+                   });
+                 }}
+                 className="px-6 py-2 bg-green-600 text-white rounded-md transition-colors cursor-pointer hover:bg-green-700"
+               >
+                 Direct JSON Test
+               </button>
+               
+               {/* Show Form Data Button - Remove this after debugging */}
+               <button
+                 type="button"
+                 onClick={() => {
+                   console.log("=== SHOW FORM DATA BUTTON CLICKED ===");
+                   console.log("Current form data:", formData);
+                   console.log("City options:", cityOptions);
+                   console.log("Event object:", event);
+                   
+                   // Show what would be sent
+                   const submissionData = {
+                     ...formData,
+                     nameAsCertificate: formData.nameAsCertificate || `${formData.firstName} ${formData.lastName}`.trim(),
+                     currentAddress: formData.currentAddress || "Not provided",
+                     permanenetAddress: formData.permanenetAddress || formData.currentAddress || "Not provided",
+                     venue: formData.venue || "Not provided",
+                     timeslot: formData.timeslot || "Not specified",
+                     TelNo: formData.TelNo || formData.mobileNo || "Not provided",
+                     courseDetailDate: formData.courseDetailDate || "Not specified",
+                     courseDetailTime: formData.courseDetailTime || "Not specified",
+                     courseDetailVenue: formData.courseDetailVenue || "Not specified",
+                     hearAbout: formData.hearAbout || "Not specified",
+                     communicationPreferences: formData.communicationPreferences || false,
+                     termsandcondition: formData.termsandcondition || false,
+                     isSameAddress: formData.isSameAddress || false,
+                     levelName: formData.levelName || "1"
+                   };
+                   
+                   console.log("What would be submitted:", submissionData);
+                   
+                   // Test validation
+                   const errors = validateForm(formData);
+                   console.log("Validation test result:", errors);
+                   console.log("Would form pass validation?", Object.keys(errors).length === 0);
+                 }}
+                 className="px-6 py-2 bg-yellow-600 text-white rounded-md transition-colors cursor-pointer hover:bg-yellow-700"
+               >
+                 Show Form Data
+               </button>
+              
+                             <button
+                 type="submit"
+                 disabled={loading}
+                 onClick={() => console.log("Submit button clicked!")}
+                 className={`px-6 py-2 bg-[#6E2D79] text-white rounded-md transition-colors flex items-center justify-center min-w-[140px] cursor-pointer ${
+                   loading
+                     ? "opacity-50 cursor-not-allowed"
+                     : "hover:bg-[#5a2465]"
+                 }`}
+               >
+                 {loading ? (
+                   <>
+                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                     Submitting...
+                   </>
+                 ) : (
+                   "Submit Registration"
+                 )}
+               </button>
             </div>
           </form>
         </div>
@@ -1198,6 +992,7 @@ function FormPage({ onClose = () => {} }) {
     </div>
   );
 }
+
 const styles = `
   .form-checkbox-group {
     margin-bottom: 1rem;
