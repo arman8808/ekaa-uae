@@ -1,59 +1,27 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { adminUtils } from "../../utils/adminUtils";
 import {
-  FaWpforms,
-  FaClipboardList,
-  FaSuitcase,
-  FaAddressBook,
   FaTachometerAlt,
-  FaCog,
-  FaUserCircle,
   FaSignOutAlt,
   FaTimes,
+  FaUserCircle,
 } from "react-icons/fa";
 
 const navigation = [
-  // { name: "Dashboard", path: "/dashboard", icon: <FaTachometerAlt /> },
   {
-    name: "All Decode",
-    path: "/all-registration-ekaausa.com.usa",
-    icon: <FaWpforms />,
-  },
-  {
-    name: "All Contacts",
-    path: "/all-contacts.ekaausa.com.usa",
-    icon: <FaWpforms />,
-  },
-
-  {
-    name: "All Family Consultation Registration",
-    path: "/all-FamilyConsultationTable.usa",
-    icon: <FaWpforms />,
-  },
-  {
-    name: "All Hypnotherapy Registration",
-    path: "/all-ICTable.usa",
-    icon: <FaWpforms />,
-  },
-  {
-    name: "Family Constellation Page",
-    path: "/admin-familyconstellation",
-    icon: <FaWpforms />,
-  },
-  {
-    name: "Hypnotherapy Page",
-    path: "/admin-Hypnotherapy",
-    icon: <FaWpforms />,
-  },
-  {
-    name: "Decode Page",
-    path: "/admin-decode",
-    icon: <FaWpforms />,
+    name: "Awaken Limitless Human Dashboard",
+    path: "/admin/dashboard",
+    icon: <FaTachometerAlt />,
   },
 ];
 
-const Sidebar = ({ isOpen, onClose }) => {
+const AdminSidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
+
+  const handleLogout = () => {
+    adminUtils.logout();
+  };
 
   return (
     <>
@@ -88,8 +56,8 @@ const Sidebar = ({ isOpen, onClose }) => {
 
         <div className="flex flex-col h-full">
           {/* Branding */}
-          <div className="px-6 py-5 text-3xl font-bold tracking-tight border-b border-indigo-700 select-none">
-            Ekaa
+          <div className="px-6 py-5 text-3xl font-bold tracking-tight border-b border-[#6E2D79] select-none text-[#6E2D79]">
+            Ekaa Admin
           </div>
 
           {/* Navigation */}
@@ -105,7 +73,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     ${
                       isActive
                         ? "bg-[#6E2D79] text-white shadow-md"
-                        : "text-indigo-300 hover:bg-indigo-700 hover:text-white"
+                        : "text-gray-600 hover:bg-[#6E2D79] hover:text-white"
                     }
                   `}
                 >
@@ -114,7 +82,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                       ${
                         isActive
                           ? "text-white"
-                          : "text-indigo-400 group-hover:text-white"
+                          : "text-gray-400 group-hover:text-white"
                       }
                     `}
                   >
@@ -127,24 +95,24 @@ const Sidebar = ({ isOpen, onClose }) => {
           </nav>
 
           {/* Footer/User */}
-          {/* <div className="border-t border-indigo-700 px-6 py-4 bg-indigo-900">
-                        <div className="flex items-center space-x-4">
-                            <FaUserCircle className="text-indigo-400 h-12 w-12" />
-                            <div className="flex flex-col">
-                                <p className="text-white font-semibold text-base">Admin User</p>
-                                <Link
-                                    to="/logout"
-                                    className="flex items-center gap-2 text-indigo-400 text-sm hover:text-white transition"
-                                >
-                                    <FaSignOutAlt /> Sign out
-                                </Link>
-                            </div>
-                        </div>
-                    </div> */}
+          <div className="border-t border-gray-200 px-6 py-4 bg-gray-50">
+            <div className="flex items-center space-x-4">
+              <FaUserCircle className="text-[#6E2D79] h-12 w-12" />
+              <div className="flex flex-col">
+                <p className="text-gray-800 font-semibold text-base">Admin User</p>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 text-[#6E2D79] text-sm hover:text-[#5C2166] transition"
+                >
+                  <FaSignOutAlt /> Sign out
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

@@ -43,6 +43,8 @@ import ICHLevels from "./pages/ICH.Levels";
 import Tasso from "./pages/Tasso";
 import Practitioner from "./pages/Practitioner";
 import HHME from "./pages/HHME";
+import AdminLogin from "./pages/AdminLogin";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -76,6 +78,9 @@ function App() {
           path="/all-contacts.ekaausa.com.usa"
           element={<ContactsTable />}
         />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminPage />} />
       </Routes>
     </>
   );

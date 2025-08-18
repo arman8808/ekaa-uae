@@ -200,6 +200,49 @@ export const registrationService = {
   },
 
   /**
+   * Get all awakenLimitlessHuman registrations with pagination
+   * @param {Object} pagination - Pagination parameters (page, limit)
+   * @param {Object} filters - Optional filters (status, date range, level, city, etc.)
+   * @returns {Promise<Object>} Response object with registrations and pagination info
+   */
+  getAwakenLimitlessHumanRegistrations: async (pagination = { page: 1, limit: 10 }, filters = {}) => {
+    try {
+      // Combine pagination and filters
+      const queryParams = new URLSearchParams({
+        page: pagination.page || 1,
+        limit: pagination.limit || 10,
+        ...filters
+      }).toString();
+      
+      const url = `/awakenLimitlessHuman?${queryParams}`;
+      
+      console.log("Fetching awakenLimitlessHuman registrations from:", url);
+      const response = await apiService.get(url);
+      
+      if (response.success) {
+        return {
+          success: true,
+          data: response.data,
+          message: 'Registrations retrieved successfully',
+        };
+      } else {
+        return {
+          success: false,
+          error: response.error,
+          message: 'Failed to retrieve registrations',
+        };
+      }
+    } catch (error) {
+      console.error('Get awakenLimitlessHuman registrations service error:', error);
+      return {
+        success: false,
+        error: error.message || 'Get awakenLimitlessHuman registrations service error',
+        message: 'Failed to retrieve registrations',
+      };
+    }
+  },
+
+  /**
    * Check registration status
    * @param {string} registrationId - Registration ID
    * @returns {Promise<Object>} Response object with registration status
