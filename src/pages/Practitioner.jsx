@@ -310,7 +310,7 @@ function Practitioner() {
                     <td className="px-4 py-4">
                       <div className="text-sm">
                         <span className={`px-2 py-1 rounded-full`}>
-                          {event.seats}
+                          {event.seats} seats
                         </span>
                       </div>
                     </td>

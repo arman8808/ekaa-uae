@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function VisionMissionSection() {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col lg:flex-row">
       {/* Left Column - Content */}
@@ -26,7 +28,8 @@ function VisionMissionSection() {
 
           {/* Button */}
           <button
-            className="px-8 py-3 rounded-md font-semibold text-lg transition-all duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white"
+            onClick={() => navigate('/practitioner')}
+            className="px-8 py-3 rounded-md font-semibold text-lg transition-all duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
             style={{
               color: "#6E2D79",
               backgroundColor: "white"

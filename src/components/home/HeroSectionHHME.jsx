@@ -19,16 +19,20 @@ function HeroSectionHHME() {
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 text-center">
         {/* Logo container */}
         <div className="flex items-center justify-center space-x-8 mb-8">
-          <img 
-            src="/hhme/Event Image 1.png" 
-            alt="EKAA Logo" 
-            className="h-20 sm:h-28 object-contain" 
-          />
-          <img 
-            src="/hhme/Event Image 2.png" 
-            alt="HHME Logo" 
-            className="h-20 sm:h-28 object-contain" 
-          />
+          <div className="h-20 w-20 sm:h-28 sm:w-28 flex items-center justify-center">
+            <img 
+              src="/hhme/Event Image 1.png" 
+              alt="EKAA Logo" 
+              className="max-h-full max-w-full w-auto h-auto object-contain" 
+            />
+          </div>
+          <div className="h-20 w-20 sm:h-28 sm:w-28 flex items-center justify-center">
+            <img 
+              src="/hhme/Event Image 2.png" 
+              alt="HHME Logo" 
+              className="max-h-full max-w-full w-auto h-auto object-contain" 
+            />
+          </div>
         </div>
 
         {/* Heading */}

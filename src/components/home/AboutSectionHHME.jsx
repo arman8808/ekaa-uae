@@ -21,7 +21,7 @@ function AboutSectionHHME() {
             <img 
               src="/hhme/Image 1.png" 
               alt="Holistic Wellness" 
-              className="w-full h-64 sm:h-80 object-cover"
+              className="w-full h-auto min-h-[200px] sm:min-h-[250px] md:h-64 lg:h-80 object-cover"
             />
           </div>
           
@@ -30,7 +30,7 @@ function AboutSectionHHME() {
             <img 
                 src="/hhme/Image 2.png" 
               alt="Mind-Body Connection" 
-              className="w-full h-64 sm:h-80 object-cover"
+              className="w-full h-auto min-h-[200px] sm:min-h-[250px] md:h-64 lg:h-80 object-cover"
             />
           </div>
           
@@ -39,7 +39,7 @@ function AboutSectionHHME() {
             <img 
                 src="/hhme/Image 3.png" 
               alt="Integrative Healing" 
-              className="w-full h-64 sm:h-80 object-cover"
+              className="w-full h-auto min-h-[200px] sm:min-h-[250px] md:h-64 lg:h-80 object-cover"
             />
           </div>
         </div>
