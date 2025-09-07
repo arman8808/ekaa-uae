@@ -42,6 +42,19 @@ function Practitioner() {
     },
     {
       id: 3,
+      name: "Level 1 | Basic Integrated Hypnosis Training",
+      seats: 10,
+      date: "20 Sep 21 Sep",
+      location: "Kochin",
+      trainer: "Neerja Handa",
+      type: "L1 Lyfe Sinply",
+      price: "UAD 375",
+      currency: "UAD",
+      priceValue: 15999,
+      level: 2,
+      participants: "10 Seats",
+    },   {
+      id: 4,
       name: "Level 2 | Advanced Module for Behavioral Resolutions",
       seats: 10,
       date: "26 Sep 27 Sep 28 Sep",
@@ -55,7 +68,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 4,
+      id: 5,
       name: "Level 2 | Advanced Module for Behavioral Resolutions",
       seats: 10,
       date: "3 Oct 4 Oct",
@@ -69,7 +82,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 5,
+      id: 6,
       name: "Level 1 | Basic Integrated Hypnosis Training",
       seats: 10,
       date: "14 Nov - 16 Nov",
