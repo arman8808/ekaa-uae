@@ -11,10 +11,37 @@ function Practitioner() {
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const events = [
-    // October Events
+const events = [
     {
       id: 1,
+      name: "Level 1 | Basic Integrated Hypnosis Training",
+      seats: 10,
+      date: "28-29 Sep",
+      location: "Online",
+      trainer: "Dr swapnalei",
+      type: "Level 1",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 1,
+      participants: "10 Seats",
+    },
+    {
+      id: 2,
+      name: "Level 2 | Advanced Module for Behavioral Resolutions",
+      seats: 10,
+      date: "26-27-28 Sep & 3-4 Oct",
+      location: "Dubai",
+      trainer: "Ms Jacky Vrendra",
+      type: "Level 2",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 1,
+      participants: "10 Seats",
+    },
+    {
+      id: 3,
       name: "Level 1 | Basic Integrated Hypnosis Training",
       seats: 10,
       date: "11-12 Oct",
@@ -28,7 +55,49 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 2,
+      id: 4,
+      name: "Level 2 | Advanced Module for Behavioral Resolutions",
+      seats: 10,
+      date: "10-14 Oct",
+      location: "Dubai",
+      trainer: "Ms Neerja Handa",
+      type: "Level 1",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 1,
+      participants: "10 Seats",
+    },
+    {
+      id: 5,
+      name: "Level 1 | Basic Integrated Hypnosis Training",
+      seats: 10,
+      date: "11-12 Oct",
+      location: "Abu Dhabi",
+      trainer: "Ms Mitali & Dr. Sodhi",
+      type: "Level 1",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 1,
+      participants: "10 Seats",
+    },
+    {
+      id: 6,
+      name: "Level 1 | Basic Integrated Hypnosis Training",
+      seats: 10,
+      date: "12-13 Oct",
+      location: "Dubai",
+      trainer: "Dr Swapnalei",
+      type: "Level 1",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 1,
+      participants: "10 Seats",
+    },
+    {
+      id: 7,
       name: "Level 5 | Hypnosis Training through Integrated Healing",
       seats: 10,
       date: "16-17-18-19 Oct (20 Diwali Break) 21-22-23-24 Oct",
@@ -42,7 +111,35 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 3,
+      id: 8,
+      name: "Level 1 | Basic Integrated Hypnosis Training",
+      seats: 10,
+      date: "18-19 Oct",
+      location: "Dubai",
+      trainer: "Ms Nisha Menon",
+      type: "Level 5",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 5,
+      participants: "10 Seats",
+    },
+    {
+      id: 9,
+      name: "Level 1 | Basic Integrated Hypnosis Training",
+      seats: 10,
+      date: "25-26 Oct",
+      location: "Dubai",
+      trainer: "Ms Neerja Handa",
+      type: "Level 5",
+      price: "AED 375",
+      currency: "AED",
+      priceValue: 15999,
+      level: 5,
+      participants: "10 Seats",
+    },
+    {
+      id: 10,
       name: "Level 2 | Advanced Module for Behavioral Resolutions",
       seats: 10,
       date: "17-18-19 Oct / 25-26 Oct",
@@ -56,7 +153,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 4,
+      id: 11,
       name: "Level 3 | Advanced Modalities for Health Resolutions",
       seats: 10,
       date: "17-18-19 Oct / 25-26 Oct",
@@ -69,9 +166,8 @@ function Practitioner() {
       level: 3,
       participants: "10 Seats",
     },
-    // November Events
     {
-      id: 5,
+      id: 12,
       name: "Level 2 | Advanced Module for Behavioral Resolutions",
       seats: 10,
       date: "8-9 Nov",
@@ -85,7 +181,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 6,
+      id: 13,
       name: "Level 2 | Advanced Module for Behavioral Resolutions",
       seats: 10,
       date: "14-16 Nov",
@@ -99,7 +195,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 7,
+      id: 14,
       name: "Clinical Hypnotherapy - Level 2",
       seats: 10,
       date: "13-14-15-16-17 Nov",
@@ -113,7 +209,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 8,
+      id: 15,
       name: "Level 3 | Advanced Modalities for Health Resolutions",
       seats: 10,
       date: "1-2 Nov / 7-8-9 Nov",
@@ -127,7 +223,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 9,
+      id: 16,
       name: "Level 1 | Basic Integrated Hypnosis Training",
       seats: 10,
       date: "15-16 Nov",
@@ -141,7 +237,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 10,
+      id: 17,
       name: "Level 3 | Advanced Modalities for Health Resolutions",
       seats: 10,
       date: "28-29-30 Nov",
@@ -154,9 +250,8 @@ function Practitioner() {
       level: 3,
       participants: "10 Seats",
     },
-    // December Events
     {
-      id: 11,
+      id: 18,
       name: "Clinical Hypnotherapy - Level 3",
       seats: 10,
       date: "27-28-29-30-31 Oct / 1 Dec",
@@ -170,7 +265,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 12,
+      id: 19,
       name: "Level 3 | Advanced Modalities for Health Resolutions",
       seats: 10,
       date: "5-6 Dec",
@@ -184,7 +279,7 @@ function Practitioner() {
       participants: "10 Seats",
     },
     {
-      id: 13,
+      id: 20,
       name: "Level 4 | Metaphysical Hypnosis Training",
       seats: 10,
       date: "5-6-7 Dec / 12-13-14 Dec",
@@ -196,7 +291,7 @@ function Practitioner() {
       priceValue: 15999,
       level: 4,
       participants: "10 Seats",
-    },
+    }
   ];
 
   const handleEnrollClick = (event) => {
