@@ -243,6 +243,47 @@ export const registrationService = {
   },
 
   /**
+   * Download awakenLimitlessHuman registrations CSV
+   * @param {Object} params - Query params for download
+   * @param {string} [params.startDate] - YYYY-MM-DD
+   * @param {string} [params.endDate] - YYYY-MM-DD
+   * @returns {Promise<Object>} Response object with blob data
+   */
+  downloadAwakenLimitlessHumanCSV: async ({ startDate, endDate } = {}) => {
+    try {
+      const query = new URLSearchParams({
+        ...(startDate ? { startDate } : {}),
+        ...(endDate ? { endDate } : {}),
+      }).toString();
+
+      const url = `/awakenLimitlessHuman/download${query ? `?${query}` : ''}`;
+
+      const response = await apiService.get(url, { responseType: 'blob' });
+
+      if (response.success) {
+        return {
+          success: true,
+          data: response.data, // Blob
+          message: 'CSV downloaded successfully',
+        };
+      } else {
+        return {
+          success: false,
+          error: response.error,
+          message: 'Failed to download CSV',
+        };
+      }
+    } catch (error) {
+      console.error('Download CSV service error:', error);
+      return {
+        success: false,
+        error: error.message || 'Download CSV service error',
+        message: 'Failed to download CSV',
+      };
+    }
+  },
+
+  /**
    * Check registration status
    * @param {string} registrationId - Registration ID
    * @returns {Promise<Object>} Response object with registration status

@@ -19,6 +19,9 @@ const AwakenLimitlessHuman = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalRegistrations, setTotalRegistrations] = useState(0);
   const itemsPerPage = 10;
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportStartDate, setExportStartDate] = useState('');
+  const [exportEndDate, setExportEndDate] = useState('');
 
   // Base URL for images - adjust this according to your server setup
   const BASE_IMAGE_URL = 'https://ekaausa.com/';
@@ -167,7 +170,7 @@ const AwakenLimitlessHuman = () => {
   };
 
   // Export to CSV
-  const exportToCSV = () => {
+  const exportToCSV = (startDate, endDate) => {
     // Check authentication before export
     if (!adminUtils.isLoggedIn()) {
       navigate('/admin/login');
@@ -181,8 +184,31 @@ const AwakenLimitlessHuman = () => {
     }
     
     try {
-      const headers = Object.keys(filteredRegistrations[0] || {}).join(',');
-      const csvContent = filteredRegistrations.map(row => 
+      let dataToExport = filteredRegistrations;
+      if (startDate || endDate) {
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+        dataToExport = filteredRegistrations.filter(row => {
+          if (!row.createdAt) return false;
+          const created = new Date(row.createdAt);
+          if (Number.isNaN(created.getTime())) return false;
+          if (start && created < start) return false;
+          if (end) {
+            const endOfDay = new Date(end);
+            endOfDay.setHours(23, 59, 59, 999);
+            if (created > endOfDay) return false;
+          }
+          return true;
+        });
+      }
+
+      if (!dataToExport.length) {
+        alert('No registrations found for the selected date range.');
+        return;
+      }
+
+      const headers = Object.keys(dataToExport[0] || {}).join(',');
+      const csvContent = dataToExport.map(row => 
         Object.values(row).map(value => 
           typeof value === 'string' && value.includes(',') ? `"${value}"` : value
         ).join(',')
@@ -199,6 +225,12 @@ const AwakenLimitlessHuman = () => {
       console.error('Error exporting CSV:', error);
       alert('Failed to export CSV. Please try again.');
     }
+  };
+
+  const handleExportSubmit = (e) => {
+    e.preventDefault();
+    exportToCSV(exportStartDate, exportEndDate);
+    setShowExportModal(false);
   };
 
   // If not authenticated, don't render anything (will redirect)
@@ -281,6 +313,14 @@ const AwakenLimitlessHuman = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setShowExportModal(true)}
+                disabled={loading}
+                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+              >
+                <Download className="w-4 h-4" />
+                <span>Export CSV</span>
+              </button>
               <button
                 onClick={() => fetchRegistrations(currentPage)}
                 disabled={loading}
@@ -504,6 +544,62 @@ const AwakenLimitlessHuman = () => {
                 
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Export CSV Modal */}
+        {showExportModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg max-w-xl w-full">
+              <div className="sticky top-0 bg-[#6E2D79] text-white p-6 rounded-t-lg z-[500]">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold">Export CSV</h2>
+                  <button
+                    onClick={() => setShowExportModal(false)}
+                    className="text-white hover:text-gray-200 text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+              <form onSubmit={handleExportSubmit} className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Start Date</label>
+                    <input
+                      type="date"
+                      value={exportStartDate}
+                      onChange={(e) => setExportStartDate(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">End Date</label>
+                    <input
+                      type="date"
+                      value={exportEndDate}
+                      onChange={(e) => setExportEndDate(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowExportModal(false)}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-[#6E2D79] text-white px-4 py-2 rounded-lg hover:bg-[#5C2166] transition-colors"
+                  >
+                    Export
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
