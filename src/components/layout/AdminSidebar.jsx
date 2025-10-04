@@ -14,6 +14,32 @@ const navigation = [
     path: "/admin/awaken-limitless-human",
     icon: <FaTachometerAlt />,
   },
+
+  {
+    name: "Decode Registrations",
+    path: "/admin/decode-registrations",
+    icon: <FaTachometerAlt />,
+  },
+  {
+    name: "Family Registrations",
+    path: "/admin/family-registrations",
+    icon: <FaTachometerAlt />,
+  },
+  {
+    name: "Tasso Registrations",
+    path: "/admin/tasso-registrations",
+    icon: <FaTachometerAlt />,
+  },
+  {
+    name: "Manage Events",
+    path: "/admin/manage-events",
+    icon: <FaTachometerAlt />,
+  },
+  {
+    name: "Contact Submissions",
+    path: "/admin/contacts",
+    icon: <FaTachometerAlt />,
+  },
 ];
 
 const AdminSidebar = ({ isOpen, onClose }) => {
@@ -99,7 +125,9 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             <div className="flex items-center space-x-4">
               <FaUserCircle className="text-[#6E2D79] h-12 w-12" />
               <div className="flex flex-col">
-                <p className="text-gray-800 font-semibold text-base">Admin User</p>
+                <p className="text-gray-800 font-semibold text-base">
+                  Admin User
+                </p>
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-2 text-[#6E2D79] text-sm hover:text-[#5C2166] transition"

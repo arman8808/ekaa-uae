@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { AlertCircle, CheckCircle } from "lucide-react";
 import { registrationService } from "../../services/registrationService";
-
-
+import { formatEventDateRange } from "../../pages/Practitioner";
+import tassoRegistrationService from "../../services/tassoRegistrationService";
+import familyConstellationService from "../../services/familyConstellationService";
+import decodeRegistrationService from "../../services/decodeRegistrationService";
 
 // Custom Hook for API calls with proper error handling
 const useApiCall = () => {
@@ -138,8 +140,8 @@ const ThankYouMessage = () => (
     <div className="mb-6">
       <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
       <p className="text-lg text-gray-600 leading-relaxed">
-        Thank you for Registration. Payment link has been sent on your registered
-        Mail ID
+        Thank you for Registration. Payment link has been sent on your
+        registered Mail ID
       </p>
     </div>
   </div>
@@ -310,25 +312,25 @@ function FormPage({ onClose = () => {}, event }) {
 
   const { makeRequest, loading, error, setError } = useApiCall();
 
-  // Debug: Log the event object
-  console.log("FormPage received event:", event);
-  
+
   // Generate city options from the selected event
-  const cityOptions = event ? [
-    {
-      value: `${event.location} | ${event.name} | ${event.date}`,
-      label: `${event.location} | ${event.name} | ${event.date}`,
-    }
-  ] : [];
-  
-  // Debug: Log city options
-  console.log("City options generated:", cityOptions);
+  const cityOptions = event
+    ? [
+        {
+          value: `${event.location} | ${
+            event.level ? event.level : event.event
+          } | ${formatEventDateRange(event.startDate, event.endDate)}`,
+          label: `${event.location} | ${
+            event.level ? event.level : event.event
+          } | ${formatEventDateRange(event.startDate, event.endDate)}`,
+        },
+      ]
+    : [];
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
 
-    console.log(`Input change: ${name} = ${newValue} (type: ${type})`);
     updateField(name, newValue);
 
     // Auto-fill nameAsCertificate
@@ -364,24 +366,122 @@ function FormPage({ onClose = () => {}, event }) {
     }
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("=== FORM SUBMISSION STARTED ===");
+  //   console.log("Form submit triggered");
+  //   setError(null);
+
+  //   // Log current form data
+  //   console.log("Current form data:", formData);
+  //   console.log("Form data keys:", Object.keys(formData));
+  //   console.log("Form data values:", Object.values(formData));
+
+  //   // Validate form
+  //   const errors = validateForm(formData);
+  //   console.log("Validation errors:", errors);
+  //   console.log("Number of validation errors:", Object.keys(errors).length);
+
+  //   if (Object.keys(errors).length > 0) {
+  //     console.log("❌ Form validation failed with errors:", errors);
+  //     setFormErrors(errors);
+  //     setError("Please fix the errors below before submitting");
+  //     const firstErrorField = document.querySelector(".border-red-500");
+  //     if (firstErrorField) {
+  //       firstErrorField.scrollIntoView({ behavior: "smooth", block: "center" });
+  //     }
+  //     return;
+  //   }
+
+  //   console.log("✅ Form validation passed, proceeding with submission...");
+
+  //   try {
+  //     console.log("Preparing form submission...");
+
+  //     // Ensure all required fields are populated with default values if empty
+  //     const submissionData = {
+  //       ...formData,
+  //       // Set default values for required fields that might be empty
+  //       nameAsCertificate:
+  //         formData.nameAsCertificate ||
+  //         `${formData.firstName} ${formData.lastName}`.trim(),
+  //       currentAddress: formData.currentAddress || "Not provided",
+  //       permanenetAddress:
+  //         formData.permanenetAddress ||
+  //         formData.currentAddress ||
+  //         "Not provided",
+  //       venue: formData.venue || "Not provided",
+  //       timeslot: formData.timeslot || "Not specified",
+  //       TelNo: formData.TelNo || formData.mobileNo || "Not provided",
+  //       courseDetailDate: formData.courseDetailDate || "Not specified",
+  //       courseDetailTime: formData.courseDetailTime || "Not specified",
+  //       courseDetailVenue: formData.courseDetailVenue || "Not specified",
+  //       hearAbout: formData.hearAbout || "Not specified",
+  //       // Ensure boolean fields are properly set
+  //       communicationPreferences: formData.communicationPreferences || false,
+  //       termsandcondition: formData.termsandcondition || false,
+  //       isSameAddress: formData.isSameAddress || false,
+  //       levelName: formData.levelName || "1",
+  //     };
+
+  //     console.log("Enhanced submission data:", submissionData);
+
+  //     // Build FormData payload
+  //     const payload = buildFormDataPayload(submissionData);
+
+  //     // Enhanced payload logging
+  //     console.log("Form Data Payload Contents:");
+  //     for (let [key, value] of payload.entries()) {
+  //       console.log(`${key}:`, value);
+  //     }
+
+  //     // Also log the raw submission data for comparison
+  //     console.log("Raw submission data being sent:", submissionData);
+
+  //     // Make actual API call using the registration service
+  //     console.log("Making API request to registration service");
+  //     console.log(
+  //       "API URL will be:",
+  //       import.meta.env.VITE_API_BASE_URL || "http://localhost:8001/api/"
+  //     );
+
+  //     const response = await makeRequest(() =>
+  //       registrationService.submitRegistration(payload)
+  //     );
+
+  //     console.log("Registration successful - Full response:", response);
+
+  //     if (response.success) {
+  //       setShowThankYou(true);
+  //       setTimeout(() => {
+  //         onClose();
+  //       }, 5000);
+  //     } else {
+  //       setError(response.error || "Registration failed");
+  //     }
+  //   } catch (err) {
+  //     console.error("Registration failed - Error details:", {
+  //       message: err.message,
+  //       stack: err.stack,
+  //       response: err.response,
+  //     });
+
+  //     setError(`Submission failed: ${err.message || "Unknown error"}`);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("=== FORM SUBMISSION STARTED ===");
-    console.log("Form submit triggered");
+
     setError(null);
 
-    // Log current form data
-    console.log("Current form data:", formData);
-    console.log("Form data keys:", Object.keys(formData));
-    console.log("Form data values:", Object.values(formData));
+
 
     // Validate form
     const errors = validateForm(formData);
-    console.log("Validation errors:", errors);
-    console.log("Number of validation errors:", Object.keys(errors).length);
-    
+   
     if (Object.keys(errors).length > 0) {
-      console.log("❌ Form validation failed with errors:", errors);
+    
       setFormErrors(errors);
       setError("Please fix the errors below before submitting");
       const firstErrorField = document.querySelector(".border-red-500");
@@ -391,18 +491,22 @@ function FormPage({ onClose = () => {}, event }) {
       return;
     }
 
-    console.log("✅ Form validation passed, proceeding with submission...");
-
+   
     try {
-      console.log("Preparing form submission...");
+     
 
       // Ensure all required fields are populated with default values if empty
       const submissionData = {
         ...formData,
         // Set default values for required fields that might be empty
-        nameAsCertificate: formData.nameAsCertificate || `${formData.firstName} ${formData.lastName}`.trim(),
+        nameAsCertificate:
+          formData.nameAsCertificate ||
+          `${formData.firstName} ${formData.lastName}`.trim(),
         currentAddress: formData.currentAddress || "Not provided",
-        permanenetAddress: formData.permanenetAddress || formData.currentAddress || "Not provided",
+        permanenetAddress:
+          formData.permanenetAddress ||
+          formData.currentAddress ||
+          "Not provided",
         venue: formData.venue || "Not provided",
         timeslot: formData.timeslot || "Not specified",
         TelNo: formData.TelNo || formData.mobileNo || "Not provided",
@@ -414,33 +518,48 @@ function FormPage({ onClose = () => {}, event }) {
         communicationPreferences: formData.communicationPreferences || false,
         termsandcondition: formData.termsandcondition || false,
         isSameAddress: formData.isSameAddress || false,
-        levelName: formData.levelName || "1"
+        levelName: formData.levelName || "1",
       };
 
-      console.log("Enhanced submission data:", submissionData);
+  
 
       // Build FormData payload
       const payload = buildFormDataPayload(submissionData);
 
-      // Enhanced payload logging
-      console.log("Form Data Payload Contents:");
-      for (let [key, value] of payload.entries()) {
-        console.log(`${key}:`, value);
-      }
+     
 
       // Also log the raw submission data for comparison
-      console.log("Raw submission data being sent:", submissionData);
+    
+      let response;
 
-      // Make actual API call using the registration service
-      console.log("Making API request to registration service");
-      console.log("API URL will be:", import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001/api/');
-      
-      const response = await makeRequest(() =>
-        registrationService.submitRegistration(payload)
-      );
+      // Method 1: Check event by ID
+      if (event.event === "AWAKEN THE LIMITLESS HUMAN") {
+   
+        response = await makeRequest(() =>
+          registrationService.submitRegistration(payload)
+        );
+      } else if (event.event === "Decode") {
+     
+        response = await makeRequest(() =>
+          decodeRegistrationService.submitRegistrationEvent2(payload)
+        );
+      } else if (event.event === "TASSO") {
 
-      console.log("Registration successful - Full response:", response);
-      
+        response = await makeRequest(() =>
+          tassoRegistrationService.submitRegistration(payload)
+        );
+      } else if (event.event === "Family Constellation") {
+    
+        response = await makeRequest(() =>
+          familyConstellationService.submitRegistrationEvent4(payload)
+        );
+      } else {
+
+        response = await makeRequest(() =>
+          registrationService.submitRegistration(payload)
+        );
+      }
+
       if (response.success) {
         setShowThankYou(true);
         setTimeout(() => {
@@ -459,7 +578,6 @@ function FormPage({ onClose = () => {}, event }) {
       setError(`Submission failed: ${err.message || "Unknown error"}`);
     }
   };
-
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -543,14 +661,15 @@ function FormPage({ onClose = () => {}, event }) {
     };
   }, [onClose]);
 
-  // Update city field when event changes
   useEffect(() => {
     if (event) {
-      const cityValue = `${event.location} | ${event.name} | ${event.date}`;
+
+      const cityValue = `${event.location} | ${
+        event.level ? event?.level : event?.event
+      } | ${formatEventDateRange(event?.startDate, event?.endDate)}}`;
       updateField("city", cityValue);
-      console.log("City field updated to:", cityValue);
     }
-  }, [event, updateField]);
+  }, [event]); // Remove updateField from dependencies
 
   // How did you hear about us options
   const hearAboutOptions = [
@@ -814,24 +933,24 @@ function FormPage({ onClose = () => {}, event }) {
                 Cancel
               </button>
 
-                                            <button
-                 type="submit"
-                 disabled={loading}
-                 className={`px-6 py-2 bg-[#6E2D79] text-white rounded-md transition-colors flex items-center justify-center min-w-[140px] cursor-pointer ${
-                   loading
-                     ? "opacity-50 cursor-not-allowed"
-                     : "hover:bg-[#5a2465]"
-                 }`}
-               >
-                 {loading ? (
-                   <>
-                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                     Submitting...
-                   </>
-                 ) : (
-                   "Submit Registration"
-                 )}
-               </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`px-6 py-2 bg-[#6E2D79] text-white rounded-md transition-colors flex items-center justify-center min-w-[140px] cursor-pointer ${
+                  loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-[#5a2465]"
+                }`}
+              >
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Registration"
+                )}
+              </button>
             </div>
           </form>
         </div>

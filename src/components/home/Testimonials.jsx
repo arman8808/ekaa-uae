@@ -7,13 +7,13 @@ const testimonials = [
     id: 1,
     // name: "Albert Flores",
     // role: "Product Manager at Jomanar",
-    video: "testimonial/testimonial1.mp4",
+    video: "https://d2nxi4iq5glqsu.cloudfront.net/testimonial/testimonial1.mp4",
     thumbnail: "/testimonial/testimonial1.png",
   },
 
 ].map(item => ({
   ...item,
-  video: import.meta.env.VITE_API_Cloud_Front_URL + item.video,
+  video:  item.video,
   thumbnail:item.thumbnail
 }));
 

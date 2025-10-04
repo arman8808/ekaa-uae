@@ -46,6 +46,11 @@ import HHME from "./pages/HHME";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
 import AwakenLimitlessHuman from "./pages/AdminPages/AwakenLimitlessHuman";
+import ManageEvents from "./pages/AdminPages/ManageEvents";
+import DecodeRegistrations from "./pages/AdminPages/DecodeRegistrations";
+import FamilyRegistrationsPage from "./pages/AdminPages/FamilyRegistrations";
+import TassoRegistrations from "./pages/AdminPages/TassoRegistrations";
+import AdminContacts from "./pages/AdminPages/AdminContacts";
 
 function App() {
   return (
@@ -82,6 +87,11 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/awaken-limitless-human" element={<AwakenLimitlessHuman />} />
+        <Route path="/admin/manage-events" element={<ManageEvents />} />
+        <Route path="/admin/decode-registrations" element={<DecodeRegistrations />} />
+        <Route path="/admin/family-registrations" element={<FamilyRegistrationsPage />} />
+        <Route path="/admin/tasso-registrations" element={<TassoRegistrations />} />
+        <Route path="/admin/contacts" element={<AdminContacts />} />
         {/* Keep dashboard route for backward compatibility but redirect to new page */}
         <Route path="/admin/dashboard" element={<AwakenLimitlessHuman />} />
       </Routes>

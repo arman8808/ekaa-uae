@@ -43,8 +43,8 @@ function FamilyConstellation() {
         </div>
       </div>
       <ProfileCard />
-      <UpcomingSessions />
-      <FAQ />
+      {/* <UpcomingSessions /> */}
+      {/* <FAQ /> */}
       <Testimonials />
       <Footer />
     </div>

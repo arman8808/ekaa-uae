@@ -1,298 +1,324 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import TestimonialCarousel from "../components/home/Testimonials";
 import FormPage from "../components/level1/FormPage";
+import managedEventsService from "../services/managedEventsService";
 
 function Practitioner() {
   const navigate = useNavigate();
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-const events = [
-    {
-      id: 1,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "28-29 Sep",
-      location: "Online",
-      trainer: "Dr swapnalei",
-      type: "Level 1",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 2,
-      name: "Level 2 | Advanced Module for Behavioral Resolutions",
-      seats: 10,
-      date: "26-27-28 Sep & 3-4 Oct",
-      location: "Dubai",
-      trainer: "Ms Jacky Vrendra",
-      type: "Level 2",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 3,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "11-12 Oct",
-      location: "Abu Dhabi",
-      trainer: "Mitali & Dr. Sodhi",
-      type: "Level 1",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 4,
-      name: "Level 2 | Advanced Module for Behavioral Resolutions",
-      seats: 10,
-      date: "10-14 Oct",
-      location: "Dubai",
-      trainer: "Ms Neerja Handa",
-      type: "Level 1",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 5,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "11-12 Oct",
-      location: "Abu Dhabi",
-      trainer: "Ms Mitali & Dr. Sodhi",
-      type: "Level 1",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 6,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "12-13 Oct",
-      location: "Dubai",
-      trainer: "Dr Swapnalei",
-      type: "Level 1",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 7,
-      name: "Level 5 | Hypnosis Training through Integrated Healing",
-      seats: 10,
-      date: "16-17-18-19 Oct (20 Diwali Break) 21-22-23-24 Oct",
-      location: "Abu Dhabi",
-      trainer: "Yuvraj Kapadia",
-      type: "Level 5",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 5,
-      participants: "10 Seats",
-    },
-    {
-      id: 8,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "18-19 Oct",
-      location: "Dubai",
-      trainer: "Ms Nisha Menon",
-      type: "Level 5",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 5,
-      participants: "10 Seats",
-    },
-    {
-      id: 9,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "25-26 Oct",
-      location: "Dubai",
-      trainer: "Ms Neerja Handa",
-      type: "Level 5",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 5,
-      participants: "10 Seats",
-    },
-    {
-      id: 10,
-      name: "Level 2 | Advanced Module for Behavioral Resolutions",
-      seats: 10,
-      date: "17-18-19 Oct / 25-26 Oct",
-      location: "Abu Dhabi",
-      trainer: "Gurbani Kaur",
-      type: "Level 2",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 2,
-      participants: "10 Seats",
-    },
-    {
-      id: 11,
-      name: "Level 3 | Advanced Modalities for Health Resolutions",
-      seats: 10,
-      date: "17-18-19 Oct / 25-26 Oct",
-      location: "Abu Dhabi",
-      trainer: "Dr. Bassam",
-      type: "Level 3",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 3,
-      participants: "10 Seats",
-    },
-    {
-      id: 12,
-      name: "Level 2 | Advanced Module for Behavioral Resolutions",
-      seats: 10,
-      date: "8-9 Nov",
-      location: "Dubai",
-      trainer: "Nisha",
-      type: "L2 day 1 & 2 Prana Dubai",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 2,
-      participants: "10 Seats",
-    },
-    {
-      id: 13,
-      name: "Level 2 | Advanced Module for Behavioral Resolutions",
-      seats: 10,
-      date: "14-16 Nov",
-      location: "Dubai",
-      trainer: "Nisha",
-      type: "L2 day 3,4&5 Prana Dubai",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 2,
-      participants: "10 Seats",
-    },
-    {
-      id: 14,
-      name: "Clinical Hypnotherapy - Level 2",
-      seats: 10,
-      date: "13-14-15-16-17 Nov",
-      location: "Dubai",
-      trainer: "Neerja Handa",
-      type: "Clinical Hypnotherapy Level 2",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 2,
-      participants: "10 Seats",
-    },
-    {
-      id: 15,
-      name: "Level 3 | Advanced Modalities for Health Resolutions",
-      seats: 10,
-      date: "1-2 Nov / 7-8-9 Nov",
-      location: "Abu Dhabi",
-      trainer: "Rajesh Singh",
-      type: "Level 3",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 3,
-      participants: "10 Seats",
-    },
-    {
-      id: 16,
-      name: "Level 1 | Basic Integrated Hypnosis Training",
-      seats: 10,
-      date: "15-16 Nov",
-      location: "Abu Dhabi",
-      trainer: "Mitali & Dr. Sodhi",
-      type: "Level 1",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 1,
-      participants: "10 Seats",
-    },
-    {
-      id: 17,
-      name: "Level 3 | Advanced Modalities for Health Resolutions",
-      seats: 10,
-      date: "28-29-30 Nov",
-      location: "Lyfe Simply",
-      trainer: "Jacky",
-      type: "L3 day 1 Lyfe Simply",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 3,
-      participants: "10 Seats",
-    },
-    {
-      id: 18,
-      name: "Clinical Hypnotherapy - Level 3",
-      seats: 10,
-      date: "27-28-29-30-31 Oct / 1 Dec",
-      location: "Dubai",
-      trainer: "Neerja Handa",
-      type: "Clinical Hypnotherapy Level 3",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 3,
-      participants: "10 Seats",
-    },
-    {
-      id: 19,
-      name: "Level 3 | Advanced Modalities for Health Resolutions",
-      seats: 10,
-      date: "5-6 Dec",
-      location: "Lyfe Simply",
-      trainer: "Jacky",
-      type: "L3 day 2 Lyfe Simply",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 3,
-      participants: "10 Seats",
-    },
-    {
-      id: 20,
-      name: "Level 4 | Metaphysical Hypnosis Training",
-      seats: 10,
-      date: "5-6-7 Dec / 12-13-14 Dec",
-      location: "Abu Dhabi",
-      trainer: "Rajesh Singh",
-      type: "Level 4",
-      price: "AED 375",
-      currency: "AED",
-      priceValue: 15999,
-      level: 4,
-      participants: "10 Seats",
+  // const events = [
+  //     {
+  //       id: 1,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "28-29 Sep",
+  //       location: "Online",
+  //       trainer: "Dr swapnalei",
+  //       type: "Level 1",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Level 2 | Advanced Module for Behavioral Resolutions",
+  //       seats: 10,
+  //       date: "26-27-28 Sep & 3-4 Oct",
+  //       location: "Dubai",
+  //       trainer: "Ms Jacky Vrendra",
+  //       type: "Level 2",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "11-12 Oct",
+  //       location: "Abu Dhabi",
+  //       trainer: "Mitali & Dr. Sodhi",
+  //       type: "Level 1",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 4,
+  //       name: "Level 2 | Advanced Module for Behavioral Resolutions",
+  //       seats: 10,
+  //       date: "10-14 Oct",
+  //       location: "Dubai",
+  //       trainer: "Ms Neerja Handa",
+  //       type: "Level 1",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 5,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "11-12 Oct",
+  //       location: "Abu Dhabi",
+  //       trainer: "Ms Mitali & Dr. Sodhi",
+  //       type: "Level 1",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 6,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "12-13 Oct",
+  //       location: "Dubai",
+  //       trainer: "Dr Swapnalei",
+  //       type: "Level 1",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 7,
+  //       name: "Level 5 | Hypnosis Training through Integrated Healing",
+  //       seats: 10,
+  //       date: "16-17-18-19 Oct (20 Diwali Break) 21-22-23-24 Oct",
+  //       location: "Abu Dhabi",
+  //       trainer: "Yuvraj Kapadia",
+  //       type: "Level 5",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 5,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 8,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "18-19 Oct",
+  //       location: "Dubai",
+  //       trainer: "Ms Nisha Menon",
+  //       type: "Level 5",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 5,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 9,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "25-26 Oct",
+  //       location: "Dubai",
+  //       trainer: "Ms Neerja Handa",
+  //       type: "Level 5",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 5,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 10,
+  //       name: "Level 2 | Advanced Module for Behavioral Resolutions",
+  //       seats: 10,
+  //       date: "17-18-19 Oct / 25-26 Oct",
+  //       location: "Abu Dhabi",
+  //       trainer: "Gurbani Kaur",
+  //       type: "Level 2",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 2,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 11,
+  //       name: "Level 3 | Advanced Modalities for Health Resolutions",
+  //       seats: 10,
+  //       date: "17-18-19 Oct / 25-26 Oct",
+  //       location: "Abu Dhabi",
+  //       trainer: "Dr. Bassam",
+  //       type: "Level 3",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 3,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 12,
+  //       name: "Level 2 | Advanced Module for Behavioral Resolutions",
+  //       seats: 10,
+  //       date: "8-9 Nov",
+  //       location: "Dubai",
+  //       trainer: "Nisha",
+  //       type: "L2 day 1 & 2 Prana Dubai",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 2,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 13,
+  //       name: "Level 2 | Advanced Module for Behavioral Resolutions",
+  //       seats: 10,
+  //       date: "14-16 Nov",
+  //       location: "Dubai",
+  //       trainer: "Nisha",
+  //       type: "L2 day 3,4&5 Prana Dubai",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 2,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 14,
+  //       name: "Clinical Hypnotherapy - Level 2",
+  //       seats: 10,
+  //       date: "13-14-15-16-17 Nov",
+  //       location: "Dubai",
+  //       trainer: "Neerja Handa",
+  //       type: "Clinical Hypnotherapy Level 2",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 2,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 15,
+  //       name: "Level 3 | Advanced Modalities for Health Resolutions",
+  //       seats: 10,
+  //       date: "1-2 Nov / 7-8-9 Nov",
+  //       location: "Abu Dhabi",
+  //       trainer: "Rajesh Singh",
+  //       type: "Level 3",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 3,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 16,
+  //       name: "Level 1 | Basic Integrated Hypnosis Training",
+  //       seats: 10,
+  //       date: "15-16 Nov",
+  //       location: "Abu Dhabi",
+  //       trainer: "Mitali & Dr. Sodhi",
+  //       type: "Level 1",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 1,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 17,
+  //       name: "Level 3 | Advanced Modalities for Health Resolutions",
+  //       seats: 10,
+  //       date: "28-29-30 Nov",
+  //       location: "Lyfe Simply",
+  //       trainer: "Jacky",
+  //       type: "L3 day 1 Lyfe Simply",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 3,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 18,
+  //       name: "Clinical Hypnotherapy - Level 3",
+  //       seats: 10,
+  //       date: "27-28-29-30-31 Oct / 1 Dec",
+  //       location: "Dubai",
+  //       trainer: "Neerja Handa",
+  //       type: "Clinical Hypnotherapy Level 3",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 3,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 19,
+  //       name: "Level 3 | Advanced Modalities for Health Resolutions",
+  //       seats: 10,
+  //       date: "5-6 Dec",
+  //       location: "Lyfe Simply",
+  //       trainer: "Jacky",
+  //       type: "L3 day 2 Lyfe Simply",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 3,
+  //       participants: "10 Seats",
+  //     },
+  //     {
+  //       id: 20,
+  //       name: "Level 4 | Metaphysical Hypnosis Training",
+  //       seats: 10,
+  //       date: "5-6-7 Dec / 12-13-14 Dec",
+  //       location: "Abu Dhabi",
+  //       trainer: "Rajesh Singh",
+  //       type: "Level 4",
+  //       price: "AED 375",
+  //       currency: "AED",
+  //       priceValue: 15999,
+  //       level: 4,
+  //       participants: "10 Seats",
+  //     }
+  //   ];
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const fetchEvents = async () => {
+    setLoading(true);
+    try {
+      const response = await managedEventsService.getPublicEvents();
+      if (response.success) {
+        const registrationsData = Array.isArray(response.data?.data)
+          ? response.data.data
+          : [];
+        setEvents(registrationsData);
+        console.log(registrationsData, "registrationsData");
+      } else {
+        throw new Error(response.error || "Failed to fetch registrations");
+      }
+    } catch (err) {
+      console.error("Error fetching registrations:", err);
+      // setError(`Error: ${err.message}`);
+      // setRegistrations([]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+ ;
 
   const handleEnrollClick = (event) => {
     setSelectedEvent(event);
@@ -303,6 +329,9 @@ const events = [
     setShowRegistrationModal(false);
     setSelectedEvent(null);
   };
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   return (
     <div
@@ -487,16 +516,12 @@ const events = [
                         onClick={() => navigate(event.pagelink)}
                       >
                         <span className="text-sm font-bold text-[#2D2D2D] break-words">
-                          {event.name.includes("Training,") ? (
-                            <>
-                              {event.name.split("Training,")[0]}Training,
-                              <br />
-                              <span className="text-sm font-bold text-[#2D2D2D] break-words">
-                                {event.name.split("Training,")[1]}
-                              </span>
-                            </>
+                          {event?.level ? (
+                            <span className="text-sm font-bold text-[#2D2D2D] break-words">
+                              {event?.level}
+                            </span>
                           ) : (
-                            event.name
+                            event?.event
                           )}
                         </span>
                       </div>
@@ -504,40 +529,34 @@ const events = [
 
                     <td className="px-4 py-4">
                       <div className="text-sm text-[#2D2D2D] whitespace-nowrap">
-                        {event.date}
+                        {formatEventDateRange(event?.startDate, event?.endDate)}
                       </div>
                     </td>
                     <td className="px-4 py-4">
                       <div className="text-sm text-[#2D2D2D]">
-                        {event.location}
+                        {event?.location}
                       </div>
                     </td>
                     <td className="px-4 py-4">
                       <div className="text-sm text-[#2D2D2D]">
-                        {event.trainer || "-"}
+                        {event?.conductedBy || "-"}
                       </div>
                     </td>
                     <td className="px-4 py-4">
                       <div className="text-sm">
                         <span className={`px-2 py-1 rounded-full`}>
-                          {event.seats} seats
+                          {event?.totalParticipants} seats
                         </span>
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      {event.noenroll ? (
+                      {event?.noenroll ? (
                         <span className="text-sm text-[#2D2D2D]">-</span>
                       ) : (
                         <span
-                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            event.currency === "AED"
-                              ? "bg-blue-100 text-blue-800"
-                              : event.currency === "USD"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-yellow-100 text-yellow-800"
-                          }`}
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${"bg-blue-100 text-blue-800"}`}
                         >
-                          {event.price}
+                          AED {event?.programFees}
                         </span>
                       )}
                     </td>
@@ -569,3 +588,27 @@ const events = [
 }
 
 export default Practitioner;
+export const formatEventDateRange = (startDate, endDate) => {
+  if (!startDate || !endDate) return "";
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // Check if it's the same month
+  if (
+    start.getMonth() === end.getMonth() &&
+    start.getFullYear() === end.getFullYear()
+  ) {
+    return `${start.getDate()}-${end.getDate()} ${start.toLocaleString(
+      "default",
+      { month: "short" }
+    )}`;
+  } else {
+    // Different months
+    return `${start.getDate()} ${start.toLocaleString("default", {
+      month: "short",
+    })} - ${end.getDate()} ${end.toLocaleString("default", {
+      month: "short",
+    })}`;
+  }
+}

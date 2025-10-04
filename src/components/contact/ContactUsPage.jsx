@@ -55,7 +55,7 @@ const FORM_VALIDATION = {
   phoneNumber: { required: true, pattern: /^\+?[\d\s\-\(\)]{10,}$/ },
   country: { required: true },
   zipCode: { required: true, minLength: 3 },
-  message: { required: true, minLength: 0 },
+  message: { required: false, minLength: 0 },
   acceptPrivacyPolicy: { required: true },
 };
 
@@ -508,7 +508,6 @@ const ContactUsPage = () => {
                   onBlur={handleFieldBlur}
                   placeholder="Tell us how we can help you..."
                   error={touchedFields.message ? errors.message : ""}
-                  required
                   rows={5}
                 />
               </motion.div>
