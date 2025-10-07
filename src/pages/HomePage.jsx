@@ -18,7 +18,9 @@ function HomePage() {
         <HeroSection />
       </div>
       <div className="relative">
-        <VideoPlayer />
+        {/* <VideoPlayer /> */}
+
+        <img src="/hhme/WhatsApp Image 2025-10-07 at 22.33.47.jpeg" alt="hhme" className='object-contain' />
         {/* <div className="hidden lg:block absolute top-19 left-1/2 -translate-x-1/2 sm:top-20 sm:left-1/2 md:top-70 md:left-100 lg:top-130 lg:left-1/2 z-[999] pointer-events-none">
           <img src="/2.2.svg" alt="Leaf" />
         </div> */}
