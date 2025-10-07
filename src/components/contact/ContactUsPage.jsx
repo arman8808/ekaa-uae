@@ -41,6 +41,8 @@ const ANIMATION_CONFIG = {
 
 const COUNTRIES = [
   { value: "", label: "Select Country" },
+  { value: "Abu Dhabi", label: "Abu Dhabi" },
+  { value: "Dubai", label: "Dubai" },
   { value: "US", label: "United States" },
   { value: "IN", label: "India" },
   { value: "UK", label: "United Kingdom" },

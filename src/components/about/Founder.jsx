@@ -108,9 +108,9 @@ const Founder = () => {
           viewport={{ once: true }}
         >
           <img
-            src="/about/yuvraj.png"
+            src="/about/YUVRAJ SIR.jpg"
             alt="Dr. Yuvraj Kapadia"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </motion.div>
 
