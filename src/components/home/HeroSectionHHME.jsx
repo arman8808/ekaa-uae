@@ -28,7 +28,7 @@ function HeroSectionHHME() {
           </div>
           <div className="h-20 w-20 sm:h-28 sm:w-28 flex items-center justify-center">
             <img 
-              src="/hhme/Event Image 2.png" 
+              src="/hhme/WhatsApp Image 2025-10-07 at 22.34.23.jpeg" 
               alt="HHME Logo" 
               className="max-h-full max-w-full w-auto h-auto object-contain" 
             />
@@ -49,12 +49,12 @@ function HeroSectionHHME() {
         <div className="w-24 h-1 bg-white mb-8"></div>
 
         {/* Button */}
-        <button 
+        {/* <button 
           className="px-8 py-3 sm:px-10 sm:py-4 text-lg font-semibold text-white rounded-md transition-all hover:bg-[#8a3a96] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#6E2D79]"
           style={{ backgroundColor: "#6E2D79" }}
         >
           Explore Participation
-        </button>
+        </button> */}
       </div>
     </div>
   );

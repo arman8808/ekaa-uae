@@ -52,7 +52,7 @@ affecting your life.`,
   ];
 
   return (
-    <div className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+    <div className="bg-white py-16 px-4 sm:px-6 lg:px-8" id="signature_program">
       <div className="max-w-6xl mx-auto">
         {/* Section Title */}
         <h2

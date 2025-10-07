@@ -10,26 +10,32 @@ function VisionariesSectionHHME() {
   const visionaries = [
     {
       name: "Rajesh Singh",
+      title: "Founder & CEO",
       image: "/hhme/Rajesh Singh.webp",
     },
     {
       name: "Jacky vrendra",
+      title: "Founder",
       image: "/hhme/Jacky vrendra.webp",
     },
     {
       name: "Praveen Raghavan",
+      title: "Co-Founder",
       image: "/hhme/Praveen Raghavan.webp",
     },
     {
       name: "Dr. Rupinder Singh Sodhi",
+      title: "Founder",
       image: "/hhme/Dr. Rupinder Singh Sodhi.webp",
     },
     {
       name: "Dr Bassam Saab",
+      title: "Certified Hyponotherapist and Holistic energy Healer",
       image: "/hhme/Dr Bassam Saab.webp",
     },
     {
       name: "Dr. Niya Roy",
+      title: "Co-Founder",
       image: "/hhme/Dr. Niya Roy.webp",
     },
   ];
@@ -46,40 +52,53 @@ function VisionariesSectionHHME() {
         </h2>
 
         {/* Cards Container */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
           {visionaries.map((person, index) => (
             <motion.div
               key={index}
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 flex-1 overflow-hidden border border-gray-100"
+              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-[#6E2D79]/20 flex flex-col h-full"
               variants={bottomSlideVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
+              whileHover={{ y: -5 }}
             >
-              {/* Image with gradient overlay on hover */}
-              <div className="relative w-full aspect-[4/3] overflow-hidden bg-gradient-to-br from-purple-50 to-pink-50">
+              {/* Enhanced Image Container */}
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#6E2D79]/5 to-[#8a3d97]/10">
                 <img
                   src={person.image}
                   alt={person.name}
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700 ease-out"
                   loading="lazy"
+                  onError={(e) => {
+                    e.target.src = "/api/placeholder/400/300"; // Fallback image
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
 
-              {/* Content Area */}
-              <div className="p-5 sm:p-6 md:p-7 flex flex-col gap-4">
-                <div>
+              {/* Enhanced Content Area */}
+              <div className="p-6 sm:p-7 md:p-8 flex flex-col gap-4 flex-1">
+                {/* Name with decorative element */}
+                <div className="text-center">
                   <h3
-                    className="text-center text-xl sm:text-2xl font-bold mb-2 group-hover:translate-x-1 transition-transform duration-300"
+                    className="text-xl sm:text-2xl font-bold mb-3 group-hover:text-[#6E2D79] transition-colors duration-300"
                     style={{ color: "#6E2D79" }}
                   >
                     {person.name}
                   </h3>
-              
+
+                  {/* Decorative divider */}
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#6E2D79] to-transparent mx-auto mb-4 opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
 
-             
+                {/* Title with improved styling */}
+                {person.title && (
+                  <p className="text-center text-sm sm:text-base font-semibold text-gray-600 leading-tight mb-3 px-2">
+                    {person.title}
+                  </p>
+                )}
               </div>
             </motion.div>
           ))}
