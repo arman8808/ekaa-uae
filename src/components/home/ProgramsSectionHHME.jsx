@@ -9,7 +9,7 @@ const fadeInVariants = {
 function ProgramsSectionHHME() {
   const programs = [
     {
-      title: "Level 1-6 Trainings",
+      title: "Awaken the limitless Human Level 1 to 5",
       description:
         "Comprehensive certification program covering all aspects of subconscious reprogramming and integrative healing.",
       duration: "5 Days",
@@ -28,7 +28,7 @@ subconscious mind.`,
       image: "/hhme/Background (1).png",
     },
     {
-      title: "Inner Child Healing",
+      title: "Born Again - Inner Child Healing",
       description: `Transformative process
 to reconnect with and
 heal your inner child for
