@@ -12,8 +12,8 @@ function ProgramsSectionHHME() {
       title: "Awaken the limitless Human Level 1 to 5",
       description:
         "Comprehensive certification program covering all aspects of subconscious reprogramming and integrative healing.",
-      duration: "5 Days",
-      // price: "AED 3,500",
+      // duration: "5 Days",
+      price: "AED 3,500",
       image: "/hhme/Background.png",
     },
     {
