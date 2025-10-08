@@ -10,32 +10,32 @@ function VisionariesSectionHHME() {
   const visionaries = [
     {
       name: "Rajesh Singh",
-      title: "Founder & CEO",
+      title: "Founder & CEO - Happiness soulutions",
       image: "/hhme/Rajesh Singh.webp",
     },
     {
       name: "Jacky vrendra",
-      title: "Founder",
+      title: "Founder - lyfe simply",
       image: "/hhme/Jacky vrendra.webp",
     },
     {
       name: "Praveen Raghavan",
-      title: "Co-Founder",
+      title: "Co-Founder - Prana Wellbeing Center",
       image: "/hhme/Praveen Raghavan.webp",
     },
     {
       name: "Dr. Rupinder Singh Sodhi",
-      title: "Founder",
+      title: "Founder - Nograa Awakening",
       image: "/hhme/Dr. Rupinder Singh Sodhi.webp",
     },
     {
       name: "Dr Bassam Saab",
-      title: "Certified Hyponotherapist and Holistic energy Healer",
+      title: "Certified Hyponotherapist and Holistic energy Healer - The Inner Science Foundation",
       image: "/hhme/Dr Bassam Saab.webp",
     },
     {
       name: "Dr. Niya Roy",
-      title: "Co-Founder",
+      title: "Co-Founder - Aries Clinic & Am Health Club",
       image: "/hhme/Dr. Niya Roy.webp",
     },
   ];
