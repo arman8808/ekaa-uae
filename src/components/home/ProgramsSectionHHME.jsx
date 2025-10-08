@@ -49,6 +49,17 @@ affecting your life.`,
       price: "AED 1,800",
       image: "/hhme/Background (3).png",
     },
+//     {
+//       title: `Decode`,
+//       description: `Powerful method to
+// reveal and resolve
+// hidden family and
+// systemic dynamics
+// affecting your life.`,
+//       // duration: "2 Days",
+//       price: "AED 1,800",
+//       image: "/hhme/Background (3).png",
+//     },
   ];
 
   return (
@@ -82,7 +93,7 @@ affecting your life.`,
                   className="h-[5rem] w-[5rem]"
                 />
                 <h3
-                  className="text-[22px] font-normal mb-4"
+                  className="text-[22px] font-normal mb-4 text-center"
                   style={{ color: "#6E2D79" }}
                 >
                   {program.title}
