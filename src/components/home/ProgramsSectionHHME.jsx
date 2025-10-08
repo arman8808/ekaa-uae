@@ -13,7 +13,7 @@ function ProgramsSectionHHME() {
       description:
         "Comprehensive certification program covering all aspects of subconscious reprogramming and integrative healing.",
       duration: "5 Days",
-      price: "AED 3,500",
+      // price: "AED 3,500",
       image: "/hhme/Background.png",
     },
     {
@@ -23,7 +23,7 @@ approach for accessing
 and healing past
 traumas stored in the
 subconscious mind.`,
-      duration: "3 Days",
+      // duration: "3 Days",
       price: "AED 2,500",
       image: "/hhme/Background (1).png",
     },
@@ -33,7 +33,7 @@ subconscious mind.`,
 to reconnect with and
 heal your inner child for
 emotional freedom.`,
-      duration: "2 Days",
+      // duration: "2 Days",
       price: "AED 1,800",
       image: "/hhme/Background (2).png",
     },
@@ -45,7 +45,7 @@ reveal and resolve
 hidden family and
 systemic dynamics
 affecting your life.`,
-      duration: "2 Days",
+      // duration: "2 Days",
       price: "AED 1,800",
       image: "/hhme/Background (3).png",
     },
