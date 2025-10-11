@@ -38,7 +38,7 @@ const FamilySessionForm = ({ onClose, availableSessions, selectedSession }) => {
   };
 
   const onSubmit = (data) => {
-    console.log("Form submitted:", data);
+    // console.log("Form submitted:", data);
     // Add your form submission logic here
     reset();
     setFamilyMembers([{ name: "" }]);

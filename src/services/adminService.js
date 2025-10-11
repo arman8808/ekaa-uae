@@ -4,7 +4,7 @@ export const adminService = {
   // Admin Login
   login: async (credentials) => {
     try {
-      console.log("Admin login service called with credentials:", credentials);
+ 
       
       const response = await apiService.post('admin/login', credentials);
       

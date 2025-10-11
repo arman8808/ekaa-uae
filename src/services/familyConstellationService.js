@@ -43,8 +43,7 @@ export const familyConstellationService = {
   },
   submitRegistration: async (formData) => {
     try {
-      console.log("Registration service called with formData:", formData);
-
+     
       // Convert FormData to JSON object for the API with proper data types
       const jsonData = {};
       for (let [key, value] of formData.entries()) {
@@ -58,8 +57,6 @@ export const familyConstellationService = {
         }
       }
 
-      console.log("Converted to JSON with proper types:", jsonData);
-
       // Send as JSON instead of FormData
       const config = {
         headers: {
@@ -67,10 +64,7 @@ export const familyConstellationService = {
         },
       };
 
-      console.log(
-        "Making API call to /family-constellation with config:",
-        config
-      );
+     
       const response = await apiService.post(
         "/family-constellation",
         jsonData,

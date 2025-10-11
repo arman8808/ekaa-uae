@@ -292,15 +292,11 @@ const HypnotherapyPage = () => {
   // Open edit modal with program data
   const openEditModal = (program) => {
     try {
-      console.log("=== openEditModal called ===");
-      console.log("Program data:", program);
-      console.log("Current showModal state:", showModal);
-      console.log("Current currentProgram state:", currentProgram);
+  
       
       // Set current program first
       setCurrentProgram(program);
-      console.log("setCurrentProgram called");
-      
+    
       // Set basic form values with error handling
       try {
         setValue("title", program.title || "");
@@ -349,13 +345,12 @@ const HypnotherapyPage = () => {
       // Handle upcoming events with error handling
       try {
         const convertedEvents = program.upcomingEvents?.map(event => {
-          console.log("Processing event:", event);
+       
           
           // If event already has startDate and endDate, convert them to datetime-local format
           if (event.startDate && event.endDate) {
             try {
-              console.log("Event has startDate/endDate:", event.startDate, event.endDate);
-              
+        
               // Convert to datetime-local format (YYYY-MM-DDTHH:MM)
               const startDate = new Date(event.startDate);
               const endDate = new Date(event.endDate);
@@ -363,7 +358,7 @@ const HypnotherapyPage = () => {
               const formattedStartDate = startDate.toISOString().slice(0, 16);
               const formattedEndDate = endDate.toISOString().slice(0, 16);
               
-              console.log("Formatted dates:", formattedStartDate, formattedEndDate);
+        
               
               return {
                 ...event,
@@ -383,7 +378,7 @@ const HypnotherapyPage = () => {
           // If event has old date format, convert it
           if (event.date && !event.startDate) {
             try {
-              console.log("Converting old date format:", event.date);
+        
               const eventDate = new Date(event.date);
               const endDate = new Date(eventDate);
               endDate.setHours(eventDate.getHours() + 2);
@@ -391,7 +386,7 @@ const HypnotherapyPage = () => {
               const formattedStartDate = eventDate.toISOString().slice(0, 16);
               const formattedEndDate = endDate.toISOString().slice(0, 16);
               
-              console.log("Converted old format dates:", formattedStartDate, formattedEndDate);
+         
               
               const convertedEvent = {
                 ...event,
@@ -399,7 +394,7 @@ const HypnotherapyPage = () => {
                 endDate: formattedEndDate,
                 date: undefined
               };
-              console.log("Converted event:", convertedEvent);
+         
               return convertedEvent;
             } catch (dateError) {
               console.error("Error converting date:", dateError);
@@ -413,7 +408,7 @@ const HypnotherapyPage = () => {
           
           // If event has no dates, create empty ones
           if (!event.startDate && !event.endDate && !event.date) {
-            console.log("Event has no dates, creating empty ones");
+           
             return {
               ...event,
               startDate: "",
@@ -445,16 +440,13 @@ const HypnotherapyPage = () => {
           
           return event;
         }) || [];
-        
-        console.log("Final converted events:", convertedEvents);
+      
         setValue("upcomingEvents", convertedEvents);
         
         // Debug: Check what was actually set in the form
         setTimeout(() => {
           const formEvents = watch("upcomingEvents");
-          console.log("Form events after setValue:", formEvents);
-          console.log("Form events startDate values:", formEvents?.map(e => e.startDate));
-          console.log("Form events endDate values:", formEvents?.map(e => e.endDate));
+
         }, 100);
       } catch (error) {
         console.error("Error setting upcoming events:", error);
@@ -472,15 +464,13 @@ const HypnotherapyPage = () => {
         console.error("Error setting thumbnail:", error);
         setThumbnailPreview(null);
       }
-      
-      console.log("About to set showModal to true");
+
       setShowModal(true);
-      console.log("setShowModal(true) called");
+   
       
       // Check state after a short delay
       setTimeout(() => {
-        console.log("After timeout - showModal should be true");
-        console.log("Current showModal state:", showModal);
+   
       }, 100);
       
     } catch (error) {
@@ -600,11 +590,7 @@ const HypnotherapyPage = () => {
     }
   }, [navigate]);
 
-  // Monitor modal state changes for debugging
-  useEffect(() => {
-    console.log("Modal state changed - showModal:", showModal);
-    console.log("Current program:", currentProgram);
-  }, [showModal, currentProgram]);
+
 
   // Loading state
   if (loading) {
@@ -898,8 +884,7 @@ const HypnotherapyPage = () => {
                         </div>
                         <div className="ml-9 space-y-3">
                           {program.cardPoints.map((point, pointIdx) => {
-                            console.log(`Card Point ${pointIdx}:`, point);
-                            console.log(`Card Point ${pointIdx} HTML:`, point);
+                           
                             return (
                               <div key={pointIdx} className="bg-gray-50 p-3 rounded-lg">
                                                               <div 
@@ -1025,13 +1010,9 @@ const HypnotherapyPage = () => {
                   <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                     <button
                       onClick={() => {
-                        console.log("=== Edit button clicked ===");
-                        console.log("Program being edited:", program);
-                        console.log("Program ID:", program._id);
-                        console.log("Program title:", program.title);
-                        console.log("About to call openEditModal");
+                       
                         openEditModal(program);
-                        console.log("openEditModal called");
+                       
                       }}
                       className="bg-[#6E2D79] text-white px-4 py-2 rounded-lg hover:bg-[#5C2166] transition-colors flex items-center space-x-2"
                     >
@@ -1129,7 +1110,7 @@ const HypnotherapyPage = () => {
                   </h2>
                   <button
                     onClick={() => {
-                      console.log("Closing modal");
+                
                       setShowModal(false);
                     }}
                     className="text-white hover:text-gray-200 text-2xl"

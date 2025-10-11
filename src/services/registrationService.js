@@ -9,7 +9,6 @@ export const registrationService = {
    */
   submitRegistration: async (formData) => {
     try {
-      console.log("Registration service called with formData:", formData);
       
       // Convert FormData to JSON object for the API with proper data types
       const jsonData = {};
@@ -24,8 +23,7 @@ export const registrationService = {
         }
       }
       
-      console.log("Converted to JSON with proper types:", jsonData);
-      
+    
       // Send as JSON instead of FormData
       const config = {
         headers: {
@@ -33,7 +31,6 @@ export const registrationService = {
         },
       };
 
-      console.log("Making API call to /awakenLimitlessHuman with config:", config);
       const response = await apiService.post('/awakenLimitlessHuman', jsonData, config);
       
       if (response.success) {
@@ -215,8 +212,7 @@ export const registrationService = {
       }).toString();
       
       const url = `/awakenLimitlessHuman?${queryParams}`;
-      
-      console.log("Fetching awakenLimitlessHuman registrations from:", url);
+     
       const response = await apiService.get(url);
       
       if (response.success) {

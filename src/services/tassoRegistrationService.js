@@ -55,7 +55,7 @@ export const tassoRegistrationService = {
   },
   submitRegistration: async (formData) => {
     try {
-      console.log("Registration service called with formData:", formData);
+
 
       // Convert FormData to JSON object for the API with proper data types
       const jsonData = {};
@@ -70,8 +70,6 @@ export const tassoRegistrationService = {
         }
       }
 
-      console.log("Converted to JSON with proper types:", jsonData);
-
       // Send as JSON instead of FormData
       const config = {
         headers: {
@@ -79,10 +77,7 @@ export const tassoRegistrationService = {
         },
       };
 
-      console.log(
-        "Making API call to /tasso-registration with config:",
-        config
-      );
+   
       const response = await apiService.post(
         "/tasso-registration",
         jsonData,

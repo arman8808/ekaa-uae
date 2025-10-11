@@ -49,8 +49,22 @@ export const managedEventsService = {
   },
   getPublicEvents: async () => {
     try {
-      
       const url = `/managed-events/public/list`;
+      const response = await apiService.get(url);
+      if (response.success) {
+        return { success: true, data: response.data };
+      }
+      return { success: false, error: response.error };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || "Failed to fetch events",
+      };
+    }
+  },
+  getPublicFamilyConsitalationEvents: async () => {
+    try {
+      const url = `/managed-events/public/list/family-consitalation`;
       const response = await apiService.get(url);
       if (response.success) {
         return { success: true, data: response.data };

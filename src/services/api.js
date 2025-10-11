@@ -10,12 +10,6 @@ const API_CONFIG = {
 };
 
 // Debug: Log the API configuration
-console.log('API Configuration loaded:', {
-  baseURL: API_CONFIG.baseURL,
-  timeout: API_CONFIG.timeout,
-  env: import.meta.env.VITE_API_BASE_URL,
-  fallback: 'http://localhost:8001/api/'
-});
 
 // Create axios instance
 const apiClient = axios.create(API_CONFIG);
@@ -23,7 +17,7 @@ const apiClient = axios.create(API_CONFIG);
 // Request Interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    console.log('Request Interceptor triggered');
+   
     
     // Add auth token if available
     const token = localStorage.getItem('authToken');
@@ -31,14 +25,7 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Log request for debugging
-    console.log('API Request:', {
-      method: config.method?.toUpperCase(),
-      url: config.url,
-      data: config.data,
-      headers: config.headers,
-    });
-
+    
     return config;
   },
   (error) => {
@@ -51,12 +38,7 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => {
     // Log successful response for debugging
-    console.log('API Response:', {
-      status: response.status,
-      url: response.config.url,
-      data: response.data,
-    });
-
+    
     return response;
   },
   (error) => {
@@ -130,16 +112,10 @@ export const apiService = {
   // Generic POST request
   post: async (url, data = {}, config = {}) => {
     try {
-      console.log("API service POST called with:", { url, data, config });
-      
-      // Log the actual data being sent
-      if (typeof data === 'object') {
-        console.log("Data being sent (keys):", Object.keys(data));
-        console.log("Data being sent (values):", Object.values(data));
-      }
+    
+   
       
       const response = await apiClient.post(url, data, config);
-      console.log("API service POST response:", response);
       return {
         success: true,
         data: response.data,

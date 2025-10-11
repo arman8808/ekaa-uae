@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Testimonials from "../components/home/Testimonials";
@@ -6,9 +6,37 @@ import FAQ from "../components/home/FAQ";
 import ProfileCard from "../components/utils/ProfileCard";
 import UpcomingSessions from "../components/utils/UpcomingSessions";
 import HeroSection from "../components/utils/HeroSection";
+import managedEventsService from "../services/managedEventsService";
 function FamilyConstellation() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const fetchEvents = async () => {
+    setLoading(true);
+    try {
+      const response = await managedEventsService.getPublicFamilyConsitalationEvents();
+      if (response.success) {
+        const registrationsData = Array.isArray(response.data?.data)
+          ? response.data.data
+          : [];
+        setEvents(registrationsData);
+        // console.log(registrationsData, "registrationsData");
+      } else {
+        throw new Error(response.error || "Failed to fetch registrations");
+      }
+    } catch (err) {
+      console.error("Error fetching registrations:", err);
+      // setError(`Error: ${err.message}`);
+      // setRegistrations([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchEvents();
+  }, []);
   return (
-   <div>
+    <div>
       {" "}
       <Header />
       <HeroSection
@@ -20,9 +48,7 @@ function FamilyConstellation() {
           </div>
         }
         contentPosition="above"
-        videoUrl={`${
-          import.meta.env.VITE_API_Cloud_Front_URL
-        }FC/FC.mp4`}
+        videoUrl={`${import.meta.env.VITE_API_Cloud_Front_URL}FC/FC.mp4`}
         thumbnailUrl="/Fc/FC_image.png"
       />
       <div
@@ -43,7 +69,7 @@ function FamilyConstellation() {
         </div>
       </div>
       <ProfileCard />
-      {/* <UpcomingSessions /> */}
+      <UpcomingSessions events={events}/>
       {/* <FAQ /> */}
       <Testimonials />
       <Footer />

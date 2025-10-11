@@ -140,7 +140,7 @@ const ManageEvents = () => {
   };
 
   const openEditModal = (row) => {
-    console.log(row,'row');
+
     setEditingEventId(row._id);
     setForm({
       eventName: row.event || row.eventName || '',

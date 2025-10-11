@@ -656,10 +656,7 @@ const FamilyConstellationPage = () => {
                               const start = new Date(startDate);
                               const end = new Date(value);
                               
-                              // Debug logging
-                              console.log("Validation - Start Date:", startDate, "Parsed:", start);
-                              console.log("Validation - End Date:", value, "Parsed:", end);
-                              console.log("Comparison:", end <= start, "End <= Start");
+                         
                               
                               // Check if dates are valid
                               if (isNaN(start.getTime()) || isNaN(end.getTime())) {

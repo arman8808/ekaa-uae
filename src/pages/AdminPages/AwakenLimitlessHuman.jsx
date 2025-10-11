@@ -240,7 +240,7 @@ const AwakenLimitlessHuman = () => {
 
   // If not authenticated, don't render anything (will redirect)
   if (!adminUtils.isLoggedIn()) {
-    console.log('Not authenticated, returning null');
+   
     return null;
   }
 
