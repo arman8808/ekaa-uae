@@ -3,63 +3,12 @@ import React from "react";
 import FamilySessionForm from "./FamilySessionForm";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatEventDateRange } from "../../pages/Practitioner";
+import { useNavigate } from "react-router-dom";
 const UpcomingSessions = ({ events }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
-  const sessions = [
-    {
-      id: 1,
-      Event: "FC-10 People",
-      Date: "Aug 12, 2025",
-      Location: "Houston",
-      capacity: "10 Seats",
-      organisedby: "Dr Aiyasawmy's A/C",
-      // price: "$ 375",
-      status: "Open",
-    },
-    {
-      id: 2,
-      Event: "Decode Foundation",
-      Date: "FC With PTI",
-      Location: "Houston",
-      capacity: "10 Seats",
-      organisedby: "Dr Aiyasawmy's A/C",
-      // price: "$ 375",
-      status: "Open",
-    },
-    {
-      id: 3,
-      Event: "FC (batches of 10)",
-      Date: "Aug 22, 2025",
-      Location: "Austin",
-      capacity: "10 Seats",
-      organisedby: "Dr Manoj's A/C",
-      // price: "$ 375",
-      status: "Open",
-    },
-    {
-      id: 4,
-      Event: "FC (separate batches of 10)",
-      Date: "Aug 23, 2025",
-      Location: "Austin",
-      capacity: "10 Seats",
-      organisedby: "Dr Manoj's A/C",
-      // price: "$ 375",
-      status: "Open",
-    },
-    {
-      id: 5,
-      Event: "FC - limit 10 participants",
-      Date: "Aug 28, 2025",
-      Location: "Woodlands",
-      capacity: "10 Seats",
-      organisedby: "Dr Manoj's A/C",
-      // price: "$ 375",
-      status: "Open",
-    },
-  ];
-
+  const navigate = useNavigate();
   const handleEnroll = (session) => {
     setSelectedWorkshop(session);
     setSelectedSession(session);
@@ -93,7 +42,8 @@ const UpcomingSessions = ({ events }) => {
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wider w-40">
                       Conducted By
-                    </th>
+                    </th>{" "}
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wider w-40"></th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-[#C183B2]">
@@ -124,6 +74,15 @@ const UpcomingSessions = ({ events }) => {
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-[#6E2D79]">
                         {session.conductedBy}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-base">
+                        <button
+                          onClick={() => navigate("/practitioner")}
+                          className="px-4 py-2 bg-[#6E2D79] text-white rounded-lg hover:bg-[#8a3c97] transition-colors shadow-sm text-base cursor-pointer"
+                          title={"Click to enroll in this session"}
+                        >
+                          Enroll Now
+                        </button>
                       </td>
                     </tr>
                   ))}

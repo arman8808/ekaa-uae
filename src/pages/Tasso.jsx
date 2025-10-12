@@ -138,7 +138,7 @@ const modulesData = [
   }
 ];
   const courseInfo = {
-    price: "USD 1,500",
+    price: "AED 1,500",
     nextSession: "15th September 2024",
     enrollmentFeatures: [
       "Lifetime access to materials",
@@ -237,7 +237,7 @@ const modulesData = [
                   </div>
 
                   {/* Resources */}
-                  {module.resources && module.resources.length > 0 && (
+                  {/* {module.resources && module.resources.length > 0 && (
                     <div>
                       <h3 className="text-[#6E2D79] font-semibold text-lg sm:text-xl mb-4">
                         Resources:
@@ -259,7 +259,7 @@ const modulesData = [
                         ))}
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             ))}
