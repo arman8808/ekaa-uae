@@ -23,7 +23,7 @@ function HomePage() {
         <img
           src="/hhme/WhatsApp Image 2025-10-07 at 22.33.47.jpeg"
           alt="hhme"
-          className="object-contain m-4"
+          className="object-contain w-full m-auto"
         />
 
         <div className="relative">
