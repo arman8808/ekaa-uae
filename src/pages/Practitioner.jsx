@@ -262,7 +262,9 @@ function Practitioner() {
                     <td className="px-4 py-4">
                       <div className="text-sm">
                         <span className={`px-2 py-1 rounded-full`}>
-                          {event?.totalParticipants} seats
+                          {event?.totalParticipants !== 0
+                            ? `${event?.totalParticipants} seats`
+                            : "-"}
                         </span>
                       </div>
                     </td>
