@@ -195,7 +195,7 @@ const ManageEvents = () => {
     if (!form.location) errors.location = 'Location is required';
     if (!form.conductedBy) errors.conductedBy = 'Conducted By is required';
     if (form.totalParticipants !== '' && Number(form.totalParticipants) < 0) errors.totalParticipants = 'Total participants cannot be negative';
-    if (!form.programFees && form.programFees !== 0) errors.programFees = 'Program fees is required';
+    // if (!form.programFees && form.programFees !== 0) errors.programFees = 'Program fees is required';
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
     const payload = {
@@ -495,7 +495,6 @@ const ManageEvents = () => {
                       type="text"
                       value={form.programFees}
                       onChange={(e) => setForm((f) => ({ ...f, programFees: e.target.value }))}
-                      required
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none"
                     />
                     {formErrors.programFees && (<p className="text-sm text-red-600">{formErrors.programFees}</p>)}

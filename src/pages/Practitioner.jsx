@@ -275,7 +275,8 @@ function Practitioner() {
                         <span
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${"bg-blue-100 text-blue-800"}`}
                         >
-                          AED {event?.programFees}
+                         {event?.programFees!==""? `${event?.programFees} AED` :"TBD"}
+                         {/* {event?.programFees?.length>0? `${event?.programFees} AED` :"TBD"} */}
                         </span>
                       )}
                     </td>
