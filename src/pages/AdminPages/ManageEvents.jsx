@@ -218,7 +218,7 @@ const ManageEvents = () => {
       return;
     }
     setShowModal(false);
-    fetchEvents(1);
+    fetchEvents(currentPage);
   };
 
   if (!adminUtils.isLoggedIn()) {
