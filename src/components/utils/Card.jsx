@@ -56,7 +56,7 @@ behavioural challenges`,
 emotional, physical, and personal domains, enabling therapists to facilitate
 deeper healing interventions`,
     ],
-    duration: "5 Day AED 468",
+    duration: "5 Day AED 4684",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:

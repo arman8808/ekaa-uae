@@ -39,7 +39,7 @@ const courseData = [
       "The interplay between thoughts & emotions as a prelude to our behaviour",
       "Body syndromes – the association between repressed emotional pain and body breakdown",
     ],
-    duration: "2 Day",
+    duration: "5 Day",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
@@ -58,7 +58,7 @@ const courseData = [
       "The Paradigms of Human Behaviour Response – Physical & Emotional Sexuality",
       "A blueprint to understand & heal our relationships with our partners",
     ],
-    duration: "2 Day",
+    duration: "5 Day",
     skill: "All levels",
     buttonText: "Enroll Now",
     videoSrc:
