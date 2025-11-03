@@ -86,7 +86,7 @@ const Footer = () => {
           </span>
 
           <span className="bg-white rounded-[50%] p-2 cursor-pointer hover:bg-[#f0f0f0] transition-colors">
-            <a href="#" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/company/ekaa-institute/" target="_blank" rel="noopener noreferrer">
               {" "}
               <IoLogoLinkedin className="text-[#6E2D79] text-xl cursor-pointer" />
             </a>{" "}
