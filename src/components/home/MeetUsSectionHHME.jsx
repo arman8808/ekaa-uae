@@ -52,7 +52,7 @@ function MeetUsSectionHHME() {
 
           {/* Button */}
           <button
-            onClick={() => navigate("/practitioner")}
+            onClick={() => navigate("/schedule")}
             className="px-8 py-3 rounded-md font-semibold text-lg transition-all duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white w-fit"
             style={{
               color: "#6E2D79",

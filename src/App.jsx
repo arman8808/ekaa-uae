@@ -63,7 +63,7 @@ function App() {
         <Route path="/decode" element={<DecodePage />} />
         <Route path="/family-constellation" element={<FamilyConstellation />} />
         <Route path="/tasso" element={<Tasso />} />
-        <Route path="/practitioner" element={<Practitioner />} />
+        <Route path="/schedule" element={<Practitioner />} />
         <Route path="/hhme" element={<HHME />} />
         <Route path="/ich" element={<ICH />} />
         <Route path="/ich/levels" element={<ICHLevels />} />
