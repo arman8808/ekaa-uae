@@ -4,8 +4,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import DecodeComponent from "../components/home/DecodeComponent";
 import Testimonials from "../components/home/Testimonials";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate =useNavigate()
   return (
     <>
       <div
@@ -23,7 +25,8 @@ function HomePage() {
         <img
           src="/hhme/WhatsApp Image 2025-10-07 at 22.33.47.jpeg"
           alt="hhme"
-          className="object-contain w-full m-auto"
+          className="object-contain w-full m-auto cursor-pointer"
+          onClick={()=>{navigate('/hhme')}}
         />
 
         <div className="relative">

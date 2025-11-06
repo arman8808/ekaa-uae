@@ -8,114 +8,182 @@ function Usateamsection() {
       name: "Essentia Wellbeing Center",
       location: "UAE",
       contacts: [
-        { name: "Zankhana Mistry", phone: "+971 56 681 2701", email: "Zankhana@essentiawellbeing.com" }
-      ]
+        {
+          name: "Zankhana Mistry",
+          phone: "+971 56 681 2701",
+          email: "Zankhana@essentiawellbeing.com",
+        },
+      ],
     },
     {
       id: 2,
       name: "Prana Wellness Center",
       location: "UAE and India",
       contacts: [
-        { name: "Nisha Menon", phone: "+971504170465", email: "nishasmet@gmail.com" },
-        { name: "Praveen Raghavan", phone: "+971501130315", email: "Mrpraveen3@gmail.com" }
-      ]
+        {
+          name: "Nisha Menon",
+          phone: "+971504170465",
+          email: "nishasmet@gmail.com",
+        },
+        {
+          name: "Praveen Raghavan",
+          phone: "+971501130315",
+          email: "Mrpraveen3@gmail.com",
+        },
+      ],
     },
     {
       id: 3,
       name: "The Inner Sciences Foundation",
       location: "UAE, Lebanon",
       contacts: [
-        { name: "Dr. Bassam Saab", phone: "+971506412480", email: "bassam_saab@hotmail.com" }
-      ]
+        {
+          name: "Dr. Bassam Saab",
+          phone: "+971506412480",
+          email: "bassam_saab@hotmail.com",
+        },
+      ],
     },
     {
       id: 4,
       name: "Healing Hands",
       location: "India and Dubai",
       contacts: [
-        { name: "Neerja Handa", phone: "+91-9811157333, +971-585262600", email: "neerjahanda@yahoo.co.in" }
-      ]
+        {
+          name: "Neerja Handa",
+          phone: "+91-9811157333, +971-585262600",
+          email: "neerjahanda@yahoo.co.in",
+        },
+      ],
     },
     {
       id: 5,
       name: "Aries Clinic & AM Health Hub",
       location: "Dubai",
       contacts: [
-        { name: "Dr. Niya Sohan Roy", phone: "+971501440753", email: "Nsr1g13@gmail.com" }
-      ]
+        {
+          name: "Dr. Niya Sohan Roy",
+          phone: "+971501440753",
+          email: "Nsr1g13@gmail.com",
+        },
+      ],
     },
     {
       id: 6,
       name: "Lyfe Simply",
       location: "UAE",
+      image: "/about/lyfe.jpeg",
       contacts: [
-        { name: "Jacky Vrendra", phone: "+971505250093", email: "justbejacky@gmail.com" }
-      ]
+        {
+          name: "Jacky Vrendra",
+          phone: "+971505250093",
+          email: "justbejacky@gmail.com",
+        },
+      ],
     },
     {
       id: 7,
       name: "Mariya Vazharzka",
       location: "Dubai, UAE",
       contacts: [
-        { name: "Mariya Vazharzka", phone: "+971 50 552 1720", email: "mariya_vazharska@yahoo.com" }
-      ]
+        {
+          name: "Mariya Vazharzka",
+          phone: "+971 50 552 1720",
+          email: "mariya_vazharska@yahoo.com",
+        },
+      ],
     },
     {
       id: 8,
       name: "Rita Antyppa",
       location: "Dubai, UAE",
       contacts: [
-        { name: "Rita Antyppa", phone: "+971565491712", email: "rita.antipa@hotmail.com" }
-      ]
+        {
+          name: "Rita Antyppa",
+          phone: "+971565491712",
+          email: "rita.antipa@hotmail.com",
+        },
+      ],
     },
     {
       id: 9,
       name: "Swasthye Sankalp",
       location: "Abu Dhabi, UAE",
       contacts: [
-        { name: "Dr. Swapnalei Dhabolkar", phone: "+971508682983", email: "drswapnalidabholkar@yahoo.com" }
-      ]
+        {
+          name: "Dr. Swapnalei Dhabolkar",
+          phone: "+971508682983",
+          email: "drswapnalidabholkar@yahoo.com",
+        },
+      ],
     },
     {
       id: 10,
-      name: "Happiness Solutions",
+      name: "Antarmann by Happiness Solutions",
       location: "UAE and India",
       contacts: [
-        { name: "Rajesh J Singh", phone: "+971 58 109 7786 (UAE), +91 98921 41400 (India)", email: "happiness.soulutions.llc@gmail.com" },
-        { name: "Gurbani Kaur", phone: "+971 58 628 1291 (UAE), +91 91401 69115 (India)", email: "neghagurbani@gmail.com" }
-      ]
+        {
+          name: "Rajesh J Singh",
+          phone: "+971 58 109 7786 (UAE), +91 98921 41400 (India)",
+          email: "happiness.soulutions.llc@gmail.com",
+        },
+        {
+          name: "Gurbani Kaur",
+          phone: "+971 58 628 1291 (UAE), +91 91401 69115 (India)",
+          email: "neghagurbani@gmail.com",
+        },
+      ],
     },
     {
       id: 11,
       name: "Mograa Awakenings",
       location: "Abu Dhabi, UAE",
+      image: "/about/mograa.jpeg",
       contacts: [
-        { name: "Dr. Rupinder Sodhi", phone: "+971 558573267", email: "drsodhi@mograaawakkenings.com" },
-        { name: "Mitali Akarte", phone: "+971 586891604", email: "mitali@mograaawakkenings.com" }
-      ]
-    }
+        {
+          name: "Dr. Rupinder Sodhi",
+          phone: "+971 558573267",
+          email: "drsodhi@mograaawakkenings.com",
+        },
+        {
+          name: "Mitali Akarte",
+          phone: "+971 586891604",
+          email: "mitali@mograaawakkenings.com",
+        },
+      ],
+    },
   ];
 
   return (
-  <div className="bg-white px-4 sm:px-6 lg:px-12 pt-8 pb-6">
+    <div className="bg-white px-4 sm:px-6 lg:px-12 pt-8 pb-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           {/* <h2 className="text-4xl font-bold text-[#A35F93] mb-3">Our Wellness Partners</h2> */}
-      
         </div>
 
         <div className="space-y-8">
           {contacts.map((org) => (
-            <div key={org.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-[#f0f0f0] hover:shadow-xl transition-shadow duration-300">
+            <div
+              key={org.id}
+              className="bg-white rounded-xl shadow-lg overflow-hidden border border-[#f0f0f0] hover:shadow-xl transition-shadow duration-300"
+            >
               <div className="flex flex-col md:flex-row">
                 {/* Organization Image - Enhanced with subtle animation */}
                 <div className="md:w-2/5 p-6 flex justify-center items-center bg-[#faf9fc] hover:bg-[#f5f0f9] transition-colors duration-300">
                   <div className="bg-gradient-to-br from-[#f5eef9] to-[#e8def1] rounded-xl w-full h-64 flex items-center justify-center shadow-inner">
-                    <div className="bg-white rounded-full w-40 h-40 flex items-center justify-center border-4 border-[#e0d4e9] transform hover:scale-105 transition-transform duration-300">
-                      <span className="text-[#A35F93] text-5xl font-bold">
-                        {org.name.charAt(0)}
-                      </span>
-                    </div>
+                    {org?.image ? (
+                      <img
+                        src={org?.image}
+                        alt={"logo"}
+                        className="w-40 h-40 object-contain rounded-full border-4 border-[#e0d4e9] transform hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="bg-white rounded-full w-40 h-40 flex items-center justify-center border-4 border-[#e0d4e9] transform hover:scale-105 transition-transform duration-300">
+                        <span className="text-[#A35F93] text-5xl font-bold">
+                          {org.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -152,9 +220,12 @@ function Usateamsection() {
 
                   <div className="mb-8">
                     <p className="text-[#555] leading-relaxed">
-                      {org.name} offers comprehensive wellness programs blending ancient wisdom with modern science. 
-                      Our certified practitioners provide personalized care through integrative approaches including 
-                      meditation, yoga therapy, and nutritional counseling to restore balance and vitality.
+                      {org.name} offers comprehensive wellness programs blending
+                      ancient wisdom with modern science. Our certified
+                      practitioners provide personalized care through
+                      integrative approaches including meditation, yoga therapy,
+                      and nutritional counseling to restore balance and
+                      vitality.
                     </p>
                   </div>
 
@@ -179,9 +250,14 @@ function Usateamsection() {
                             </svg>
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-[#777] mb-1">{contact.name}</p>
-                            <a 
-                              href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`}
+                            <p className="text-sm font-medium text-[#777] mb-1">
+                              {contact.name}
+                            </p>
+                            <a
+                              href={`tel:${contact.phone.replace(
+                                /[^0-9+]/g,
+                                ""
+                              )}`}
                               className="text-[#A35F93] font-semibold hover:underline block"
                             >
                               {contact.phone}
@@ -207,7 +283,9 @@ function Usateamsection() {
                             </svg>
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-[#777] mb-1">{contact.name}</p>
+                            <p className="text-sm font-medium text-[#777] mb-1">
+                              {contact.name}
+                            </p>
                             <a
                               href={`mailto:${contact.email}`}
                               className="text-[#A35F93] font-semibold hover:underline block break-all"

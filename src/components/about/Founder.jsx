@@ -124,10 +124,10 @@ const Founder = () => {
         >
           <div className="relative z-10 w-full max-w-[765px] mx-auto space-y-6">
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#6E2D79] font-poppins">
-              Dr. Yuvraj Kapadia
+               Yuvraj Kapadia
             </h2>
             <p className="text-lg sm:text-xl md:text-2xl font-medium text-[#6E2D79] font-poppins">
-              Founder-Director & CEO
+              Founder-Director
             </p>
 
             <div className="space-y-4 text-[16px] sm:text-[18px] md:text-[20px] leading-relaxed text-[#A35F93] font-poppins">
