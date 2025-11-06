@@ -68,7 +68,7 @@ function App() {
         <Route path="/ich" element={<ICH />} />
         <Route path="/ich/levels" element={<ICHLevels />} />
         <Route path="*" element={<PrivacyPolicy />} />
-        {/* Dynamic route for all levels */}
+        {/* Dynamic route for all levels */}  
         <Route path="/level/:levelNumber" element={<DynamicLevelPage />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         {/* Backward compatibility routes */}

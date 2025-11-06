@@ -102,26 +102,26 @@ therapeutic intervention`,
     overlayText: "DECODE YOUR BLUE PRINT",
     overlaySubtext: "15 mins",
   },
-  {
-    id: 6,
-    title: "Level 6 | Advanced Module in Inner Child Healing",
-    subtitle: "Level 4: Decode Your Blue Print",
-    tag: "This Level covers",
-    points: [
-      `It enables practitioners to diagnose, understand, and heal inner child-related
-patterns and dissociations using advanced techniques, including chakra
-diagnostics. It also equips one to resolve core emotional imprints and foster
-psychological wholesomeness in clients.`,
-    ],
-    duration: "6 Day AED 8111",
-    skill: "All levels",
-    buttonText: "Enroll Now",
-    videoSrc:
-      "https://d2nxi4iq5glqsu.cloudfront.net/7-Decode+your+Blueprint.mp4",
-    thumbnailSrc: "/ich/level6.JPG",
-    overlayText: "DECODE YOUR BLUE PRINT",
-    overlaySubtext: "15 mins",
-  },
+//   {
+//     id: 6,
+//     title: "Level 6 | Advanced Module in Inner Child Healing",
+//     subtitle: "Level 4: Decode Your Blue Print",
+//     tag: "This Level covers",
+//     points: [
+//       `It enables practitioners to diagnose, understand, and heal inner child-related
+// patterns and dissociations using advanced techniques, including chakra
+// diagnostics. It also equips one to resolve core emotional imprints and foster
+// psychological wholesomeness in clients.`,
+//     ],
+//     duration: "6 Day AED 8111",
+//     skill: "All levels",
+//     buttonText: "Enroll Now",
+//     videoSrc:
+//       "https://d2nxi4iq5glqsu.cloudfront.net/7-Decode+your+Blueprint.mp4",
+//     thumbnailSrc: "/ich/level6.JPG",
+//     overlayText: "DECODE YOUR BLUE PRINT",
+//     overlaySubtext: "15 mins",
+//   },
 ];
 
 // Video Player Component
@@ -337,6 +337,7 @@ const Card = () => {
   const navigate = useNavigate();
 
   const handleEnrollNow = (levelNumber) => {
+    navigate('/schedule');
     const findLevel = courseData.find((data) => data.id === levelNumber);
 
     if (findLevel) {
