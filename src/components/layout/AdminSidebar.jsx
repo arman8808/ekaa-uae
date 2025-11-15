@@ -7,6 +7,7 @@ import {
   FaTimes,
   FaUserCircle,
 } from "react-icons/fa";
+import { FaWpforms } from "react-icons/fa6";
 
 const navigation = [
   {
@@ -29,6 +30,21 @@ const navigation = [
     name: "Tasso Registrations",
     path: "/admin/tasso-registrations",
     icon: <FaTachometerAlt />,
+  },
+  {
+    name: "TASSO",
+    path: "/admin-tasso",
+    icon: <FaWpforms />,
+  },
+  {
+    name: "AWAKEN THE LIMITLESS HUMAN",
+    path: "/admin-awaken-the-limitless-human",
+    icon: <FaWpforms />,
+  },
+  {
+    name: "Decode Page",
+    path: "/admin-decode",
+    icon: <FaWpforms />,
   },
   {
     name: "Manage Events",

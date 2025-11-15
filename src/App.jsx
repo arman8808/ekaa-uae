@@ -36,7 +36,7 @@ import DynamicLevelPage from "./pages/Level1";
 import Layout from "./components/layout/Layout";
 import AllRegistration from "./pages/AllRegistration";
 import ContactsTable from "./pages/ContactsTable";
-import PrivacyPolicy from "./components/PrivacyPolicy";
+import PrivacyPolicyComponent from "./components/PrivacyPolicy";
 import FamilyConstellation from "./pages/FamilyConstellation";
 import ICH from "./pages/ICH";
 import ICHLevels from "./pages/ICH.Levels";
@@ -51,6 +51,11 @@ import DecodeRegistrations from "./pages/AdminPages/DecodeRegistrations";
 import FamilyRegistrationsPage from "./pages/AdminPages/FamilyRegistrations";
 import TassoRegistrations from "./pages/AdminPages/TassoRegistrations";
 import AdminContacts from "./pages/AdminPages/AdminContacts";
+import RefundPolicy from "./pages/RefundPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import DecodeAdminPage from "./pages/AdminPages/DecodePage";
+import TassoAdminPage from "./pages/AdminPages/Tasso";
+import AwakenLimitlessHumanPage from "./pages/AdminPages/AwakenLimitlessHumanPage";
 
 function App() {
   return (
@@ -67,15 +72,17 @@ function App() {
         <Route path="/hhme" element={<HHME />} />
         <Route path="/ich" element={<ICH />} />
         <Route path="/ich/levels" element={<ICHLevels />} />
-        <Route path="*" element={<PrivacyPolicy />} />
-        {/* Dynamic route for all levels */}  
+        <Route path="*" element={<PrivacyPolicyComponent />} />
+        {/* Dynamic route for all levels */}
         <Route path="/level/:levelNumber" element={<DynamicLevelPage />} />
-        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        {/* <Route path="privacy-policy" element={<PrivacyPolicy />} /> */}
         {/* Backward compatibility routes */}
         <Route path="/level-one" element={<DynamicLevelPage />} />
         <Route path="/level-two" element={<DynamicLevelPage />} />
         <Route path="/level-three" element={<DynamicLevelPage />} />
         <Route path="/level-four" element={<DynamicLevelPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route
           path="/all-registration-ekaausa.com.usa"
           element={<AllRegistration />}
@@ -86,14 +93,32 @@ function App() {
         />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/awaken-limitless-human" element={<AwakenLimitlessHuman />} />
+        <Route
+          path="/admin/awaken-limitless-human"
+          element={<AwakenLimitlessHuman />}
+        />
         <Route path="/admin/manage-events" element={<ManageEvents />} />
-        <Route path="/admin/decode-registrations" element={<DecodeRegistrations />} />
-        <Route path="/admin/family-registrations" element={<FamilyRegistrationsPage />} />
-        <Route path="/admin/tasso-registrations" element={<TassoRegistrations />} />
+        <Route
+          path="/admin/decode-registrations"
+          element={<DecodeRegistrations />}
+        />
+        <Route
+          path="/admin/family-registrations"
+          element={<FamilyRegistrationsPage />}
+        />
+        <Route
+          path="/admin/tasso-registrations"
+          element={<TassoRegistrations />}
+        />
         <Route path="/admin/contacts" element={<AdminContacts />} />
         {/* Keep dashboard route for backward compatibility but redirect to new page */}
         <Route path="/admin/dashboard" element={<AwakenLimitlessHuman />} />
+        <Route
+          path="/admin-awaken-the-limitless-human"
+          element={<AwakenLimitlessHumanPage />}
+        />
+        <Route path="/admin-tasso" element={<TassoAdminPage />} />
+        <Route path="/admin-decode" element={<DecodeAdminPage />} />
       </Routes>
     </>
   );

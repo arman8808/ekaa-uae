@@ -266,6 +266,18 @@ const Header = () => {
           >
             Contact Us
           </Link>
+          <Link
+            to="/refund-policy"
+            className="text-lg font-medium hover:text-[#6E2D79] transition-colors"
+          >
+            Refund Policy
+          </Link>{" "}
+          <Link
+            to="/privacy-policy"
+            className="text-lg font-medium hover:text-[#6E2D79] transition-colors"
+          >
+            Privacy Policy
+          </Link>{" "}
         </div>
 
         <div className="px-6 mt-6">

@@ -1,4 +1,3 @@
-// src/pages/Hypnotherapy.js
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -21,17 +20,17 @@ import {
   Link as LinkIcon,
   RefreshCw,
   AlertCircle,
-  Image as ImageIcon,
   Video,
+  Image,
 } from "lucide-react";
 import Layout from "../../components/layout/Layout";
-import hypnotherapyService from "../../components/services/hypnotherapyService";
+import tassoService from "../../services/tasso";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie"; 
 import RichTextEditor from "../../components/utils/RichTextEditor";
-
-
-const HypnotherapyPage = () => {
+import AdminLayout from "../../components/layout/AdminLayout";
+const TassoAdminPage = () => {
   const navigate = useNavigate();
   const [authChecked, setAuthChecked] = useState(false);
   const [programs, setPrograms] = useState([]);
@@ -48,9 +47,27 @@ const HypnotherapyPage = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [expandedProgram, setExpandedProgram] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const [thumbnailFile, setThumbnailFile] = useState(null);
 
   const itemsPerPage = 10;
+
+  // Helper function to get thumbnail URL
+  const getThumbnailUrl = (thumbnail) => {
+    if (!thumbnail) return null;
+    
+    // Check if it's a data URL (local preview)
+    if (thumbnail.startsWith('data:')) {
+      return thumbnail;
+    }
+    
+    // Check if it's a full URL
+    if (thumbnail.startsWith('http')) {
+      return thumbnail;
+    }
+    
+    // Prepend base URL for server images
+    const baseUrl = 'https://api.ekaauae.com/uploads' || '';
+    return `${baseUrl}/${thumbnail.replace(/^\//, '')}`;
+  };
 
   // React Hook Form setup
   const {
@@ -60,7 +77,7 @@ const HypnotherapyPage = () => {
     formState: { errors, isSubmitting },
     setValue,
     watch,
-    trigger
+    trigger,
   } = useForm({
     defaultValues: {
       title: "",
@@ -74,16 +91,21 @@ const HypnotherapyPage = () => {
       status: "Open",
     },
   });
-  
+
   // Validation functions
   const validateSectionTitle = (value, sectionIndex) => {
     const sections = watch("learningSections");
-    return sections[sectionIndex].title.trim() !== "" || "Section title is required";
+    return (
+      sections[sectionIndex].title.trim() !== "" || "Section title is required"
+    );
   };
-  
+
   const validateSectionContent = (value, sectionIndex) => {
     const sections = watch("learningSections");
-    return sections[sectionIndex].content.trim() !== "" || "Content is required";
+    const content = sections[sectionIndex].content;
+    // Remove HTML tags and check content length
+    const textContent = content.replace(/<[^>]*>/g, '').trim();
+    return textContent.length >= 10 || "Section content must be at least 10 characters";
   };
 
   const validateCardPoint = (value) => {
@@ -148,8 +170,9 @@ const HypnotherapyPage = () => {
 
   const validatePaymentLink = (value, eventIndex) => {
     const events = watch("upcomingEvents");
-    if (!events[eventIndex].paymentLink.trim()) return "Payment link is required";
-    
+    if (!events[eventIndex].paymentLink.trim())
+      return "Payment link is required";
+
     try {
       new URL(events[eventIndex].paymentLink);
       return true;
@@ -159,7 +182,7 @@ const HypnotherapyPage = () => {
   };
 
   const validateVideoUrl = (value) => {
-    if (!value) return true; // Optional field
+    if (!value) return true; // Optional
     try {
       new URL(value);
       return true;
@@ -173,14 +196,14 @@ const HypnotherapyPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await hypnotherapyService.getPrograms(
+      const data = await tassoService.getPrograms(
         searchTerm,
         currentPage,
         itemsPerPage
       );
-      setPrograms(data.programs);
-      setTotalPages(data.totalPages);
-      setTotalPrograms(data.totalPrograms);
+      setPrograms(data?.data?.programs);
+      setTotalPages(data?.data?.totalPages);
+      setTotalPrograms(data?.data?.totalPrograms);
     } catch (error) {
       setError(error || "Failed to fetch programs");
       toast.error(error || "Failed to fetch programs");
@@ -200,71 +223,42 @@ const HypnotherapyPage = () => {
     fetchPrograms();
   };
 
-  // Handle thumbnail file change
-  const handleThumbnailChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setThumbnailFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setThumbnailPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   // Handle form submit
   const onSubmit = async (data) => {
     try {
       setLoading(true);
       
-      // Create FormData if we have a thumbnail file
-      let formData;
-      if (thumbnailFile) {
-        formData = new FormData();
-        formData.append('thumbnail', thumbnailFile);
-        
-        // Append all other fields
-        Object.keys(data).forEach(key => {
-          if (key !== 'thumbnail') {
-            if (Array.isArray(data[key])) {
-              if (key === 'upcomingEvents') {
-                // Filter out empty events before sending
-                const filteredEvents = data[key].filter(event => hasEventContent(event));
-                formData.append(key, JSON.stringify(filteredEvents));
-              } else if (key === 'cardPoints') {
-                // For cardPoints, we need to handle HTML content properly
-                formData.append(key, JSON.stringify(data[key]));
-              } else {
-                formData.append(key, JSON.stringify(data[key]));
-              }
-            } else {
-              formData.append(key, data[key]);
-            }
-          }
-        });
-      }
-
-      // Filter out empty events if no thumbnail file
-      if (!thumbnailFile && data.upcomingEvents) {
+      // Filter out empty upcoming events
+      if (data.upcomingEvents) {
         data.upcomingEvents = data.upcomingEvents.filter(event => hasEventContent(event));
       }
+      
+      // Create FormData to handle file upload
+      const formData = new FormData();
+      
+      // Append all form data to FormData
+      Object.keys(data).forEach(key => {
+        if (key === 'thumbnail' && data[key]) {
+          formData.append('thumbnail', data[key]);
+        } else if (Array.isArray(data[key])) {
+          formData.append(key, JSON.stringify(data[key]));
+        } else {
+          formData.append(key, data[key]);
+        }
+      });
 
       if (currentProgram) {
-        const updateData = thumbnailFile ? formData : data;
-        await hypnotherapyService.updateProgram(currentProgram._id, updateData, thumbnailFile ? true : false);
+        await tassoService.updateProgram(currentProgram._id, formData);
         toast.success("Program updated successfully");
       } else {
-        const createData = thumbnailFile ? formData : data;
-        await hypnotherapyService.createProgram(createData, thumbnailFile ? true : false);
+        await tassoService.createProgram(formData);
         toast.success("Program created successfully");
       }
-      
+
       fetchPrograms();
       reset();
-      setThumbnailPreview(null);
-      setThumbnailFile(null);
       setShowModal(false);
+      setThumbnailPreview(null);
     } catch (error) {
       toast.error(error || "Failed to save program");
       console.error("Form submission error:", error);
@@ -277,7 +271,7 @@ const HypnotherapyPage = () => {
   const handleDeleteProgram = async () => {
     setIsDeleting(true);
     try {
-      await hypnotherapyService.deleteProgram(programToDelete._id);
+      await tassoService.deleteProgram(programToDelete._id);
       toast.success("Program deleted successfully");
       fetchPrograms();
       setShowDeleteModal(false);
@@ -291,84 +285,33 @@ const HypnotherapyPage = () => {
 
   // Open edit modal with program data
   const openEditModal = (program) => {
-    try {
-  
-      
-      // Set current program first
-      setCurrentProgram(program);
+    setCurrentProgram(program);
+    setValue("title", program.title);
+    setValue("subtitle", program.subtitle);
+    setValue("videoUrl", program.videoUrl || "");
+    setValue("duration", program.duration);
     
-      // Set basic form values with error handling
-      try {
-        setValue("title", program.title || "");
-        setValue("subtitle", program.subtitle || "");
-        setValue("videoUrl", program.videoUrl || "");
-        setValue("duration", program.duration || "");
-        setValue("status", program.status || "Open");
-      } catch (error) {
-        console.error("Error setting basic form values:", error);
-      }
-      
-      // Handle card points with error handling
-      try {
-        if (Array.isArray(program.cardPoints) && program.cardPoints.length > 0) {
-          const cardPointsHtml = program.cardPoints.map(point => `<li>${point}</li>`).join('');
-          setValue("cardPoints", [`<ul>${cardPointsHtml}</ul>`]);
-        } else {
-          setValue("cardPoints", [""]);
-        }
-      } catch (error) {
-        console.error("Error setting card points:", error);
-        setValue("cardPoints", [""]);
-      }
-      
-      // Handle learning sections with error handling
-      try {
-        const convertedSections = program.learningSections?.map(section => {
-          if (section.points && Array.isArray(section.points)) {
-            return {
-              title: section.title || "",
-              content: `<ul>${section.points.map(point => `<li>${point}</li>`).join('')}</ul>`
-            };
-          }
-          return {
-            title: section.title || "",
-            content: section.content || ""
-          };
-        }) || [{ title: "", content: "" }];
-        
-        setValue("learningSections", convertedSections);
-      } catch (error) {
-        console.error("Error setting learning sections:", error);
-        setValue("learningSections", [{ title: "", content: "" }]);
-      }
-      
-    
-      // Handle thumbnail with error handling
-      try {
-        if (program.thumbnail) {
-          setThumbnailPreview(getThumbnailUrl(program.thumbnail));
-        } else {
-          setThumbnailPreview(null);
-        }
-      } catch (error) {
-        console.error("Error setting thumbnail:", error);
-        setThumbnailPreview(null);
-      }
-
-      setShowModal(true);
-   
-      
-      // Check state after a short delay
-      setTimeout(() => {
-   
-      }, 100);
-      
-    } catch (error) {
-      console.error("Critical error in openEditModal:", error);
-      // Even if there's an error, try to open the modal with basic data
-      setCurrentProgram(program);
-      setShowModal(true);
+    // Handle card points - if it's an array, join them into one HTML string
+    if (Array.isArray(program.cardPoints) && program.cardPoints.length > 0) {
+      const cardPointsHtml = program.cardPoints.map(point => `<li>${point}</li>`).join('');
+      setValue("cardPoints", [`<ul>${cardPointsHtml}</ul>`]);
+    } else {
+      setValue("cardPoints", [""]);
     }
+    
+   
+    
+   
+    setValue("status", program.status);
+    
+    // Set thumbnail preview using helper function
+    if (program.thumbnail) {
+      setThumbnailPreview(getThumbnailUrl(program.thumbnail));
+    } else {
+      setThumbnailPreview(null);
+    }
+    
+    setShowModal(true);
   };
 
   // Open add modal
@@ -377,34 +320,21 @@ const HypnotherapyPage = () => {
     reset({
       title: "",
       subtitle: "",
-      duration: "",
       videoUrl: "",
-      thumbnail: "",
+      thumbnail: null,
+      duration: "",
       cardPoints: [""],
       learningSections: [{ title: "", content: "" }],
       upcomingEvents: [],
       status: "Open",
     });
     setThumbnailPreview(null);
-    setThumbnailFile(null);
     setShowModal(true);
   };
 
   // Toggle program expansion
   const toggleExpand = (id) => {
     setExpandedProgram(expandedProgram === id ? null : id);
-  };
-
-  // Helper function to strip HTML tags
-  const stripHtmlTags = (html) => {
-    if (!html) return "";
-    return html.replace(/<[^>]*>/g, '').trim();
-  };
-
-  // Helper function to get thumbnail URL
-  const getThumbnailUrl = (thumbnail) => {
-    if (!thumbnail) return null;
-    return `https://api.ekaauae.com/uploads/${thumbnail}`;
   };
 
   // Status badge color
@@ -419,43 +349,36 @@ const HypnotherapyPage = () => {
     }
   };
 
-  // Add a new learning section
-  const addLearningSection = async () => {
-    const currentSections = watch("learningSections") || [];
-    setValue("learningSections", [
-      ...currentSections,
-      { title: "", content: "" },
-    ]);
-
-    // Trigger validation for new section
-    setTimeout(() => {
-      trigger(`learningSections.${currentSections.length}.title`);
-      trigger(`learningSections.${currentSections.length}.content`);
-    }, 100);
-  };
-
-  // Remove a learning section
-  const removeLearningSection = (sectionIndex) => {
-    const currentSections = watch("learningSections") || [];
-    if (currentSections.length > 1) {
-      const newSections = [...currentSections];
-      newSections.splice(sectionIndex, 1);
-      setValue("learningSections", newSections);
+  // Handle thumbnail change
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setValue("thumbnail", file);
+      
+      // Create preview for UI
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
- 
+  // Remove thumbnail
+  const removeThumbnail = () => {
+    setValue("thumbnail", null);
+    setThumbnailPreview(null);
+  };
+
   useEffect(() => {
-    const adminToken = localStorage.getItem('adminToken');
+    const adminToken = Cookies.get("adminToken");
     if (!adminToken) {
-      navigate('/admin/login');
+      navigate("/admin/login");
     } else {
       setAuthChecked(true);
     }
   }, [navigate]);
-
-
-
+  
   // Loading state
   if (loading) {
     return (
@@ -481,7 +404,7 @@ const HypnotherapyPage = () => {
         <p className="text-red-700 mb-4">{error}</p>
         <button
           onClick={fetchPrograms}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
+          className="bg-[#6E2D79] text-white px-4 py-2 rounded-lg hover:bg-[#5C2166] transition-colors flex items-center space-x-2"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Retry</span>
@@ -489,7 +412,6 @@ const HypnotherapyPage = () => {
       </div>
     );
   }
-
   if (!authChecked) {
     return (
       <Layout>
@@ -504,7 +426,6 @@ const HypnotherapyPage = () => {
       </Layout>
     );
   }
-
   return (
     <AdminLayout>
       {/* Custom CSS for lists and modal */}
@@ -528,6 +449,40 @@ const HypnotherapyPage = () => {
         .prose p {
           margin-bottom: 8px !important;
         }
+        
+        /* Modal z-index fixes */
+        .modal-overlay {
+          z-index: 9999 !important;
+        }
+        .modal-content {
+          z-index: 10000 !important;
+          position: relative;
+        }
+        .modal-header {
+          z-index: 10001 !important;
+          position: sticky;
+          top: 0;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Ensure smooth scrolling in modal */
+        .modal-content .overflow-y-auto {
+          scrollbar-width: thin;
+          scrollbar-color: #6E2D79 #f3f4f6;
+        }
+        
+        .modal-content .overflow-y-auto::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .modal-content .overflow-y-auto::-webkit-scrollbar-track {
+          background: #f3f4f6;
+        }
+        
+        .modal-content .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: #6E2D79;
+          border-radius: 4px;
+        }
       `}</style>
       
       <div className="w-full max-w-7xl mx-auto p-4 space-y-6">
@@ -536,7 +491,7 @@ const HypnotherapyPage = () => {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-[#6E2D79]">
-                Hypnotherapy Events Management
+               Tasso Page
               </h1>
               <p className="text-gray-600 mt-1">
                 Total Programs: {totalPrograms}
@@ -594,11 +549,9 @@ const HypnotherapyPage = () => {
           </div>
         </div>
 
-      
-
         {/* Programs List */}
         <div className="space-y-6">
-          {programs.map((program) => (
+          {programs?.map((program) => (
             <div
               key={program._id}
               className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200"
@@ -607,39 +560,28 @@ const HypnotherapyPage = () => {
                 className="p-5 cursor-pointer flex justify-between items-center bg-gray-50"
                 onClick={() => toggleExpand(program._id)}
               >
-                <div className="flex items-start space-x-4">
-                  {program.thumbnail && (
-                    <div className="flex-shrink-0">
-                      <img
-                        src={`https://api.ekaauae.com/uploads/${program.thumbnail}`}
-                        alt="Program thumbnail"
-                        className="w-16 h-16 object-cover rounded-lg"
+                <div>
+                  <div className="flex items-center">
+                    <Star className="text-yellow-500 mr-2 w-5 h-5" />
+                    <h3 className="text-xl font-bold text-[#6E2D79]">
+                      {program.title}
+                    </h3>
+                  </div>
+                  <p className="text-gray-600 mt-1">{program.subtitle}</p>
+
+                  {/* Display card points in collapsed view */}
+                  {expandedProgram !== program._id && program.cardPoints && (
+                    <div className="mt-3">
+                      <div 
+                        className="prose max-w-none text-gray-700"
+                        dangerouslySetInnerHTML={{ 
+                          __html: Array.isArray(program.cardPoints) 
+                            ? program.cardPoints[0] || '' 
+                            : program.cardPoints || '' 
+                        }} 
                       />
                     </div>
                   )}
-                  <div>
-                    <div className="flex items-center">
-                      <Star className="text-yellow-500 mr-2 w-5 h-5" />
-                      <h3 className="text-xl font-bold text-[#6E2D79]">
-                        {program.title}
-                      </h3>
-                    </div>
-                    <p className="text-gray-600 mt-1">{program.subtitle}</p>
-                    
-                    {/* Display card points in collapsed view */}
-                    {expandedProgram !== program._id && program.cardPoints && (
-                      <div className="mt-3">
-                        <div 
-                          className="prose max-w-none text-gray-700"
-                          dangerouslySetInnerHTML={{ 
-                            __html: Array.isArray(program.cardPoints) 
-                              ? program.cardPoints[0] || '' 
-                              : program.cardPoints || '' 
-                          }} 
-                        />
-                      </div>
-                    )}
-                  </div>
                 </div>
                 <div className="flex items-center space-x-4">
                   <span
@@ -690,7 +632,6 @@ const HypnotherapyPage = () => {
                         </p>
                       </div>
                       
-                      {/* Video URL */}
                       {program.videoUrl && (
                         <div className="flex items-center">
                           <span className="bg-gray-100 text-[#6E2D79] p-2 rounded-lg mr-3">
@@ -698,7 +639,7 @@ const HypnotherapyPage = () => {
                           </span>
                           <p>
                             <span className="font-medium text-gray-700">
-                              Video URL:
+                              Video:
                             </span>{" "}
                             <a
                               href={program.videoUrl}
@@ -706,7 +647,7 @@ const HypnotherapyPage = () => {
                               rel="noopener noreferrer"
                               className="text-[#6E2D79] hover:underline"
                             >
-                              Watch Video
+                              Watch video
                             </a>
                           </p>
                         </div>
@@ -721,61 +662,17 @@ const HypnotherapyPage = () => {
                             Learning Objectives:
                           </p>
                         </div>
-                        <div className="ml-9 space-y-4">
-                          {program.learningSections.map((section, sectionIdx) => (
-                            <div key={sectionIdx}>
-                              <h5 className="font-semibold text-[#6E2D79] mb-2">
-                                {section.title}
-                              </h5>
-                              <div 
-                                className="prose max-w-none text-gray-700"
-                                dangerouslySetInnerHTML={{ __html: section.content }} 
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      {/* Card Points Display */}
-                      <div>
-                        <div className="flex items-center mb-2">
-                          <span className="bg-gray-100 text-[#6E2D79] p-2 rounded-lg mr-3">
-                            <Check className="w-5 h-5" />
-                          </span>
-                          <p className="font-medium text-gray-700">
-                            Key Points:
-                          </p>
-                        </div>
-                        <div className="ml-9 space-y-3">
-                          {program.cardPoints.map((point, pointIdx) => {
-                           
-                            return (
-                              <div key={pointIdx} className="bg-gray-50 p-3 rounded-lg">
-                                                              <div 
-                                className="prose max-w-none text-gray-700"
-                                style={{
-                                  lineHeight: '1.6'
-                                }}
-                                dangerouslySetInnerHTML={{ __html: point }} 
-                              />
-                              </div>
-                            );
-                          })}
-                        </div>
+                     
                       </div>
                     </div>
                   </div>
 
-               
+                 
 
                   {/* Actions */}
                   <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                     <button
-                      onClick={() => {
-                       
-                        openEditModal(program);
-                       
-                      }}
+                      onClick={() => openEditModal(program)}
                       className="bg-[#6E2D79] text-white px-4 py-2 rounded-lg hover:bg-[#5C2166] transition-colors flex items-center space-x-2"
                     >
                       <Edit className="w-4 h-4" />
@@ -797,13 +694,13 @@ const HypnotherapyPage = () => {
             </div>
           ))}
 
-          {programs.length === 0 && !loading && (
+          {programs?.length === 0 && !loading && (
             <div className="text-center py-16 bg-white rounded-lg shadow-lg border border-gray-200">
               <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                 <Search className="w-8 h-8 text-[#6E2D79]" />
               </div>
               <div className="text-xl text-[#6E2D79] font-bold mt-4">
-                No hypnotherapy programs found
+                No decode programs found
               </div>
               <p className="text-gray-600 mt-2">
                 Try adjusting your search criteria or add a new program
@@ -861,27 +758,24 @@ const HypnotherapyPage = () => {
 
         {/* Add/Edit Program Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
-              <div className="bg-[#6E2D79] text-white p-6 rounded-t-lg flex-shrink-0">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 modal-overlay">
+            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col modal-content">
+              <div className="bg-[#6E2D79] text-white p-6 rounded-t-lg flex-shrink-0 modal-header">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-bold">
                     {currentProgram
-                      ? "Edit Hypnotherapy Program"
-                      : "Add New Hypnotherapy Program"}
+                      ? "Edit Decode Program"
+                      : "Add New Decode Program"}
                   </h2>
                   <button
-                    onClick={() => {
-                
-                      setShowModal(false);
-                    }}
+                    onClick={() => setShowModal(false)}
                     className="text-white hover:text-gray-200 text-2xl"
                   >
                     ×
                   </button>
                 </div>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto">
                 <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
                   {/* Program Title and Subtitle */}
@@ -895,13 +789,13 @@ const HypnotherapyPage = () => {
                           required: "Title is required",
                           minLength: {
                             value: 5,
-                            message: "Title must be at least 5 characters"
-                          }
+                            message: "Title must be at least 5 characters",
+                          },
                         })}
                         className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none ${
                           errors.title ? "border-red-500" : "border-gray-300"
                         }`}
-                        placeholder="Advanced Hypnotherapy Certification"
+                        placeholder="Advanced Decode Certification"
                       />
                       {errors.title && (
                         <p className="mt-1 text-sm text-red-600">
@@ -919,13 +813,13 @@ const HypnotherapyPage = () => {
                           required: "Subtitle is required",
                           minLength: {
                             value: 10,
-                            message: "Subtitle must be at least 10 characters"
-                          }
+                            message: "Subtitle must be at least 10 characters",
+                          },
                         })}
                         className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none ${
                           errors.subtitle ? "border-red-500" : "border-gray-300"
                         }`}
-                        placeholder="Master the art of therapeutic hypnosis"
+                        placeholder="Master the art of decoding consciousness"
                       />
                       {errors.subtitle && (
                         <p className="mt-1 text-sm text-red-600">
@@ -934,13 +828,12 @@ const HypnotherapyPage = () => {
                       )}
                     </div>
 
-                    {/* Video URL */}
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Video URL (Optional)
+                        Video URL
                       </label>
                       <div className="relative">
-                        <Video className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                        <Video className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           {...register("videoUrl", {
                             validate: validateVideoUrl
@@ -948,7 +841,7 @@ const HypnotherapyPage = () => {
                           className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none ${
                             errors.videoUrl ? "border-red-500" : "border-gray-300"
                           }`}
-                          placeholder="https://youtube.com/example"
+                          placeholder="https://youtube.com/watch?v=..."
                         />
                       </div>
                       {errors.videoUrl && (
@@ -958,55 +851,63 @@ const HypnotherapyPage = () => {
                       )}
                     </div>
 
-                    {/* Thumbnail Upload */}
+                    {/* Thumbnail Section */}
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Thumbnail Image
                       </label>
-                      <div className="flex items-center space-x-4">
-                        <div className="relative">
-                          <label className="cursor-pointer">
-                            <div className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
-                              <ImageIcon className="w-5 h-5" />
-                              <span>Choose File</span>
+                      
+                      {thumbnailPreview ? (
+                        <div className="space-y-4">
+                          <div className="relative">
+                            <img
+                              src={getThumbnailUrl(thumbnailPreview)}
+                              alt="Thumbnail preview"
+                              className="max-w-xs rounded-lg border border-gray-300"
+                            />
+                            <button
+                              type="button"
+                              onClick={removeThumbnail}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                          <p className="text-sm text-gray-500">Click to change</p>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center w-full">
+                          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <Image className="w-8 h-8 mb-3 text-gray-400" />
+                              <p className="mb-2 text-sm text-gray-500">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                PNG, JPG, GIF (MAX. 5MB)
+                              </p>
                             </div>
-                            <input
-                              type="file"
+                            <input 
+                              type="file" 
+                              className="hidden" 
                               accept="image/*"
                               onChange={handleThumbnailChange}
-                              className="hidden"
                             />
                           </label>
                         </div>
-                        {thumbnailPreview && (
-                          <div className="flex-shrink-0">
-                            <img
-                              src={thumbnailPreview}
-                              alt="Thumbnail preview"
-                              className="w-16 h-16 object-cover rounded-lg"
-                            />
-                          </div>
-                        )}
-                        {!thumbnailPreview && currentProgram?.thumbnail && (
-                          <div className="flex-shrink-0">
-                            <img
-                              src={`https://api.ekaauae.com/uploads/${currentProgram.thumbnail}`}
-                              alt="Current thumbnail"
-                              className="w-16 h-16 object-cover rounded-lg"
-                            />
-                          </div>
-                        )}
-                      </div>
-                      <p className="mt-2 text-sm text-gray-500">
-                        Upload a thumbnail image for this program (optional)
-                      </p>
+                      )}
+                      
+                      <input
+                        type="hidden"
+                        {...register("thumbnail")}
+                      />
                     </div>
 
                     {/* Card Points Section */}
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Card Points (For Display) *
-                      </label>
+                          Card Points (For Display) *
+                        </label>
                       <RichTextEditor
                         value={watch("cardPoints.0") || ""}
                         onChange={(html) => {
@@ -1018,8 +919,8 @@ const HypnotherapyPage = () => {
                       {errors.cardPoints?.[0] && (
                         <p className="mt-1 text-sm text-red-600">
                           {errors.cardPoints[0].message}
-                        </p>
-                      )}
+                                </p>
+                              )}
                     </div>
 
                     <div>
@@ -1031,8 +932,8 @@ const HypnotherapyPage = () => {
                           required: "Duration is required",
                           pattern: {
                             value: /^[a-zA-Z0-9\s]+$/,
-                            message: "Invalid duration format"
-                          }
+                            message: "Invalid duration format",
+                          },
                         })}
                         className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none ${
                           errors.duration ? "border-red-500" : "border-gray-300"
@@ -1052,7 +953,7 @@ const HypnotherapyPage = () => {
                       </label>
                       <select
                         {...register("status", {
-                          required: "Status is required"
+                          required: "Status is required",
                         })}
                         className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none ${
                           errors.status ? "border-red-500" : "border-gray-300"
@@ -1069,102 +970,7 @@ const HypnotherapyPage = () => {
                     </div>
                   </div>
 
-                  {/* Learning Points Section */}
-                  <div className="space-y-4 pt-6">
-                    <div className="flex items-center justify-between border-b border-gray-200 pb-3">
-                      <h3 className="text-lg font-semibold text-[#6E2D79] flex items-center">
-                        <List className="mr-2 w-5 h-5 text-[#6E2D79]" />
-                        Sections *
-                      </h3>
-                      <button
-                        type="button"
-                        onClick={addLearningSection}
-                        className="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-lg hover:bg-gray-200"
-                      >
-                        Add Section
-                      </button>
-                    </div>
-
-                    <div className="space-y-6">
-                      {watch("learningSections")?.map(
-                        (section, sectionIndex) => (
-                          <div
-                            key={sectionIndex}
-                            className="bg-gray-50 p-5 rounded-lg border border-gray-200"
-                          >
-                            <div className="flex justify-between items-center mb-4">
-                              <div className="w-full">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Section Title *
-                                </label>
-                                <input
-                                  {...register(
-                                    `learningSections.${sectionIndex}.title`,
-                                    {
-                                      required: "Section title is required",
-                                      minLength: {
-                                        value: 3,
-                                        message: "Title must be at least 3 characters"
-                                      },
-                                      validate: (value) => 
-                                        validateSectionTitle(value, sectionIndex)
-                                    }
-                                  )}
-                                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#6E2D79] focus:border-transparent outline-none ${
-                                    errors.learningSections?.[sectionIndex]
-                                      ?.title
-                                      ? "border-red-500"
-                                      : "border-gray-300"
-                                  }`}
-                                  placeholder="Advanced Techniques"
-                                />
-                                {errors.learningSections?.[sectionIndex]
-                                  ?.title && (
-                                  <p className="mt-1 text-sm text-red-600">
-                                    {
-                                      errors.learningSections[sectionIndex]
-                                        .title.message
-                                    }
-                                  </p>
-                                )}
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => removeLearningSection(sectionIndex)}
-                                className="text-red-500 hover:text-red-700 ml-4 mt-6"
-                                disabled={
-                                  watch("learningSections")?.length <= 1
-                                }
-                              >
-                                <X className="w-5 h-5" />
-                              </button>
-                            </div>
-
-                            <div className="mt-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Content *
-                              </label>
-                              <RichTextEditor
-                                value={section.content || ""}
-                                onChange={(html) => {
-                                  setValue(`learningSections.${sectionIndex}.content`, html);
-                                  trigger(`learningSections.${sectionIndex}.content`);
-                                }}
-                                placeholder="Enter section content..."
-                              />
-                              {errors.learningSections?.[sectionIndex]?.content && (
-                                <p className="mt-1 text-sm text-red-600">
-                                  {errors.learningSections[sectionIndex].content.message}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                  
-           
+              
                   {/* Form Actions */}
                   <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
                     <button
@@ -1189,7 +995,9 @@ const HypnotherapyPage = () => {
                         <>
                           <Check className="w-4 h-4" />
                           <span>
-                            {currentProgram ? "Update Program" : "Create Program"}
+                            {currentProgram
+                              ? "Update Program"
+                              : "Create Program"}
                           </span>
                         </>
                       )}
@@ -1268,4 +1076,4 @@ const HypnotherapyPage = () => {
   );
 };
 
-export default HypnotherapyPage;
+export default TassoAdminPage;
