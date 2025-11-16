@@ -56,8 +56,8 @@ function AboutSectionHHME() {
         {/* Download PDF Button */}
         <div className="flex justify-center mt-6">
           <a
-            href="/hhme/EKA BOOKLET.pdf" 
-            download="Holistic_Health_Guide.pdf"
+            href="/hhme/Newsletter November 2025.pdf" 
+            download="Newsletter November.pdf"
             className="px-8 py-3 border-2 rounded-md font-medium text-lg transition-all duration-300 hover:bg-[#f5f0f9] focus:outline-none inline-flex items-center"
             style={{
               color: "#6E2D79",
